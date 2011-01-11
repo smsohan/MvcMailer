@@ -1,5 +1,3 @@
-=========
-
 MvcMailer is an ASP.NET MVC Mailer, inspired by Ruby on Rails ActionMailer, that helps composing Email
 body using regular ASP.NET MVC views. This one works with .Net 4.0 for now.
 
