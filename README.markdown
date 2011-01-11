@@ -45,7 +45,7 @@ The Minimal Version
 	
 The Details
 ------------
-If you want to see what else could be done, simple read through the code comments and you are done!
+If you want to see what else could be done, simply read through the code comments and you are done!
 	
 	namespace MvcApplication1.Mailers
 	{
