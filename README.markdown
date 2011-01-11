@@ -29,7 +29,24 @@ When MvcMailer NuGet is installed, it does the following:
 * Adds two views: WelcomeMessage.cshml and _Layout.cshtml inside Views/Notifier
 * To send and email, take a look inside the Mailers/Notifier.cs file. It looks like the following:
 
-
+The Minimal Version
+--------------------------------
+	public MailMessage WelcomeMessage()
+	{
+		var mailMessage = new MailMessage { Subject = "Testing by Sohan" };
+		mailMessage.Body = PopulateBody(mailMessage: mailMessage, 
+										viewName: "~/Views/Notifier/WelcomeMessage.cshtml" 
+										,viewData: viewData);
+		mailMessage.To.Add("some-email@gmail.com");
+		return mailMessage;
+	}
+	WelcomeMessage().Send();
+	
+	
+The Details
+------------
+If you want to see what else could be done, simple read through the code comments and you are done!
+	
 	namespace MvcApplication1.Mailers
 	{
 		/// <summary>
@@ -60,7 +77,7 @@ When MvcMailer NuGet is installed, it does the following:
 				//Create a MailMessage object
 				var mailMessage = new MailMessage { Subject = "Testing by Sohan" };
 
-				//cretae an instance of viewData if you need StronglyTyped views or any ViewData
+				//Create an instance of viewData if you need StronglyTyped views or any ViewData
 				//var viewData = new ViewDataDictionary<Address>
 				//{
 				//    Model = new Address { City = "Calgary", Province = "AB", Street = "600 6th Ave NW" }
