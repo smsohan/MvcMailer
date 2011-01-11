@@ -13,7 +13,7 @@ namespace $rootnamespace$.Mailers
 	/// using Mvc.Mailer;
     /// new Notifier().WelcomeMessage().Send();
 	/// The web.config file section for mails is already added to your project.
-	/// Just edit your web.config file mailSettings and provide with server, port, user, password etc.
+	/// Just edit your web.config file mailSettings and provide with required server, port, user, password etc.
     /// </summary>
 	public class Notifier : MailerBase
 	{
