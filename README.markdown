@@ -8,6 +8,7 @@ How to Use
 	https://github.com/smsohan/MvcMailer/blob/master/Mvc.Mailer/NuGet/output/MvcMailer.0.1.nupkg
 * Add this location to Package Manager
 * Install MvcMailer NuGet using the following:
+
 	Install-Package MvcMailer
 	
 
@@ -21,11 +22,13 @@ Build From Source
 How Does it Work?
 -------------------
 When MvcMailer NuGet is installed, it does the following:
+
 * Adds a reference to MvcMailer.dll
 * Adds mailSettings configSection to web.config file
 * Adds a sample Mailer called Notifier inside Mailers/Notifier.cs
 * Adds two views: WelcomeMessage.cshml and _Layout.cshtml inside Views/Notifier
 * To send and email, take a look inside the Mailers/Notifier.cs file. It looks like the following:
+
 
 	namespace MvcApplication1.Mailers
 	{
