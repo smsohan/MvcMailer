@@ -116,4 +116,13 @@ Now, with this class already installed, all you need to do is the following to s
 Of course, you want to set the network configuration at web.config mailSettings. Its already there, just set
 it up with the right values.
 
+Sending Asynchronous Email
+---------------------------
+To send asynchronous/non blocking emails, it's easy to use the SendAsync extension method on MailMessage.
+
+	new Notifier().WelcomeMessage().SendAsync();
+	
+Or if you need to handle AsyncCompleted/Error events, 
+just use the SMTPClient.SendAsync method (http://msdn.microsoft.com/en-us/library/x5x13z6h.aspx)
+
 Hope this is fun for your to use MvcMailer. In case of a feedback or trouble, please feel free to contact at @smsohan

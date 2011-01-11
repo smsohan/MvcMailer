@@ -65,10 +65,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy *.dll $(ProjectDir)NuGet\input\lib\40
-xcopy content $(ProjectDir)NuGet\input\content /S /Y
-cd $(ProjectDir)NuGet
-nuget pack mvcmailer.nuspec -b input -o output</PostBuildEvent>
+    <PostBuildEvent>copy *.dll "$(ProjectDir)NuGet\input\lib\40"
+xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
+cd "$(ProjectDir)NuGet"
+nuget pack mvcmailer.nuspec -b input -o output
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

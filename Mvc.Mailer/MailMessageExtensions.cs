@@ -20,6 +20,13 @@ namespace Mvc.Mailer
             SmtpClient mailClient = new SmtpClient();
             mailClient.Send(message);
         }
+
+        public static void SendAsync(this MailMessage message)
+        {
+            SmtpClient mailClient = new SmtpClient();
+            var userState = "nothing";
+            mailClient.SendAsync(message, userState);
+        }
     }
 
 }
