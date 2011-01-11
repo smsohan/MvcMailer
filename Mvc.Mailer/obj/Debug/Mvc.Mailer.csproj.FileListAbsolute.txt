@@ -1,0 +1,18 @@
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\Mvc.Mailer.dll
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\Mvc.Mailer.pdb
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\obj\Debug\Mvc.Mailer.dll
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\obj\Debug\Mvc.Mailer.pdb
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\content\Views\Notifier\WelcomeMessage.cshtml
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\content\Views\Notifier\_Layout.cshtml
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\content\Mailers\Notifier.cs.pp
+C:\Users\S M Sohan\Work\MailerApp\Mvc.Mailer\bin\Debug\content\web.config.transform
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\content\Views\Notifier\WelcomeMessage.cshtml
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\content\Views\Notifier\_Layout.cshtml
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\content\Mailers\Notifier.cs.pp
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\content\web.config.transform
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\Mvc.Mailer.dll
+C:\Work\MvcMailer\Mvc.Mailer\bin\Debug\Mvc.Mailer.pdb
+C:\Work\MvcMailer\Mvc.Mailer\obj\Debug\ResolveAssemblyReference.cache
+C:\Work\MvcMailer\Mvc.Mailer\obj\Debug\Mvc.Mailer.dll
+C:\Work\MvcMailer\Mvc.Mailer\obj\Debug\Mvc.Mailer.pdb

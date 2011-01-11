@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>MvcMailer</id> 
+    <version>0.1</version> 
+    <authors>S. M. SOHAN</authors>
+    <description>MvcMailer sends emails using the MVC views as Email Body with no effort.</description> 
+    <language>en-US</language>
+    <licenseUrl>http://smsohan.com</licenseUrl>
+    <projectUrl>http://smsohan.com</projectUrl>
+  </metadata> 
+</package>
