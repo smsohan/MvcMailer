@@ -4,10 +4,6 @@ body using regular ASP.NET MVC views. This one works with .Net 4.0 for now.
 
 How to Use
 ----------------
-* Download the NuGet Package to a Folder e.g. C:\\Nuggets 
-	https://github.com/smsohan/MvcMailer/blob/master/Mvc.Mailer/NuGet/output/MvcMailer.0.1.nupkg
-* Add this location to Package Manager
-* Install MvcMailer NuGet using the following:
 
 	Install-Package MvcMailer
 	
@@ -31,90 +27,66 @@ When MvcMailer NuGet is installed, it does the following:
 
 The Minimal Version
 --------------------------------
+Installing the package will install a class called Notifier inside Mailers. Just follow the simple 2 line code example to send your email.
+This is how it looks:
+
 	public MailMessage WelcomeMessage()
 	{
 		var mailMessage = new MailMessage { Subject = "Testing by Sohan" };
-		mailMessage.Body = PopulateBody(mailMessage: mailMessage, 
-										viewName: "~/Views/Notifier/WelcomeMessage.cshtml" 
-										,viewData: viewData);
+		ViewBag.Name = "Jon Doe";
+		mailMessage.Body = PopulateBody(mailMessage, "WelcomeMessage");
 		mailMessage.To.Add("some-email@gmail.com");
 		return mailMessage;
 	}
-	WelcomeMessage().Send();
-	
-	
-The Details
-------------
-If you want to see what else could be done, simply read through the code comments and you are done!
-	
-	namespace MvcApplication1.Mailers
-	{
-		/// <summary>
-		/// To Send a welcome message do the following:
-		/// using Mvc.Mailer;
-		/// new Notifier().WelcomeMessage().Send();
-		/// The web.config file section for mails is already added to your project.
-		/// Just edit your web.config file mailSettings and provide with server, port, user, password etc.
-		/// </summary>
-		public class Notifier : MailerBase
-		{
-			/// <summary>
-			/// In your constructor you can specify a default MasterName
-			/// or a Default mime type to Html or Text
-			/// </summary>
-			public Notifier()
-			{
-				this.MasterName = "~/Views/Notifier/_Layout.cshtml";
-				this.IsBodyHtml = true;
-			}
 
-			/// <summary>
-			/// Gnereate a welcome message
-			/// </summary>
-			/// <returns></returns>
-			public MailMessage WelcomeMessage()
-			{
-				//Create a MailMessage object
-				var mailMessage = new MailMessage { Subject = "Testing by Sohan" };
-
-				//Create an instance of viewData if you need StronglyTyped views or any ViewData
-				//var viewData = new ViewDataDictionary<Address>
-				//{
-				//    Model = new Address { City = "Calgary", Province = "AB", Street = "600 6th Ave NW" }
-				//};
-				
-				//Get the EmailBody - this will be the string containing the view after it has been rendered by your ViewEngine
-				mailMessage.Body = PopulateBody(mailMessage: mailMessage, 
-												viewName: "~/Views/Notifier/WelcomeMessage.cshtml" 
-												//,viewData: viewData
-												// Uncomment the following to Customize the masterName for this message
-												//,masterName: "~/Views/Mailer/_AnotherLayout.cshtml"
-												);
-				
-				//Uncomment the following if you want to send a Text/Plain email instead
-				//mailMessage.IsBodyHtml = false;
-
-				//Add one/more Recipient(s)
-				mailMessage.To.Add("some-email@gmail.com");
-
-				//Edit the following line to Add an Attachment
-				//mailMessage.Attachments.Add(new Attachment("SitePolicy.pdf"));
-				
-				return mailMessage;
-			}
-		}
-	}
-	
-	
-Now, with this class already installed, all you need to do is the following to send your email:
-
-	// This one adds the Send() Extension method to MailMessage class
 	using Mvc.Mailer;
-	...
+	using MyApp.Mailers;
+
 	new Notifier().WelcomeMessage().Send();
+
+In Your View
+-----------------
+Views/Notifier/WelcomeMessage.cshtml
+
+	Hi @ViewBag.Name: <br />
+	Welcome to my site!
+
+	Thank you.
+
+
+Views/Notifier/_Layout.cshtml
 	
-Of course, you want to set the network configuration at web.config mailSettings. Its already there, just set
-it up with the right values.
+	<html>
+		<head></head>
+		<body>
+			<div class="banner">
+				
+			</div>
+
+			@RenderBody();
+
+
+			<br />
+			--
+			The site team!<br/>
+			xxx-xxx-xxxx
+
+			<div class="footer">
+			</div>
+		</body>
+	</html>
+
+
+Web.config
+------------
+Find mailSettings inside web.config and edit the dummy paramters to real ones!
+
+
+Learn More
+------------
+	
+Look inside the Notifier class to tune the parameters. To learn more, feel free to see the code comments on the MailerBase and Notifier classes.
+	
 
 Sending Asynchronous Email
 ---------------------------

@@ -19,7 +19,7 @@ namespace Mvc.Mailer
     ///     public MailMessage WelcomeMessage(User newUser){
     ///         MailMessage mailMessage = new MailMessage{Subject = "Welcome to TheBestEverSite.com"};
     ///         mailMessage.To.Add(newUser.EmailAddress);
-    ///         mailMessage.Body = EmailBody("~/Views/MyMailer/WelcomeMessage.cshtml");
+    ///         mailMessage.Body = EmailBody("WelcomeMessage");
     ///         return mailMessage;
     ///     }
     /// }
@@ -37,7 +37,7 @@ namespace Mvc.Mailer
 
         /// <summary>
         /// The Path to the MasterPage or Layout
-        /// myMailer.MasterName = "~/Views/MyMailer/_Layout.cshtml"
+        /// myMailer.MasterName = "_MyLayout.cshtml"
         /// </summary>
         public string MasterName
         {
@@ -60,18 +60,17 @@ namespace Mvc.Mailer
         }
 
         /// <summary>
-        /// This method generates the EmailBody from the given viewName, masterName and viewData
+        /// This method generates the EmailBody from the given viewName, masterName
         /// </summary>
-        /// <param name="viewName">@example: "~/Views/MyMailer/WelcomeMessage.cshtml" </param>
-        /// <param name="masterName">@example: "~/Views/MyMailer/_Layout.cshtml"</param>
-        /// <param name="viewData">>@example: new ViewDataDictionary&lt;User&gt;()</param>
+        /// <param name="viewName">@example: "WelcomeMessage" </param>
+        /// <param name="masterName">@example: "_MyLayout.cshtml" if nothing is set, then the MasterName property will be used instead</param>
         /// <returns>the raw html content of the email view and its master page</returns>
-        protected virtual string EmailBody(string viewName, string masterName=null, ViewDataDictionary viewData=null)
+        protected virtual string EmailBody(string viewName, string masterName=null)
         {
             var result = new StringResult
             {
-                ViewName = viewName,
-                ViewData = viewData,
+                ViewName = viewName,// GetViewPath(viewName),
+                ViewData = ViewData,               
                 MasterName = masterName ?? MasterName
             };
             ControllerContext = ControllerContext ?? CreateControllerContext();
@@ -79,22 +78,36 @@ namespace Mvc.Mailer
             return result.Output;
         }
 
-        protected virtual string PopulateBody(MailMessage mailMessage, string viewName, string masterName = null, ViewDataDictionary viewData = null)
+        /// <summary>
+        /// This method generates the EmailBody from the given viewName, masterName
+        /// </summary>
+        /// <param name="mailMessage">@example: new MailMessage{Subject = "Welcome!"}; If it is null, an instance will be created!</param>
+        /// <param name="viewName">@example: "WelcomeMessage" </param>
+        /// <param name="masterName">@example: "_MyLayout" if nothing is set, then the MasterName property will be used instead</param>
+        /// <returns>the raw html content of the email view and its master page</returns>
+        protected virtual string PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
         {
-            if(mailMessage == null)
-            {
-                mailMessage = new MailMessage();
-            }
+            mailMessage = mailMessage ?? new MailMessage();
             mailMessage.IsBodyHtml = IsBodyHtml;
-            mailMessage.Body = EmailBody(viewName, masterName, viewData);
+            mailMessage.Body = EmailBody(viewName, masterName);
             return mailMessage.Body;
         }
 
         private ControllerContext CreateControllerContext()
         {
             var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            routeData.Values["controller"] = MailerName;
             return new ControllerContext(new HttpContextWrapper(HttpContext.Current), routeData, this);
         }
+
+        protected virtual string MailerName
+        {
+            get
+            {
+                return this.GetType().Name;;
+            }
+        }
+
     }
 
 }

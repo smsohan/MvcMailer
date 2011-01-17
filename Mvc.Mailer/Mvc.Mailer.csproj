@@ -61,7 +61,9 @@
     <None Include="content\web.config.transform">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="NuGet\MvcMailer.nuspec" />
+    <None Include="NuGet\MvcMailer.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
