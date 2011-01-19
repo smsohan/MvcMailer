@@ -2,13 +2,15 @@
 <package> 
   <metadata> 
     <id>MvcMailer</id> 
-    <version>0.3</version> 
+    <version>0.4</version> 
     <authors>S. M. SOHAN</authors>
     <description>
 		MvcMailer sends emails using the MVC views as Email Body with no effort. Version 0.3
-		finds the email view automatically based on the name of the mailer. So, a view "WelcomeMessage" for Notifier : MailerBase
+		finds the email view automatically based on the name of the mailer. 
+		
+		So, a view "WelcomeMessage" for Notifier : MailerBase
 		will be automatically used from ~/Views/Notifier/WelcomeMessage.cshtml or ~/Views/Notifier/WelcomeMessage.aspx
-		depending on the view engine.
+		depending on the view engine.		
 	</description> 
     <language>en-US</language>
     <projectUrl>https://github.com/smsohan/MvcMailer</projectUrl>

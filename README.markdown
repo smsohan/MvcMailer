@@ -7,7 +7,7 @@ How to Use
 
 	Install-Package MvcMailer
 	
-This will download from the feed http://go.microsoft.com/fwlink/?LinkID=206669
+This will download from the [official feed](http://go.microsoft.com/fwlink/?LinkID=206669)
 
 Build From Source
 -------------------	
@@ -85,9 +85,10 @@ Find mailSettings inside web.config and edit the dummy paramters to real ones!
 
 Learn More
 ------------
-	
+Read my [CodeProject article](http://www.codeproject.com/KB/aspnet/MvcMailerNuGet.aspx)
 Look inside the Notifier class to tune the parameters. To learn more, feel free to see the code comments on the MailerBase and Notifier classes.
 	
+
 
 Sending Asynchronous Email
 ---------------------------
@@ -96,6 +97,6 @@ To send asynchronous/non blocking emails, it's easy to use the SendAsync extensi
 	new Notifier().WelcomeMessage().SendAsync();
 	
 Or if you need to handle AsyncCompleted/Error events, 
-just use the SMTPClient.SendAsync method (http://msdn.microsoft.com/en-us/library/x5x13z6h.aspx)
+just use the [SMTPClient.SendAsync method](http://msdn.microsoft.com/en-us/library/x5x13z6h.aspx)
 
 Hope this is fun for your to use MvcMailer. In case of a feedback or trouble, please feel free to contact at @smsohan
