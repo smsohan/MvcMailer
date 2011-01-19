@@ -7,6 +7,7 @@ How to Use
 
 	Install-Package MvcMailer
 	
+This will download from the feed http://go.microsoft.com/fwlink/?LinkID=206669
 
 Build From Source
 -------------------	

@@ -12,5 +12,6 @@
 	</description> 
     <language>en-US</language>
     <projectUrl>https://github.com/smsohan/MvcMailer</projectUrl>
+	<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
   </metadata> 
 </package>

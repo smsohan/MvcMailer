@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer", "Mvc.Mailer\Mvc.Mailer.csproj", "{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer.Test", "Mvc.Mailer.Test\Mvc.Mailer.Test.csproj", "{3664DD95-3C70-421E-96CA-9B63EE086C27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,9 @@ Global
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

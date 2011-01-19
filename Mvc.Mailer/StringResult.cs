@@ -42,7 +42,7 @@ namespace Mvc.Mailer
             }
             if (String.IsNullOrEmpty(ViewName))
             {
-                throw new ArgumentNullException("ViewName of Mailer cannot be null or empty");
+                throw new ArgumentNullException("ViewName of StringResult cannot be null or empty");
             }
 
             ViewEngineResult result = null;

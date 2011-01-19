@@ -32,7 +32,10 @@ namespace Mvc.Mailer
         /// </summary>
         public MailerBase()
         {
-            
+            if (HttpContext.Current != null)
+            {
+                CurrentHttpContext = new HttpContextWrapper(HttpContext.Current);
+            }
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace Mvc.Mailer
         {
             var result = new StringResult
             {
-                ViewName = viewName,// GetViewPath(viewName),
+                ViewName = viewName,
                 ViewData = ViewData,               
                 MasterName = masterName ?? MasterName
             };
@@ -81,12 +84,16 @@ namespace Mvc.Mailer
         /// <summary>
         /// This method generates the EmailBody from the given viewName, masterName
         /// </summary>
-        /// <param name="mailMessage">@example: new MailMessage{Subject = "Welcome!"}; If it is null, an instance will be created!</param>
+        /// <param name="mailMessage">@example: new MailMessage{Subject = "Welcome!"}; If it is null, it will throw an exception</param>
         /// <param name="viewName">@example: "WelcomeMessage" </param>
         /// <param name="masterName">@example: "_MyLayout" if nothing is set, then the MasterName property will be used instead</param>
         /// <returns>the raw html content of the email view and its master page</returns>
-        protected virtual string PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
+        public virtual string PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
         {
+            if (mailMessage == null)
+            {
+                throw new ArgumentNullException("mailMessage", "mailMessage cannot be null");
+            }
             mailMessage = mailMessage ?? new MailMessage();
             mailMessage.IsBodyHtml = IsBodyHtml;
             mailMessage.Body = EmailBody(viewName, masterName);
@@ -95,9 +102,9 @@ namespace Mvc.Mailer
 
         private ControllerContext CreateControllerContext()
         {
-            var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(HttpContext.Current));
+            var routeData = new RouteData();// RouteTable.Routes.GetRouteData(CurrentHttpContext);
             routeData.Values["controller"] = MailerName;
-            return new ControllerContext(new HttpContextWrapper(HttpContext.Current), routeData, this);
+            return new ControllerContext(CurrentHttpContext, routeData, this);
         }
 
         protected virtual string MailerName
@@ -106,6 +113,13 @@ namespace Mvc.Mailer
             {
                 return this.GetType().Name;;
             }
+        }
+
+
+        public HttpContextBase CurrentHttpContext
+        {
+            get;
+            internal set;
         }
 
     }
