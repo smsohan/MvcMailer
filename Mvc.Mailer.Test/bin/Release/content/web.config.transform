@@ -8,7 +8,7 @@
 			
 			<!-- Method#2: Dump emails to a local directory -->
 			<!--
-			<smtp deliveryMethod="SpecifiedPickupDirectory">
+			<smtp from="some-email@gmail.com" deliveryMethod="SpecifiedPickupDirectory">
 				<specifiedPickupDirectory pickupDirectoryLocation="c:\temp\"/>
 			</smtp>
 			-->

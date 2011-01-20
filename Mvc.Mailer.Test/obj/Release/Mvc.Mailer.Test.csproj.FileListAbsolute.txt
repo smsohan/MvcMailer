@@ -11,3 +11,6 @@ C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.pdb
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\nunit.framework.xml
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\obj\Release\Mvc.Mailer.Test.dll
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\obj\Release\Mvc.Mailer.Test.pdb
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.dll
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.pdb
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.xml
