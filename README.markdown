@@ -83,6 +83,17 @@ Web.config
 Find mailSettings inside web.config and edit the dummy paramters to real ones!
 
 
+Absolute URL in Emails
+-----------------------
+Unlike your MVC views, the Email views need to show absolute URL. This can be achieved be using the following syntax:
+
+
+	@Url.Action("About", "Home", null, "http")
+
+If you specify the forth paramter, protocol="http"|"https"|... then the UrlHelper will automatically generate the Absolute URL for you.
+A newer version of MVCMailer will extend the existing UrlHelper so that you don't need to specify this in your mailer views. Stay tuned!
+
+
 Learn More
 ------------
 Read my [CodeProject article](http://www.codeproject.com/KB/aspnet/MvcMailerNuGet.aspx)
