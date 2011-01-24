@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1028]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</TopNode>
-  <SelectedNode>[0-1028]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</SelectedNode>
+  <TopNode>[0-1020]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</TopNode>
+  <SelectedNode>[0-1020]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1028]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll" Expanded="true" />
-    <Node UniqueName="[0-1029]Mvc" Expanded="true" />
-    <Node UniqueName="[0-1030]Mvc.Mailer" Expanded="true" />
-    <Node UniqueName="[0-1031]Mvc.Mailer.Test" Expanded="true" />
-    <Node UniqueName="[0-1020]Mvc.Mailer.Test.AbsoluteUrlHelperTest" Expanded="true" />
+    <Node UniqueName="[0-1020]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1021]Mvc" Expanded="true" />
+    <Node UniqueName="[0-1022]Mvc.Mailer" Expanded="true" />
+    <Node UniqueName="[0-1023]Mvc.Mailer.Test" Expanded="true" />
     <Node UniqueName="[0-1010]Mvc.Mailer.Test.MailerBaseTest" Expanded="true" />
     <Node UniqueName="[0-1015]Mvc.Mailer.Test.MailerBaseTest.TestIsBodyHtml" Expanded="true" />
     <Node UniqueName="[0-1011]Mvc.Mailer.Test.MailerBaseTest.TestMasterName" Expanded="true" />

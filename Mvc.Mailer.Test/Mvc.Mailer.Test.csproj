@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MailerBaseTest.cs" />
-    <Compile Include="AbsoluteUrlHelperTest.cs" />
     <Compile Include="MailMessageExtensionsTest.cs" />
     <Compile Include="Mocks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

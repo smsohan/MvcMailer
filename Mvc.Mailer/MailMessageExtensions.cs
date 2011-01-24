@@ -15,7 +15,6 @@ namespace Mvc.Mailer
     /// </summary>
     public static class MailMessageExtensions
     {
-
         /// <summary>
         /// Sends a MailMessage using smtpClient
         /// </summary>
