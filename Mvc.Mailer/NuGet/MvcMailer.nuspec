@@ -2,7 +2,7 @@
 <package> 
   <metadata> 
     <id>MvcMailer</id> 
-    <version>0.5</version> 
+    <version>0.6</version> 
     <authors>S. M. SOHAN</authors>
     <description>
 		MvcMailer sends emails using the MVC views as Email Body with no effort. See an example at the project site.
