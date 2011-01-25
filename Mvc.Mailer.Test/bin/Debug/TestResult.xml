@@ -1,52 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" total="14" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-01-19" time="14:13:43">
+<test-results name="C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" total="17" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-01-25" time="12:55:51">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug" machine-name="SMSOHAN-PC" user="S M Sohan" user-domain="SMSohan-PC" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" executed="True" result="Success" success="True" time="0.487" asserts="0">
+  <test-suite type="Assembly" name="C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" executed="True" result="Success" success="True" time="0.401" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Mvc" executed="True" result="Success" success="True" time="0.482" asserts="0">
+      <test-suite type="Namespace" name="Mvc" executed="True" result="Success" success="True" time="0.378" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Mailer" executed="True" result="Success" success="True" time="0.467" asserts="0">
+          <test-suite type="Namespace" name="Mailer" executed="True" result="Success" success="True" time="0.372" asserts="0">
             <results>
-              <test-suite type="Namespace" name="Test" executed="True" result="Success" success="True" time="0.466" asserts="0">
+              <test-suite type="Namespace" name="Test" executed="True" result="Success" success="True" time="0.367" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="MailerBaseTest" executed="True" result="Success" success="True" time="0.211" asserts="0">
+                  <test-suite type="TestFixture" name="MailerBaseTest" executed="True" result="Success" success="True" time="0.110" asserts="0">
                     <results>
-                      <test-case name="Mvc.Mailer.Test.MailerBaseTest.PopulateBodyWithNullMailMessage" executed="True" result="Success" success="True" time="0.106" asserts="0" />
-                      <test-case name="Mvc.Mailer.Test.MailerBaseTest.PopulateBodyWithShouldPutTheViewText" executed="True" result="Success" success="True" time="0.049" asserts="0" />
-                      <test-suite type="ParameterizedTest" name="TestIsBodyHtml" executed="True" result="Success" success="True" time="0.013" asserts="0">
+                      <test-case name="Mvc.Mailer.Test.MailerBaseTest.PopulateBodyWithNullMailMessage" executed="True" result="Success" success="True" time="0.052" asserts="0" />
+                      <test-case name="Mvc.Mailer.Test.MailerBaseTest.PopulateBodyWithShouldPutTheViewText" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                      <test-suite type="ParameterizedTest" name="TestIsBodyHtml" executed="True" result="Success" success="True" time="0.010" asserts="0">
                         <results>
-                          <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestIsBodyHtml(True)" executed="True" result="Success" success="True" time="0.006" asserts="1" />
+                          <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestIsBodyHtml(True)" executed="True" result="Success" success="True" time="0.007" asserts="1" />
                           <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestIsBodyHtml(False)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                         </results>
                       </test-suite>
-                      <test-suite type="ParameterizedTest" name="TestMasterName" executed="True" result="Success" success="True" time="0.008" asserts="0">
+                      <test-suite type="ParameterizedTest" name="TestMasterName" executed="True" result="Success" success="True" time="0.014" asserts="0">
                         <results>
-                          <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestMasterName(null)" executed="True" result="Success" success="True" time="0.001" asserts="1" />
+                          <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestMasterName(null)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                           <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestMasterName(&quot;&quot;)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                           <test-case name="Mvc.Mailer.Test.MailerBaseTest.TestMasterName(&quot;_Layout&quot;)" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                         </results>
                       </test-suite>
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="MailMessageExtensionsTest" executed="True" result="Success" success="True" time="0.119" asserts="0">
+                  <test-suite type="TestFixture" name="MailMessageExtensionsTest" executed="True" result="Success" success="True" time="0.117" asserts="0">
                     <results>
-                      <test-case name="Mvc.Mailer.Test.MailMessageExtensionsTest.TestSend" executed="True" result="Success" success="True" time="0.111" asserts="0" />
-                      <test-case name="Mvc.Mailer.Test.MailMessageExtensionsTest.TestSendAsync" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                      <test-case name="Mvc.Mailer.Test.MailMessageExtensionsTest.TestSend" executed="True" result="Success" success="True" time="0.109" asserts="0" />
+                      <test-case name="Mvc.Mailer.Test.MailMessageExtensionsTest.TestSendAsync" executed="True" result="Success" success="True" time="0.008" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="StringResultTest" executed="True" result="Success" success="True" time="0.127" asserts="0">
+                  <test-suite type="TestFixture" name="StringResultTest" executed="True" result="Success" success="True" time="0.063" asserts="0">
                     <results>
-                      <test-suite type="ParameterizedTest" name="ExecuteResultWithBlankViewNameShouldThrowArgumentNullException" executed="True" result="Success" success="True" time="0.012" asserts="0">
+                      <test-suite type="ParameterizedTest" name="ExecuteResultWithBlankViewNameShouldThrowArgumentNullException" executed="True" result="Success" success="True" time="0.007" asserts="0">
                         <results>
                           <test-case name="Mvc.Mailer.Test.StringResultTest.ExecuteResultWithBlankViewNameShouldThrowArgumentNullException(null)" executed="True" result="Success" success="True" time="0.003" asserts="0" />
-                          <test-case name="Mvc.Mailer.Test.StringResultTest.ExecuteResultWithBlankViewNameShouldThrowArgumentNullException(&quot;&quot;)" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                          <test-case name="Mvc.Mailer.Test.StringResultTest.ExecuteResultWithBlankViewNameShouldThrowArgumentNullException(&quot;&quot;)" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                         </results>
                       </test-suite>
                       <test-case name="Mvc.Mailer.Test.StringResultTest.ExecuteResultWithNullContextShouldThrowArgumentNullException" executed="True" result="Success" success="True" time="0.001" asserts="0" />
-                      <test-case name="Mvc.Mailer.Test.StringResultTest.ShouldRenderViewIntoOutputProperty" executed="True" result="Success" success="True" time="0.110" asserts="1" />
+                      <test-case name="Mvc.Mailer.Test.StringResultTest.ShouldRenderViewIntoOutputProperty" executed="True" result="Success" success="True" time="0.035" asserts="1" />
                       <test-case name="Mvc.Mailer.Test.StringResultTest.ShouldRenderViewIntoOutputPropertyWhenViewIsSet" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="UrlHelperExtensionTest" executed="True" result="Success" success="True" time="0.050" asserts="0">
+                    <results>
+                      <test-case name="Mvc.Mailer.Test.UrlHelperExtensionTest.Abs_with_abs_should_return_itself" executed="True" result="Success" success="True" time="0.039" asserts="1" />
+                      <test-case name="Mvc.Mailer.Test.UrlHelperExtensionTest.Abs_with_relative_should_absolutilze" executed="True" result="Success" success="True" time="0.008" asserts="1" />
+                      <test-case name="Mvc.Mailer.Test.UrlHelperExtensionTest.Abs_with_root_should_absolutilze" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                     </results>
                   </test-suite>
                 </results>

@@ -4,4 +4,4 @@ Welcome to The BestSiteEver!<br />
 Your subscription begins at @DateTime.Now.ToShortTimeString()!
 <br/>
 <!-- Use UrlHelper with protocol to generate absolute URL in your email views -->
-Please visit <a href="@Url.Action("About", "Home", null, "http")">The About Us Page</a> to Learn more about us.
+Please visit <a href="@Url.Abs(Url.Action("About", "Home"))">The About Us Page</a> to Learn more about us.

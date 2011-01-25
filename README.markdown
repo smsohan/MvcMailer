@@ -24,6 +24,7 @@ When MvcMailer NuGet is installed, it does the following:
 * Adds mailSettings configSection to web.config file
 * Adds a sample Mailer called Notifier inside Mailers/Notifier.cs
 * Adds two views: WelcomeMessage.cshml and _Layout.cshtml inside Views/Notifier
+* Adds Mvc.Mailer to namespaces of the Razor view pages so that the helper methods and extensions are available to views without a using
 * To send and email, take a look inside the Mailers/Notifier.cs file. It looks like the following:
 
 The Minimal Version
@@ -39,6 +40,8 @@ This is how it looks:
 		mailMessage.To.Add("some-email@gmail.com");
 		return mailMessage;
 	}
+
+In your controller or moder or elsewhere, use the following to send the email:
 
 	using Mvc.Mailer;
 	using MyApp.Mailers;
@@ -88,15 +91,16 @@ Absolute URL in Emails
 Unlike your MVC views, the Email views need to show absolute URL. This can be achieved be using the following syntax:
 
 
-	@Url.Action("About", "Home", null, "http")
+	@Url.Abs(Url.Action("About", "Home"))
 
-If you specify the forth paramter, protocol="http"|"https"|... then the UrlHelper will automatically generate the Absolute URL for you.
-A newer version of MVCMailer will extend the existing UrlHelper so that you don't need to specify this in your mailer views. Stay tuned!
+Abs is an extension method on top of UrlHelper and it converts your relative Urls to Absolute urls, so that the email receipients
+can follow the links!
 
 
 Learn More
 ------------
 Read my [CodeProject article](http://www.codeproject.com/KB/aspnet/MvcMailerNuGet.aspx)
+
 Look inside the Notifier class to tune the parameters. To learn more, feel free to see the code comments on the MailerBase and Notifier classes.
 	
 

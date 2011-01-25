@@ -2,15 +2,26 @@
 <package> 
   <metadata> 
     <id>MvcMailer</id> 
-    <version>0.4</version> 
+    <version>0.5</version> 
     <authors>S. M. SOHAN</authors>
     <description>
-		MvcMailer sends emails using the MVC views as Email Body with no effort. Version 0.3
-		finds the email view automatically based on the name of the mailer. 
-		
-		So, a view "WelcomeMessage" for Notifier : MailerBase
-		will be automatically used from ~/Views/Notifier/WelcomeMessage.cshtml or ~/Views/Notifier/WelcomeMessage.aspx
-		depending on the view engine.		
+		MvcMailer sends emails using the MVC views as Email Body with no effort. See an example at the project site.
+		This is email done eight for ASP.Net MVC - no more spaghetti code for emailing :) See the code project article
+		at http://www.codeproject.com/KB/aspnet/MvcMailerNuGet.aspx to learn more about MvcMailer!
+
+		MvcMailer has a MailerBase class that extends ControllerBase class. So, Mailers are just like your Controllers.
+		As a result, you can use all the controller goodies without any learning curve, period. The end result
+		is a professional looking HTML email body ready for your to send to your website users.
+
+		Here's a quick list of features:
+		a) Use Razor/WebForms views
+		b) Use Master pages
+		c) Write Testable Code
+		d) Pass values to your view using ViewBag or ViewModel and
+		e) Generate Absolute URL using Url.Abs method [New in V0.5].
+
+		This package has a very good amount of test coverage and if you want, take a look at the project site.
+
 	</description> 
     <language>en-US</language>
     <projectUrl>https://github.com/smsohan/MvcMailer</projectUrl>
