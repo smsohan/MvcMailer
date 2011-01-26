@@ -13,18 +13,21 @@ namespace Mvc.Mailer.Test
     public class MailMessageExtensionsTest
     {
 
-        private SmtpClient _smtpClient;
+        private SmtpClientWrapper _smtpClient;
         private MailMessage _mailMessage; 
         private DirectoryInfo _mailDirectory;
 
         [SetUp]
         public void SetUp()
         {
-            _smtpClient = new SmtpClient();
-            _smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            var smtpClient = new SmtpClient();
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
 
             _mailDirectory = Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Mails"));
-            _smtpClient.PickupDirectoryLocation = _mailDirectory.FullName;
+            smtpClient.PickupDirectoryLocation = _mailDirectory.FullName;
+            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Port = 597;
+            _smtpClient = new SmtpClientWrapper{InnerSmtpClient = smtpClient};
             _mailMessage = new MailMessage { From = new MailAddress("gaga@gaga.com") };
             _mailMessage.To.Add("gigi@gigi.com");
             _mailMessage.Subject = "Hello!";
@@ -34,18 +37,33 @@ namespace Mvc.Mailer.Test
         [Test]
         public void TestSend()
         {
-            _mailMessage.Send(_smtpClient);            
+            _mailMessage.Send(_smtpClient);
+            Assert.Pass("Mail Send working since no exception wast thrown");
         }
 
         [Test]
         public void TestSendAsync()
         {
-            _mailMessage.Send(_smtpClient);
+            _mailMessage.SendAsync(_smtpClient);
+            Assert.Pass("Mail Send Async working since no exception wast thrown");
+
+        }
+
+        [Test]
+        public void In_Test_Mode_should_use_TestSmtpClient()
+        {
+            TestSmtpClient.SentMails.Clear();
+            MailerBase.IsTestModeEnabled = true;
+            _mailMessage.Send();
+            Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
+            Assert.AreSame(_mailMessage, TestSmtpClient.SentMails[0]);
         }
 
         [TearDown]
         public void TearDown()
         {
+            MailerBase.IsTestModeEnabled = false;
+            TestSmtpClient.SentMails.Clear();
             _mailDirectory.Delete(true);
         }
 

@@ -36,6 +36,7 @@ namespace Mvc.Mailer
             {
                 CurrentHttpContext = new HttpContextWrapper(HttpContext.Current);
             }
+            IsTestModeEnabled = false;
         }
 
         /// <summary>
@@ -120,6 +121,13 @@ namespace Mvc.Mailer
         {
             get;
             internal set;
+        }
+
+
+        public static bool IsTestModeEnabled
+        {
+            get;
+            set;
         }
 
     }

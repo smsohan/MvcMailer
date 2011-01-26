@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SmtpClientBase.cs" />
+    <Compile Include="SmtpClientWrapper.cs" />
+    <Compile Include="TestSmtpClient.cs" />
+    <Compile Include="ISmtpClient.cs" />
     <Compile Include="UrlHelperExtension.cs" />
     <Compile Include="MailerBase.cs" />
     <Compile Include="MailMessageExtensions.cs" />

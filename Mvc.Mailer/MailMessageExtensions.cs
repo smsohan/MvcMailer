@@ -20,10 +20,13 @@ namespace Mvc.Mailer
         /// </summary>
         /// <param name="message">The mailMessage Object</param>
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public static void Send(this MailMessage message, SmtpClient smtpClient = null)
+        public static void Send(this MailMessage message, ISmtpClient smtpClient = null)
         {
-            smtpClient = smtpClient ?? new SmtpClient();
-            smtpClient.Send(message);
+            smtpClient = smtpClient ?? GetSmtpClient();
+            using (smtpClient)
+            {
+                smtpClient.Send(message);
+            }
         }
 
         /// <summary>
@@ -31,11 +34,25 @@ namespace Mvc.Mailer
         /// </summary>
         /// <param name="message">The mailMessage Object</param>
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public static void SendAsync(this MailMessage message, SmtpClient smtpClient = null)
+        public static void SendAsync(this MailMessage message, ISmtpClient smtpClient = null)
         {
-            smtpClient = smtpClient ?? new SmtpClient();
-            var userState = "nothing";
-            smtpClient.SendAsync(message, userState);
+            smtpClient = smtpClient ?? GetSmtpClient();
+            var userState = "userState";
+            
+            using (smtpClient)
+            {
+                smtpClient.SendAsync(message, userState);
+            }
+        }
+
+        public static ISmtpClient GetSmtpClient()
+        {
+            if (MailerBase.IsTestModeEnabled)
+            {
+                return new TestSmtpClient();
+            }
+            return new SmtpClientWrapper();
+            
         }
     }
 
