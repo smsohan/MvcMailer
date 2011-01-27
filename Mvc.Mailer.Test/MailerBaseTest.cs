@@ -44,7 +44,7 @@ namespace Mvc.Mailer.Test
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void PopulateBodyWithShouldPutTheViewText()
+        public void PopulateBodyWithObjectShouldPutTheViewText()
         {
             MailMessage mailMessage = null;
             ViewEngines.Engines.Add(new MyViewEngine());

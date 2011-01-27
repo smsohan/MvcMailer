@@ -18,7 +18,7 @@ namespace $rootnamespace$.Mailers
 	/// The web.config file section for mails is already added to your project.
 	/// Just edit your web.config file mailSettings and provide with required server, port, user, password etc.
     /// </summary>
-	public class Notifier : MailerBase
+	public class Notifier : MailerBase, INotifier
 	{
 		/// <summary>
         /// In your constructor you can specify a default MasterName
@@ -36,7 +36,7 @@ namespace $rootnamespace$.Mailers
         /// <returns></returns>
         public MailMessage WelcomeMessage()
         {
-            var mailMessage = new MailMessage { Subject = "Welcome to TheBestSiteEver" };
+            var mailMessage = new MailMessage { Subject = "Welcome to MvcMailer" };
 			ViewBag.Name = "Sohan";
 			mailMessage.Body = PopulateBody(mailMessage, "WelcomeMessage");
 			mailMessage.To.Add("some-email@gmail.com");

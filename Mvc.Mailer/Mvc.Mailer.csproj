@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptyHttpContext.cs" />
     <Compile Include="SmtpClientBase.cs" />
     <Compile Include="SmtpClientWrapper.cs" />
     <Compile Include="TestSmtpClient.cs" />
@@ -54,6 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\Mailers\INotifier.cs.pp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="content\Mailers\Notifier.cs.pp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

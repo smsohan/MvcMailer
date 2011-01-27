@@ -9,6 +9,10 @@ How to Use
 	
 This will download from the [official feed](http://go.microsoft.com/fwlink/?LinkID=206669)
 
+Example Code
+---------------
+See the [MvcMailer-Example project](https://github.com/smsohan/MvcMailer-Example)
+
 Build From Source
 -------------------	
 * Download the source code

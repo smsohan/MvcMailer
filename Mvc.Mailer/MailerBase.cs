@@ -36,6 +36,10 @@ namespace Mvc.Mailer
             {
                 CurrentHttpContext = new HttpContextWrapper(HttpContext.Current);
             }
+            else if (IsTestModeEnabled)
+            {
+                CurrentHttpContext = new EmptyHttpContext();
+            }
             IsTestModeEnabled = false;
         }
 
