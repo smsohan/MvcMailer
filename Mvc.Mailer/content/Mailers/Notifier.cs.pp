@@ -38,7 +38,7 @@ namespace $rootnamespace$.Mailers
         {
             var mailMessage = new MailMessage { Subject = "Welcome to MvcMailer" };
 			ViewBag.Name = "Sohan";
-			mailMessage.Body = PopulateBody(mailMessage, "WelcomeMessage");
+			PopulateBody(mailMessage, "WelcomeMessage");
 			mailMessage.To.Add("some-email@gmail.com");
             return mailMessage;
         }

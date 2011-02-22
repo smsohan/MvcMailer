@@ -66,6 +66,14 @@
     </Content>
     <Content Include="content\Views\Notifier\_Layout.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="content\Views\Notifier\WelcomeMessage.text.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="content\Views\Notifier\_Layout.text.cshtml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="content\Views\web.config.transform">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

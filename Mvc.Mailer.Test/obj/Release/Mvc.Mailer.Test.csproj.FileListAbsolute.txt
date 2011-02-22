@@ -15,3 +15,6 @@ C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.dll
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.pdb
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Moq.xml
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\content\Views\web.config.transform
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\content\Mailers\INotifier.cs.pp
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\content\Views\Notifier\WelcomeMessage.text.cshtml
+C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\content\Views\Notifier\_Layout.text.cshtml

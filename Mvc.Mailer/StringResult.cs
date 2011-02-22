@@ -34,6 +34,29 @@ namespace Mvc.Mailer
             private set;
         }
 
+        public virtual void ExecuteResult(ControllerContext context, string mailerName)
+        {
+            //remember the controller name
+            var controllerName = context.RouteData.Values["controller"];
+            
+            //temporarily change it to the mailer name so that FindView works
+            context.RouteData.Values["controller"] = mailerName;
+            try
+            {
+                ExecuteResult(context);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally{
+                //restore the controller name
+                context.RouteData.Values["controller"] = controllerName;
+            }
+
+
+        }
+
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)

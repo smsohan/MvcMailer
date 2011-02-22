@@ -9,6 +9,8 @@ using System.Text;
 using System.IO;
 using System.Web.UI;
 using System.Web.Routing;
+using System.Net.Mime;
+using System.Diagnostics;
 
 namespace Mvc.Mailer
 {
@@ -73,17 +75,28 @@ namespace Mvc.Mailer
         /// <param name="viewName">@example: "WelcomeMessage" </param>
         /// <param name="masterName">@example: "_MyLayout.cshtml" if nothing is set, then the MasterName property will be used instead</param>
         /// <returns>the raw html content of the email view and its master page</returns>
-        protected virtual string EmailBody(string viewName, string masterName=null)
+        public virtual string EmailBody(string viewName, string masterName=null)
         {
+
+            masterName = masterName ?? MasterName;
+         
             var result = new StringResult
             {
                 ViewName = viewName,
                 ViewData = ViewData,               
                 MasterName = masterName ?? MasterName
             };
-            ControllerContext = ControllerContext ?? CreateControllerContext();
-            result.ExecuteResult(ControllerContext);
+            if(ControllerContext == null)
+                CreateControllerContext();
+            result.ExecuteResult(ControllerContext, MailerName);
             return result.Output;
+        }
+
+
+        public virtual void PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
+        {
+            var part = EmailBody(viewName, masterName ?? MasterName);
+            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(part, new ContentType(mime)));
         }
 
         /// <summary>
@@ -92,24 +105,30 @@ namespace Mvc.Mailer
         /// <param name="mailMessage">@example: new MailMessage{Subject = "Welcome!"}; If it is null, it will throw an exception</param>
         /// <param name="viewName">@example: "WelcomeMessage" </param>
         /// <param name="masterName">@example: "_MyLayout" if nothing is set, then the MasterName property will be used instead</param>
-        /// <returns>the raw html content of the email view and its master page</returns>
-        public virtual string PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
         {
+            masterName = masterName ?? MasterName;
             if (mailMessage == null)
             {
                 throw new ArgumentNullException("mailMessage", "mailMessage cannot be null");
             }
-            mailMessage = mailMessage ?? new MailMessage();
-            mailMessage.IsBodyHtml = IsBodyHtml;
-            mailMessage.Body = EmailBody(viewName, masterName);
-            return mailMessage.Body;
+            if(IsMultiPart(viewName, masterName))
+            {
+                var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
+                PopulatePart(mailMessage, viewName + ".text", "text/plain", textMasterName);
+                PopulatePart(mailMessage, viewName, "text/html", masterName);
+            }
+            else{
+                mailMessage.Body = EmailBody(viewName, masterName);
+                mailMessage.IsBodyHtml = IsBodyHtml;
+            }
         }
 
         private ControllerContext CreateControllerContext()
         {
-            var routeData = new RouteData();// RouteTable.Routes.GetRouteData(CurrentHttpContext);
-            routeData.Values["controller"] = MailerName;
-            return new ControllerContext(CurrentHttpContext, routeData, this);
+            var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContext);
+            ControllerContext = new ControllerContext(CurrentHttpContext, routeData, this);
+            return ControllerContext;
         }
 
         protected virtual string MailerName
@@ -124,7 +143,7 @@ namespace Mvc.Mailer
         public HttpContextBase CurrentHttpContext
         {
             get;
-            internal set;
+            set;
         }
 
 
@@ -132,6 +151,29 @@ namespace Mvc.Mailer
         {
             get;
             set;
+        }
+
+        public virtual bool IsMultiPart(string viewName, string masterName)
+        {
+            return ViewExists(viewName, masterName) && ViewExists(viewName + ".text", masterName + ".text");
+        }
+
+        public virtual bool ViewExists(string viewName, string masterName)
+        {
+            if (ControllerContext == null)
+                CreateControllerContext();
+
+            var controllerName = this.ControllerContext.RouteData.Values["controller"];
+            this.ControllerContext.RouteData.Values["controller"] = MailerName;
+
+            try
+            {
+                return ViewEngines.Engines.FindView(this.ControllerContext, viewName, masterName).View != null;
+            }
+            finally
+            {
+                this.ControllerContext.RouteData.Values["controller"] = controllerName;
+            }
         }
 
     }
