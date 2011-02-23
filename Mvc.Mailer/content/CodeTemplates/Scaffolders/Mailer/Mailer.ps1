@@ -8,9 +8,11 @@ param(
 	[switch]$Force = $false
 )
 
-# Decide where to put the output file relative to the Visual Studio project
-# Note that the filename extension will be added automatically based on the template's Output Extension directive
-
+###########################################################
+###														###
+### FUNCTIONS											###
+###														###
+###########################################################
 function CreateCSFileFromTemplate
 {
 	param ($MailerTemplate, $outputPath)
@@ -32,8 +34,11 @@ function CreateCSFileFromTemplate
 	}
 }
 
-CreateCSFileFromTemplate IMailerTemplate  I$MailerName
-CreateCSFileFromTemplate MailerTemplate  $MailerName
+function CreateCSFiles
+{
+	CreateCSFileFromTemplate IMailerTemplate  I$MailerName
+	CreateCSFileFromTemplate MailerTemplate  $MailerName
+}
 
 function CreateViewFileFromTemplate
 {
@@ -63,5 +68,8 @@ function CreateLayoutAndViews
 	}
 }
 
+######## END FUNCTIONS ####################################
+
+CreateCSFiles
 CreateLayoutAndViews
 
