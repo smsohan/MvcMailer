@@ -19,7 +19,7 @@ namespace Mvc.Mailer
             }
         }
 
-        public bool WasLastCallAsync
+        public static bool WasLastCallAsync
         {
             get;
             set;

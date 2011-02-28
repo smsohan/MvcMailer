@@ -147,7 +147,7 @@ namespace Mvc.Mailer
         }
 
 
-        public virtual static bool IsTestModeEnabled
+        public static bool IsTestModeEnabled
         {
             get;
             set;

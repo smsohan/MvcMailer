@@ -49,7 +49,7 @@ namespace Mvc.Mailer.Test
             _testSmtpClient.Send(messageA);
 
             Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
-            Assert.IsFalse(_testSmtpClient.WasLastCallAsync);
+            Assert.IsFalse(TestSmtpClient.WasLastCallAsync);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Mvc.Mailer.Test
             _testSmtpClient.SendAsync(messageA);
 
             Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
-            Assert.IsTrue(_testSmtpClient.WasLastCallAsync);
+            Assert.IsTrue(TestSmtpClient.WasLastCallAsync);
         }
 
         [Test]
@@ -96,6 +96,7 @@ namespace Mvc.Mailer.Test
         {
             MailerBase.IsTestModeEnabled = false;
             TestSmtpClient.SentMails.Clear();
+            TestSmtpClient.WasLastCallAsync = false;
         }
 
     }

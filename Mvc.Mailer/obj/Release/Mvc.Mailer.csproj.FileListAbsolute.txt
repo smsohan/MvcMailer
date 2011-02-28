@@ -30,9 +30,6 @@ C:\Work\MvcMailer\Mvc.Mailer\bin\Release\content\Mailers\Notifier.cs.pp
 C:\Work\MvcMailer\Mvc.Mailer\bin\Release\content\web.config.transform
 C:\Work\MvcMailer\Mvc.Mailer\bin\Release\Mvc.Mailer.dll
 C:\Work\MvcMailer\Mvc.Mailer\bin\Release\Mvc.Mailer.pdb
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Views\Notifier\WelcomeMessage.cshtml
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Views\Notifier\_Layout.cshtml
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Mailers\Notifier.cs.pp
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\web.config.transform
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\Mvc.Mailer.dll
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\Mvc.Mailer.pdb
@@ -40,6 +37,3 @@ C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\obj\Release\ResolveAssemblyReference.cac
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\obj\Release\Mvc.Mailer.dll
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\obj\Release\Mvc.Mailer.pdb
 C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Views\web.config.transform
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Mailers\INotifier.cs.pp
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Views\Notifier\WelcomeMessage.text.cshtml
-C:\Users\S M Sohan\MvcMailer\Mvc.Mailer\bin\Release\content\Views\Notifier\_Layout.text.cshtml

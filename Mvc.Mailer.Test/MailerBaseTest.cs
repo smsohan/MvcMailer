@@ -164,6 +164,5 @@ namespace Mvc.Mailer.Test
             return System.Text.Encoding.ASCII.GetString(byteBuffer, 0, dataStream.Read(byteBuffer, 0, byteBuffer.Length));
         }
 
-
     }
 }
