@@ -140,14 +140,14 @@ namespace Mvc.Mailer
         }
 
 
-        public HttpContextBase CurrentHttpContext
+        public virtual HttpContextBase CurrentHttpContext
         {
             get;
             set;
         }
 
 
-        public static bool IsTestModeEnabled
+        public virtual static bool IsTestModeEnabled
         {
             get;
             set;
@@ -155,7 +155,9 @@ namespace Mvc.Mailer
 
         public virtual bool IsMultiPart(string viewName, string masterName)
         {
-            return ViewExists(viewName, masterName) && ViewExists(viewName + ".text", masterName + ".text");
+            var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
+            var htmlMasterName = string.IsNullOrEmpty(masterName) ? null : masterName;
+            return ViewExists(viewName, htmlMasterName) && ViewExists(viewName + ".text", textMasterName);
         }
 
         public virtual bool ViewExists(string viewName, string masterName)

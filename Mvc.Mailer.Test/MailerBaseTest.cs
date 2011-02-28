@@ -144,6 +144,18 @@ namespace Mvc.Mailer.Test
 
             Assert.AreEqual(isText && isHtml, mailer.Object.IsMultiPart("welcome", "Mail"));
         }
+
+        [Test, Sequential]
+        public void IsMultiPart_should_pass_null_to_master_name([Values(null, "")] string masterName)
+        {
+            var mailer = new Mock<MailerBase>();
+            mailer.CallBase = true;
+
+            mailer.Setup(m => m.ViewExists("welcome.text", null)).Returns(true);
+            mailer.Setup(m => m.ViewExists("welcome", null)).Returns(true);
+
+            Assert.IsTrue(mailer.Object.IsMultiPart("welcome", masterName));
+        }
  
         private string GetContent(AlternateView alternateView)
         {

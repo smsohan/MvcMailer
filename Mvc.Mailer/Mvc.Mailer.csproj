@@ -82,10 +82,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="NuGet\input\tools\cs\IMailerTemplate.cs.t4" />
+    <None Include="NuGet\input\tools\cs\MailerTemplate.cs.t4" />
+    <None Include="NuGet\input\tools\Mailer.ps1" />
+    <None Include="NuGet\input\tools\view\Layout.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\Mail.cshtml.cs.t4" />
     <None Include="NuGet\MvcMailer.nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy *.dll "$(ProjectDir)NuGet\input\lib\40"
