@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1041]Mvc.Mailer.Test.MailerBaseTest.IsMultiPart_should_check_for_both_view_exists(True,True)</TopNode>
-  <SelectedNode>[0-1048]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</SelectedNode>
+  <TopNode>[0-1057]Mvc.Mailer.Test</TopNode>
+  <SelectedNode>[0-1048]Mvc.Mailer.Test.MailerBaseTest.Test_PopulateLinkedResources_should_populate_each_resource</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1048]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll" Expanded="true" />
-    <Node UniqueName="[0-1049]Mvc" Expanded="true" />
-    <Node UniqueName="[0-1050]Mvc.Mailer" Expanded="true" />
-    <Node UniqueName="[0-1051]Mvc.Mailer.Test" Expanded="true" />
+    <Node UniqueName="[0-1054]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1055]Mvc" Expanded="true" />
+    <Node UniqueName="[0-1056]Mvc.Mailer" Expanded="true" />
+    <Node UniqueName="[0-1057]Mvc.Mailer.Test" Expanded="true" />
     <Node UniqueName="[0-1027]Mvc.Mailer.Test.MailerBaseTest" Expanded="true" />
-    <Node UniqueName="[0-1040]Mvc.Mailer.Test.MailerBaseTest.IsMultiPart_should_check_for_both_view_exists" Expanded="true" />
     <Node UniqueName="[0-1032]Mvc.Mailer.Test.MailerBaseTest.TestIsBodyHtml" Expanded="true" />
     <Node UniqueName="[0-1028]Mvc.Mailer.Test.MailerBaseTest.TestMasterName" Expanded="true" />
     <Node UniqueName="[0-1019]Mvc.Mailer.Test.MailMessageExtensionsTest" Expanded="true" />

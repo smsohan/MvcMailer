@@ -45,6 +45,13 @@ namespace Mvc.Mailer
             IsTestModeEnabled = false;
         }
 
+        private ILinkedResourceProvider _LinkedResourceProvider = new LinkedResourceProvider();
+        public ILinkedResourceProvider LinkedResourceProvider
+        {
+            get { return _LinkedResourceProvider;  }
+            set { _LinkedResourceProvider = value; }
+        }
+
         /// <summary>
         /// The Path to the MasterPage or Layout
         /// myMailer.MasterName = "_MyLayout.cshtml"
@@ -93,11 +100,14 @@ namespace Mvc.Mailer
         }
 
 
-        public virtual void PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
+        public virtual AlternateView PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
         {
             var part = EmailBody(viewName, masterName ?? MasterName);
-            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(part, new ContentType(mime)));
+            var alternateView = AlternateView.CreateAlternateViewFromString(part, new ContentType(mime));
+            mailMessage.AlternateViews.Add(alternateView);
+            return alternateView;
         }
+
 
         /// <summary>
         /// This method generates the EmailBody from the given viewName, masterName
@@ -122,6 +132,17 @@ namespace Mvc.Mailer
                 mailMessage.Body = EmailBody(viewName, masterName);
                 mailMessage.IsBodyHtml = IsBodyHtml;
             }
+        }
+
+        public virtual void PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
+        {
+            var linkedResources = LinkedResourceProvider.GetAll(resources);
+            linkedResources.ForEach(resource => mailPart.LinkedResources.Add(resource));
+        }
+
+        public virtual void PopulateLinkedResource(AlternateView mailPart, string contentId, string fileName)
+        {
+            mailPart.LinkedResources.Add(LinkedResourceProvider.Get(contentId, fileName));
         }
 
         private ControllerContext CreateControllerContext()

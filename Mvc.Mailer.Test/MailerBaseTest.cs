@@ -93,13 +93,13 @@ namespace Mvc.Mailer.Test
 
             mailerMock.Setup(m => m.EmailBody("welcome.text", "Mail.text")).Returns("text part");
 
-            mailerMock.Object.PopulatePart(mailMessage, "welcome.text", "text/plain", "Mail.text");
+            var mailPart = mailerMock.Object.PopulatePart(mailMessage, "welcome.text", "text/plain", "Mail.text");
 
             mailerMock.VerifyAll();
             Assert.AreEqual(1, mailMessage.AlternateViews.Count);
             Assert.AreEqual("text/plain", mailMessage.AlternateViews[0].ContentType.MediaType);
             Assert.AreEqual("text part", GetContent(mailMessage.AlternateViews[0]));
-
+            Assert.IsNotNull(mailPart);
         }
 
         [Test]
@@ -156,6 +156,68 @@ namespace Mvc.Mailer.Test
 
             Assert.IsTrue(mailer.Object.IsMultiPart("welcome", masterName));
         }
+
+        [Test]
+        public void Test_PopulateLinkedResources_should_populate_each_resource()
+        {
+            var linkedResourceProviderMock = new Mock<ILinkedResourceProvider>();
+            var mailerMock = new Mock<MailerBase>();
+            mailerMock.CallBase = true;
+
+            mailerMock.Object.LinkedResourceProvider = linkedResourceProviderMock.Object;
+
+            
+            var resources = new Dictionary<string, string>{
+                                {"logo", "logo.png"},
+                                {"button", "button.png"}
+                            };
+
+            var linkResources = new List<LinkedResource>();
+
+            linkedResourceProviderMock.Setup(p => p.GetAll(resources)).Returns(linkResources);
+
+
+            var htmlView = AlternateView.CreateAlternateViewFromString("");
+            mailerMock.Object.PopulateLinkedResources(htmlView, resources);
+
+            linkedResourceProviderMock.VerifyAll();
+            Assert.AreEqual(linkResources, htmlView.LinkedResources);
+
+        }
+
+        [Test]
+        public void Test_PopulateLinkedResource_should_populate_the_resource()
+        {
+            var linkedResourceProviderMock = new Mock<ILinkedResourceProvider>();
+            var mailerMock = new Mock<MailerBase>();
+            mailerMock.CallBase = true;
+
+            mailerMock.Object.LinkedResourceProvider = linkedResourceProviderMock.Object;
+
+            LinkedResource linkResource = new LinkedResource(new MemoryStream());
+
+            linkedResourceProviderMock.Setup(p => p.Get("logo", "logo.png")).Returns(linkResource);
+
+            var htmlView = AlternateView.CreateAlternateViewFromString("");
+            mailerMock.Object.PopulateLinkedResource(htmlView, "logo", "logo.png");
+
+            linkedResourceProviderMock.VerifyAll();
+            Assert.AreEqual(1, htmlView.LinkedResources.Count);
+            Assert.AreEqual(linkResource, htmlView.LinkedResources.First());
+
+        }
+
+        [Test]
+        public void Test_LinkedResourceProvider()
+        {
+            var mailer = new MailerBase();
+            var linkResourceProvider = new Mock<ILinkedResourceProvider>();
+
+            mailer.LinkedResourceProvider = linkResourceProvider.Object;
+
+            Assert.AreEqual(linkResourceProvider.Object, mailer.LinkedResourceProvider);
+        }
+
  
         private string GetContent(AlternateView alternateView)
         {
@@ -163,6 +225,8 @@ namespace Mvc.Mailer.Test
             byte[] byteBuffer = new byte[dataStream.Length];
             return System.Text.Encoding.ASCII.GetString(byteBuffer, 0, dataStream.Read(byteBuffer, 0, byteBuffer.Length));
         }
+
+       
 
     }
 }
