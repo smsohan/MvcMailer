@@ -178,10 +178,11 @@ namespace Mvc.Mailer.Test
 
 
             var htmlView = AlternateView.CreateAlternateViewFromString("");
-            mailerMock.Object.PopulateLinkedResources(htmlView, resources);
+            var actualResources = mailerMock.Object.PopulateLinkedResources(htmlView, resources);
 
             linkedResourceProviderMock.VerifyAll();
             Assert.AreEqual(linkResources, htmlView.LinkedResources);
+            Assert.AreEqual(linkResources, actualResources);
 
         }
 
@@ -199,11 +200,12 @@ namespace Mvc.Mailer.Test
             linkedResourceProviderMock.Setup(p => p.Get("logo", "logo.png")).Returns(linkResource);
 
             var htmlView = AlternateView.CreateAlternateViewFromString("");
-            mailerMock.Object.PopulateLinkedResource(htmlView, "logo", "logo.png");
+            var actualResource = mailerMock.Object.PopulateLinkedResource(htmlView, "logo", "logo.png");
 
             linkedResourceProviderMock.VerifyAll();
             Assert.AreEqual(1, htmlView.LinkedResources.Count);
             Assert.AreEqual(linkResource, htmlView.LinkedResources.First());
+            Assert.AreEqual(linkResource, actualResource);
 
         }
 

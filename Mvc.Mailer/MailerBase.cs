@@ -134,15 +134,18 @@ namespace Mvc.Mailer
             }
         }
 
-        public virtual void PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
+        public virtual List<LinkedResource> PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
         {
             var linkedResources = LinkedResourceProvider.GetAll(resources);
             linkedResources.ForEach(resource => mailPart.LinkedResources.Add(resource));
+            return linkedResources;
         }
 
-        public virtual void PopulateLinkedResource(AlternateView mailPart, string contentId, string fileName)
+        public virtual LinkedResource PopulateLinkedResource(AlternateView mailPart, string contentId, string fileName)
         {
-            mailPart.LinkedResources.Add(LinkedResourceProvider.Get(contentId, fileName));
+            var linkedResource = LinkedResourceProvider.Get(contentId, fileName);
+            mailPart.LinkedResources.Add(linkedResource);
+            return linkedResource;
         }
 
         private ControllerContext CreateControllerContext()
