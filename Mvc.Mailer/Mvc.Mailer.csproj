@@ -65,7 +65,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="NuGet\input\tools\Remove-Mailer.ps1" />
     <None Include="NuGet\input\tools\cs\IMailerTemplate.cs.t4" />
     <None Include="NuGet\input\tools\cs\MailerTemplate.cs.t4" />
     <None Include="NuGet\input\tools\Mailer.ps1" />
@@ -84,6 +83,7 @@
     <PostBuildEvent>copy *.dll "$(ProjectDir)NuGet\input\lib\40"
 xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
 cd "$(ProjectDir)NuGet"
+IF NOT EXIST output md output
 nuget pack mvcmailer.nuspec -b input -o output
 </PostBuildEvent>
   </PropertyGroup>
