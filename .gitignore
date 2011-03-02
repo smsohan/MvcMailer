@@ -1,0 +1,10 @@
+bin
+Bin
+obj
+Obj
+*.csproj.user
+*.suo
+*.cache
+*.Cache
+*.user
+Mvc.Mailer/NuGet/output
