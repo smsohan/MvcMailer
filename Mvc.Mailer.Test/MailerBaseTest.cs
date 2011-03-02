@@ -33,37 +33,11 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void TestIsBodyHtml([Values(true, false)] bool isBodyHtml)
-        {
-            _mailerBase.IsBodyHtml = isBodyHtml;
-            Assert.AreEqual(isBodyHtml, _mailerBase.IsBodyHtml);
-        }
-
-        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void PopulateBodyWithNullMailMessage()
         {
             MailMessage mailMessage = null;
             _mailerBase.PopulateBody(mailMessage, "Welcome");
-        }
-
-        [Test]
-        public void PopulateBodyWithObjectShouldPutTheViewText()
-        {
-            MailMessage mailMessage = new MailMessage();
-            var mailer = new Mock<MailerBase>();
-            mailer.CallBase = true;
-
-            mailer.Object.IsBodyHtml = true;
-
-            mailer.Setup(m => m.IsMultiPart("welcome", "Mail")).Returns(false);
-
-            mailer.Setup(m => m.EmailBody("welcome", "Mail")).Returns("Hello");
-
-            mailer.Object.PopulateBody(mailMessage, "welcome", "Mail");
-            mailer.VerifyAll();
-            Assert.AreEqual("Hello", mailMessage.Body);
-            Assert.IsTrue(mailMessage.IsBodyHtml);
         }
 
         [Test]
@@ -73,12 +47,8 @@ namespace Mvc.Mailer.Test
             var mailer = new Mock<MailerBase>();
             mailer.CallBase = true;
 
-            mailer.Object.IsBodyHtml = true;
-
-            mailer.Setup(m => m.IsMultiPart("welcome", "Mail")).Returns(true);
-
-            mailer.Setup(m => m.PopulatePart(mailMessage, "welcome.text", "text/plain", "Mail.text"));
-            mailer.Setup(m => m.PopulatePart(mailMessage, "welcome", "text/html", "Mail"));
+            mailer.Setup(m => m.PopulateTextPart(mailMessage, "welcome", "Mail"));
+            mailer.Setup(m => m.PopulateHtmlPart(mailMessage, "welcome", "Mail", null));
 
             mailer.Object.PopulateBody(mailMessage, "welcome", "Mail");
             mailer.VerifyAll();
@@ -91,6 +61,7 @@ namespace Mvc.Mailer.Test
             var mailerMock = new Mock<MailerBase>();
             mailerMock.CallBase = true;
 
+            mailerMock.Setup(m => m.ViewExists("welcome.text", "Mail.text")).Returns(true);
             mailerMock.Setup(m => m.EmailBody("welcome.text", "Mail.text")).Returns("text part");
 
             var mailPart = mailerMock.Object.PopulatePart(mailMessage, "welcome.text", "text/plain", "Mail.text");
@@ -100,6 +71,36 @@ namespace Mvc.Mailer.Test
             Assert.AreEqual("text/plain", mailMessage.AlternateViews[0].ContentType.MediaType);
             Assert.AreEqual("text part", GetContent(mailMessage.AlternateViews[0]));
             Assert.IsNotNull(mailPart);
+        }
+
+        [Test]
+        public void PopulateTextPart_should_use_right_view_name_and_mime()
+        {
+            var mailMessage = new MailMessage();
+            var mailerMock = new Mock<MailerBase>();
+            mailerMock.CallBase = true;
+
+            mailerMock.Setup(m => m.PopulatePart(mailMessage, "Welcome.text", "text/plain", "Mail.text"));
+            mailerMock.Object.PopulateTextPart(mailMessage, "Welcome", "Mail");
+
+            mailerMock.VerifyAll();
+        }
+
+        [Test]
+        public void PopulateHtmlPart_should_use_right_view_name_and_mime()
+        {
+            var mailMessage = new MailMessage();
+            var mailerMock = new Mock<MailerBase>();
+            mailerMock.CallBase = true;
+
+            var resources = new Dictionary<string, string>();
+            
+            mailerMock.Setup(m => m.PopulatePart(mailMessage, "Welcome", "text/html", "Mail")).Returns(AlternateView.CreateAlternateViewFromString(""));
+            mailerMock.Setup(m => m.PopulateLinkedResources(It.IsAny<AlternateView>(), resources));
+            
+            mailerMock.Object.PopulateHtmlPart(mailMessage, "Welcome", "Mail", resources);
+
+            mailerMock.VerifyAll();
         }
 
         [Test]
@@ -130,32 +131,6 @@ namespace Mvc.Mailer.Test
             }
         }
 
-
-        [Test, Sequential]
-        public void IsMultiPart_should_check_for_both_view_exists(
-            [Values(true, true, false, false)]bool isText, 
-            [Values(true, false, true, false)]bool isHtml)
-        {
-            var mailer = new Mock<MailerBase>();
-            mailer.CallBase = true;
-
-            mailer.Setup(m => m.ViewExists("welcome.text", "Mail.text")).Returns(isText);
-            mailer.Setup(m => m.ViewExists("welcome", "Mail")).Returns(isHtml);
-
-            Assert.AreEqual(isText && isHtml, mailer.Object.IsMultiPart("welcome", "Mail"));
-        }
-
-        [Test, Sequential]
-        public void IsMultiPart_should_pass_null_to_master_name([Values(null, "")] string masterName)
-        {
-            var mailer = new Mock<MailerBase>();
-            mailer.CallBase = true;
-
-            mailer.Setup(m => m.ViewExists("welcome.text", null)).Returns(true);
-            mailer.Setup(m => m.ViewExists("welcome", null)).Returns(true);
-
-            Assert.IsTrue(mailer.Object.IsMultiPart("welcome", masterName));
-        }
 
         [Test]
         public void Test_PopulateLinkedResources_should_populate_each_resource()

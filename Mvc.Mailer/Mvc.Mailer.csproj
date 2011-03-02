@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlHelperExtension.cs" />
     <Compile Include="EmptyHttpContext.cs" />
     <Compile Include="ILinkedResourceProvider.cs" />
     <Compile Include="LinkedResourceProvider.cs" />

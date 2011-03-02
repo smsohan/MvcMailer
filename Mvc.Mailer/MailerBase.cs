@@ -62,12 +62,6 @@ namespace Mvc.Mailer
             set;
         }
 
-        public bool IsBodyHtml
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Nothing to Execute at this point, left blank
         /// </summary>
@@ -99,43 +93,59 @@ namespace Mvc.Mailer
             return result.Output;
         }
 
-
-        public virtual AlternateView PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources)
         {
-            var part = EmailBody(viewName, masterName ?? MasterName);
-            var alternateView = AlternateView.CreateAlternateViewFromString(part, new ContentType(mime));
-            mailMessage.AlternateViews.Add(alternateView);
-            return alternateView;
+            PopulateBody(mailMessage, viewName, null, linkedResources);
         }
 
-
-        /// <summary>
-        /// This method generates the EmailBody from the given viewName, masterName
-        /// </summary>
-        /// <param name="mailMessage">@example: new MailMessage{Subject = "Welcome!"}; If it is null, it will throw an exception</param>
-        /// <param name="viewName">@example: "WelcomeMessage" </param>
-        /// <param name="masterName">@example: "_MyLayout" if nothing is set, then the MasterName property will be used instead</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName = null)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName=null, Dictionary<string, string> linkedResources=null)
         {
-            masterName = masterName ?? MasterName;
             if (mailMessage == null)
             {
                 throw new ArgumentNullException("mailMessage", "mailMessage cannot be null");
             }
-            if(IsMultiPart(viewName, masterName))
-            {
-                var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
-                PopulatePart(mailMessage, viewName + ".text", "text/plain", textMasterName);
-                PopulatePart(mailMessage, viewName, "text/html", masterName);
-            }
-            else{
-                mailMessage.Body = EmailBody(viewName, masterName);
-                mailMessage.IsBodyHtml = IsBodyHtml;
-            }
+
+            masterName = masterName ?? MasterName;
+            PopulateTextPart(mailMessage, viewName, masterName);         
+            PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
         }
+        
+        public virtual AlternateView PopulateTextPart(MailMessage mailMessage, string viewName, string masterName)
+        {
+            var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
+            var textViewName = viewName + ".text";
+            return PopulatePart(mailMessage, textViewName, "text/plain", textMasterName);
+        }
+
+        public virtual AlternateView PopulateHtmlPart(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources)
+        {
+            var htmlPart = PopulatePart(mailMessage, viewName, "text/html", masterName);
+            if (htmlPart != null)
+            {
+                PopulateLinkedResources(htmlPart, linkedResources);
+            }
+            return htmlPart;
+        }
+
+        public virtual AlternateView PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
+        {
+            masterName = masterName ?? MasterName;
+            if (ViewExists(viewName, masterName))
+            {
+                var part = EmailBody(viewName, masterName);
+                var alternateView = AlternateView.CreateAlternateViewFromString(part, new ContentType(mime));
+                mailMessage.AlternateViews.Add(alternateView);
+                return alternateView;
+            }
+            return null;
+        }
+
 
         public virtual List<LinkedResource> PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
         {
+            if(resources == null || resources.Count == 0)    
+                return new List<LinkedResource>();
+
             var linkedResources = LinkedResourceProvider.GetAll(resources);
             linkedResources.ForEach(resource => mailPart.LinkedResources.Add(resource));
             return linkedResources;
@@ -177,13 +187,6 @@ namespace Mvc.Mailer
             set;
         }
 
-        public virtual bool IsMultiPart(string viewName, string masterName)
-        {
-            var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
-            var htmlMasterName = string.IsNullOrEmpty(masterName) ? null : masterName;
-            return ViewExists(viewName, htmlMasterName) && ViewExists(viewName + ".text", textMasterName);
-        }
-
         public virtual bool ViewExists(string viewName, string masterName)
         {
             if (ControllerContext == null)
@@ -201,7 +204,6 @@ namespace Mvc.Mailer
                 this.ControllerContext.RouteData.Values["controller"] = controllerName;
             }
         }
-
     }
 
 }

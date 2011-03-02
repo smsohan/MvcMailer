@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Net.Mail;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Mvc.Mailer
 {
@@ -53,6 +55,16 @@ namespace Mvc.Mailer
             }
             return new SmtpClientWrapper();
             
+        }
+
+        public static string ToSerialized(this MailMessage mailMessage)
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            using (var stream = new MemoryStream())
+            {
+                binaryFormatter.Serialize(stream, mailMessage);
+                return new StreamReader(stream).ReadToEnd();
+            }
         }
     }
 
