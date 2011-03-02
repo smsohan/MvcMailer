@@ -51,10 +51,21 @@ function CreateViewFileFromTemplate
 
 function CreateLayoutAndViews
 {
+	param($Text)
+
 	CreateViewFileFromTemplate Layout.cshtml Views\$MailerName\_Layout
 	foreach ($viewName in $MailerMethods)
 	{
 		CreateViewFileFromTemplate Mail.cshtml Views\$MailerName\$viewName $viewName	
+	}
+
+	if($Text)
+	{
+		CreateViewFileFromTemplate Layout.text.cshtml Views\$MailerName\_Layout
+		foreach ($viewName in $MailerMethods)
+		{
+			CreateViewFileFromTemplate Mail.text.cshtml Views\$MailerName\$viewName $viewName	
+		}
 	}
 }
 

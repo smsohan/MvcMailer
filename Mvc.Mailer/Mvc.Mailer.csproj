@@ -69,6 +69,8 @@
     <None Include="NuGet\input\tools\cs\MailerTemplate.cs.t4" />
     <None Include="NuGet\input\tools\Mailer.ps1" />
     <None Include="NuGet\input\tools\MailerFunctions.ps1" />
+    <None Include="NuGet\input\tools\view\Layout.text.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\Mail.text.cshtml.cs.t4" />
     <None Include="NuGet\input\tools\view\Layout.cshtml.cs.t4" />
     <None Include="NuGet\input\tools\view\Mail.cshtml.cs.t4" />
     <None Include="NuGet\MvcMailer.nuspec">
