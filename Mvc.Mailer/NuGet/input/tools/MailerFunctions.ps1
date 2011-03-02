@@ -69,4 +69,23 @@ function CreateLayoutAndViews
 	}
 }
 
+
+#function DeleteMailer
+#{
+#	param($Project, $MailerName)
+#
+#	Remove-Item $Project\Mailers\$MailerName.cs
+#	Remove-Item $Project\Mailers\I$MailerName.cs
+#	Remove-Item $Project\Views\$MailerName\*
+#}
+#
+#function DeleteMailers
+#{
+#	param($Project, $MailerNames)
+#
+#	foreach($mailerName in $MailerNames)
+#	{
+#		DeleteMailer($Project, $mailerName)
+#	}
+#}
 ######## END FUNCTIONS ####################################
