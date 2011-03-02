@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1044]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll</TopNode>
+  <TopNode>[0-1044]Mvc.Mailer.Test.HtmlHelperExtensionTest</TopNode>
   <SelectedNode>[0-1037]Mvc.Mailer.Test.MailerBaseTest.PopulatePart_should_populate_the_specified_part</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1044]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" Expanded="true" />
-    <Node UniqueName="[0-1045]Mvc" Expanded="true" />
-    <Node UniqueName="[0-1046]Mvc.Mailer" Expanded="true" />
-    <Node UniqueName="[0-1047]Mvc.Mailer.Test" Expanded="true" />
+    <Node UniqueName="[0-1047]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Debug\Mvc.Mailer.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1048]Mvc" Expanded="true" />
+    <Node UniqueName="[0-1049]Mvc.Mailer" Expanded="true" />
+    <Node UniqueName="[0-1050]Mvc.Mailer.Test" Expanded="true" />
+    <Node UniqueName="[0-1044]Mvc.Mailer.Test.HtmlHelperExtensionTest" Expanded="true" />
     <Node UniqueName="[0-1019]Mvc.Mailer.Test.LinkedResourceProviderTest" Expanded="true" />
     <Node UniqueName="[0-1030]Mvc.Mailer.Test.MailerBaseTest" Expanded="true" />
     <Node UniqueName="[0-1031]Mvc.Mailer.Test.MailerBaseTest.TestMasterName" Expanded="true" />
