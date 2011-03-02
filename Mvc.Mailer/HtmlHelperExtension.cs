@@ -14,9 +14,9 @@ namespace Mvc.Mailer
         /// <param name="relativeOrAbsoluteUrl">A relative or absolute URL to convert to Absolute</param>
         /// <returns>An absolute Url. e.g. http://domain:port/controller/action from /controller/action</returns>
 
-        public static string InlineImage(this HtmlHelper urlHelper, string contentId, string alt = "")
+        public static IHtmlString InlineImage(this HtmlHelper htmlHelper, string contentId, string alt = "")
         {
-            return string.Format("<img src=\"cid:{0}\" alt=\"{1}\">", contentId, alt);
+            return htmlHelper.Raw(string.Format("<img src=\"cid:{0}\" alt=\"{1}\">", contentId, alt));
         }
 
     }

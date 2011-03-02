@@ -14,7 +14,6 @@ namespace <#= Model.Namespace #>.Mailers
 		public <#= Model.MailerName #>():
 			base()
 		{
-			IsBodyHtml = true;
 			MasterName="_Layout";
 		}
 
