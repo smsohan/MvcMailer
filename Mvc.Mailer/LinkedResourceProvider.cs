@@ -8,6 +8,9 @@ using System.IO;
 
 namespace Mvc.Mailer
 {
+    /// <summary>
+    /// This class is a utility class for instantiating LinkedResource objects
+    /// </summary>
     public class LinkedResourceProvider : ILinkedResourceProvider
     {
         public virtual List<LinkedResource> GetAll(Dictionary<string, string> resources)
@@ -39,6 +42,5 @@ namespace Mvc.Mailer
             }
             return null;
         }
-
     }
 }

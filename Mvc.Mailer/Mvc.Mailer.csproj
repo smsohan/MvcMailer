@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UrlHelperExtension.cs" />
+    <Compile Include="ExtensionMethods\UrlHelperExtensions.cs" />
     <Compile Include="EmptyHttpContext.cs" />
     <Compile Include="ILinkedResourceProvider.cs" />
     <Compile Include="LinkedResourceProvider.cs" />
@@ -51,9 +51,9 @@
     <Compile Include="SmtpClientWrapper.cs" />
     <Compile Include="TestSmtpClient.cs" />
     <Compile Include="ISmtpClient.cs" />
-    <Compile Include="HtmlHelperExtension.cs" />
+    <Compile Include="ExtensionMethods\HtmlHelperExtensions.cs" />
     <Compile Include="MailerBase.cs" />
-    <Compile Include="MailMessageExtensions.cs" />
+    <Compile Include="ExtensionMethods\MailMessageExtensions.cs" />
     <Compile Include="StringResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

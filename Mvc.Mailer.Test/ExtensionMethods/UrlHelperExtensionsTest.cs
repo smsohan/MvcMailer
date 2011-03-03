@@ -11,7 +11,7 @@ using System.IO;
 namespace Mvc.Mailer.Test
 {
     [TestFixture]
-    public class UrlHelperExtensionTest
+    public class UrlHelperExtensionsTest
     {
         UrlHelper _urlHelper;
 

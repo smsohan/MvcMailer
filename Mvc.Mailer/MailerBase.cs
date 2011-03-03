@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
-using System.Net.Mail;
-using System.Web.Mvc.Html;
-using System.Text;
-using System.IO;
-using System.Web.UI;
 using System.Web.Routing;
-using System.Net.Mime;
-using System.Diagnostics;
 
 namespace Mvc.Mailer
 {
     /// <summary>
-    /// The Base class for Mailers. Your mailer should subclass:
-    /// 
-    /// public clas MyMailer : Mvc.Mailer.MailerBase{
-    ///     public MailMessage WelcomeMessage(User newUser){
-    ///         MailMessage mailMessage = new MailMessage{Subject = "Welcome to TheBestEverSite.com"};
-    ///         mailMessage.To.Add(newUser.EmailAddress);
-    ///         mailMessage.Body = EmailBody("WelcomeMessage");
-    ///         return mailMessage;
-    ///     }
-    /// }
-    /// 
+    /// The Base class for Mailers. Your mailer should subclass MailerBase:
     /// </summary>
     public class MailerBase : ControllerBase
     {
@@ -46,6 +30,9 @@ namespace Mvc.Mailer
         }
 
         private ILinkedResourceProvider _LinkedResourceProvider = new LinkedResourceProvider();
+        /// <summary>
+        /// Uses the ILinkedResourceProvider to produce inline linked resources
+        /// </summary>
         public ILinkedResourceProvider LinkedResourceProvider
         {
             get { return _LinkedResourceProvider;  }
@@ -54,7 +41,8 @@ namespace Mvc.Mailer
 
         /// <summary>
         /// The Path to the MasterPage or Layout
-        /// myMailer.MasterName = "_MyLayout.cshtml"
+        /// e.g. Razor: myMailer.MasterName = "_MyLayout.cshtml"
+        /// e.g. Aspx: myMailer.MasterName = "_MyLayout.Master"
         /// </summary>
         public string MasterName
         {
@@ -93,12 +81,25 @@ namespace Mvc.Mailer
             return result.Output;
         }
 
+        /// <summary>
+        /// Populates the mailMessage with content rendered from the view using the default masterName
+        /// </summary>
+        /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
+        /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
+        /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
         public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources)
         {
             PopulateBody(mailMessage, viewName, null, linkedResources);
         }
 
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName=null, Dictionary<string, string> linkedResources=null)
+        /// <summary>
+        /// Populates the mailMessage with content rendered from the view using the provided masterName
+        /// </summary>
+        /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
+        /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
+        /// <param name="masterName">The name of the master file, e.g. Layout </param>
+        /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName = null, Dictionary<string, string> linkedResources = null)
         {
             if (mailMessage == null)
             {
@@ -110,6 +111,9 @@ namespace Mvc.Mailer
             PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
         }
         
+        /// <summary>
+        /// Populates a text/plain AlternateView inside the mailMessage
+        /// </summary>
         public virtual AlternateView PopulateTextPart(MailMessage mailMessage, string viewName, string masterName)
         {
             var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
@@ -117,9 +121,12 @@ namespace Mvc.Mailer
             return PopulatePart(mailMessage, textViewName, "text/plain", textMasterName);
         }
 
+        /// <summary>
+        /// Populates a text/html AlternateView inside the mailMessage
+        /// </summary>
         public virtual AlternateView PopulateHtmlPart(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources)
         {
-            var htmlPart = PopulatePart(mailMessage, viewName, "text/html", masterName);
+            var htmlPart = PopulatePart(mailMessage, viewName, "text/html", masterName) ?? PopulatePart(mailMessage, viewName + ".html", "text/html", masterName + ".html");
             if (htmlPart != null)
             {
                 PopulateLinkedResources(htmlPart, linkedResources);
@@ -127,6 +134,10 @@ namespace Mvc.Mailer
             return htmlPart;
         }
 
+        /// <summary>
+        /// Populates an AlternateView inside the mailMessage
+        /// </summary>
+        /// <param name="mime">e.g. text/plain, text/html etc.</param>
         public virtual AlternateView PopulatePart(MailMessage mailMessage, string viewName, string mime, string masterName = null)
         {
             masterName = masterName ?? MasterName;
@@ -140,7 +151,9 @@ namespace Mvc.Mailer
             return null;
         }
 
-
+        /// <summary>
+        /// Adds LinkedResources to the mailPart
+        /// </summary>
         public virtual List<LinkedResource> PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
         {
             if(resources == null || resources.Count == 0)    
@@ -151,12 +164,16 @@ namespace Mvc.Mailer
             return linkedResources;
         }
 
+        /// <summary>
+        /// Adds a single LinkedResource to a mailPart
+        /// </summary>
         public virtual LinkedResource PopulateLinkedResource(AlternateView mailPart, string contentId, string fileName)
         {
             var linkedResource = LinkedResourceProvider.Get(contentId, fileName);
             mailPart.LinkedResources.Add(linkedResource);
             return linkedResource;
         }
+
 
         private ControllerContext CreateControllerContext()
         {
@@ -165,6 +182,9 @@ namespace Mvc.Mailer
             return ControllerContext;
         }
 
+        /// <summary>
+        /// The MailerName determines the folder that contains the views for this mailer
+        /// </summary>
         protected virtual string MailerName
         {
             get
@@ -180,13 +200,18 @@ namespace Mvc.Mailer
             set;
         }
 
-
+        /// <summary>
+        /// If set to true, it will use TestSmtpClient instead of SmtpClient. Used solely for testing purpose
+        /// </summary>
         public static bool IsTestModeEnabled
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Determines if a View exists given its name and masterName
+        /// </summary>
         public virtual bool ViewExists(string viewName, string masterName)
         {
             if (ControllerContext == null)

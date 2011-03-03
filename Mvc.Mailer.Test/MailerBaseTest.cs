@@ -104,6 +104,30 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
+        public void PopulateHtmlPart_should_fall_back_to_dot_text_view_and_master_name_when_default_not_found()
+        {
+            var mailMessage = new MailMessage();
+            var mailerMock = new Mock<MailerBase>();
+            mailerMock.CallBase = true;
+
+            var resources = new Dictionary<string, string>();
+
+            AlternateView nullView = null;
+            mailerMock.Setup(m => m.PopulatePart(mailMessage, "Welcome", "text/html", "Mail")).Returns(nullView);
+
+            mailerMock.Setup(m => m.PopulatePart(mailMessage, "Welcome.html", "text/html", "Mail.html")).Returns(AlternateView.CreateAlternateViewFromString(""));
+
+
+            mailerMock.Setup(m => m.PopulateLinkedResources(It.IsAny<AlternateView>(), resources));
+
+            mailerMock.Object.PopulateHtmlPart(mailMessage, "Welcome", "Mail", resources);
+
+            mailerMock.VerifyAll();
+        }
+
+
+
+        [Test]
         public void ViewExists_should_call_view_engines_to_to_find_view()
         {
             var engines = ViewEngines.Engines;
