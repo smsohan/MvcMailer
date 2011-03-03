@@ -1,7 +1,7 @@
 ﻿<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
 <#@ Output Extension="text.aspx" #>
 
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/<#= Model.MailerName #>/_Layout.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/<#= Model.MailerName #>/_Layout.text.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 	TEXT View for <#= Model.MailerName #>#<#= Model.ViewName #>
