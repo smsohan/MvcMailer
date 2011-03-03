@@ -219,6 +219,14 @@ namespace Mvc.Mailer.Test
             Assert.AreEqual(linkResourceProvider.Object, mailer.LinkedResourceProvider);
         }
 
+
+        [Test]
+        public void Test_IsTestModeEnabled()
+        {
+            MailerBase.IsTestModeEnabled = true;
+            Assert.IsTrue(MailerBase.IsTestModeEnabled);
+        }
+
  
         private string GetContent(AlternateView alternateView)
         {

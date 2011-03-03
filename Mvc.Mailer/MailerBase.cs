@@ -26,7 +26,6 @@ namespace Mvc.Mailer
             {
                 CurrentHttpContext = new EmptyHttpContext();
             }
-            IsTestModeEnabled = false;
         }
 
         private ILinkedResourceProvider _LinkedResourceProvider = new LinkedResourceProvider();
@@ -200,13 +199,14 @@ namespace Mvc.Mailer
             set;
         }
 
+        private static bool _isTestModeEnabled = false;
         /// <summary>
         /// If set to true, it will use TestSmtpClient instead of SmtpClient. Used solely for testing purpose
         /// </summary>
         public static bool IsTestModeEnabled
         {
-            get;
-            set;
+            get { return _isTestModeEnabled; }
+            set { _isTestModeEnabled = true; }
         }
 
         /// <summary>
