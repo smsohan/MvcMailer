@@ -65,14 +65,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="NuGet\input\tools\Mailer.Aspx.ps1" />
+    <None Include="NuGet\input\tools\Mailer.Razor.ps1" />
+    <None Include="NuGet\input\tools\Install.ps1" />
     <None Include="NuGet\input\tools\cs\IMailerTemplate.cs.t4" />
     <None Include="NuGet\input\tools\cs\MailerTemplate.cs.t4" />
-    <None Include="NuGet\input\tools\Mailer.ps1" />
     <None Include="NuGet\input\tools\MailerFunctions.ps1" />
-    <None Include="NuGet\input\tools\view\Layout.text.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\Mail.text.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\Layout.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\Mail.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\aspx\Mail.text.aspx.cs.t4" />
+    <None Include="NuGet\input\tools\view\aspx\Layout.text.Master.cs.t4" />
+    <None Include="NuGet\input\tools\view\aspx\Layout.Master.cs.t4" />
+    <None Include="NuGet\input\tools\view\aspx\Mail.aspx.cs.t4" />
+    <None Include="NuGet\input\tools\view\razor\Layout.text.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\razor\Mail.text.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\razor\Layout.cshtml.cs.t4" />
+    <None Include="NuGet\input\tools\view\razor\Mail.cshtml.cs.t4" />
     <None Include="NuGet\MvcMailer.nuspec">
       <SubType>Designer</SubType>
     </None>

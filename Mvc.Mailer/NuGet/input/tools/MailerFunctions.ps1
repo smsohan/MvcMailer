@@ -5,10 +5,17 @@
 ###########################################################
 function CreateCSFileFromTemplate
 {
-	param ($MailerTemplate, $outputPath)
+	param ($MailerTemplate, $outputPath, $NoInterface)
 
 	$outputFolder = "Mailers"
 	
+	$isInterface = $true
+	if($NoInterface)
+	{
+		$isInterface = $false
+	}
+
+
 	$templateFile = Find-ScaffolderTemplate cs\$MailerTemplate -TemplateFolders $TemplateFolders -Project $Project -CodeLanguage $CodeLanguage -ErrorIfNotFound
 	if ($templateFile) {
 		# Render it, adding the output to the Visual Studio project
@@ -17,6 +24,7 @@ function CreateCSFileFromTemplate
 						Namespace = $namespace; 
 						MailerName = $MailerName;
 						MailerMethods = $MailerMethods;
+						Interface = $isInterface;
 						} -Project $Project -OutputPath $outputFolder\$outputPath -Force:$Force 
 		if($wroteFile) {
 			Write-Host "Added MvcMailer output '$wroteFile'"
@@ -26,8 +34,13 @@ function CreateCSFileFromTemplate
 
 function CreateCSFiles
 {
-	CreateCSFileFromTemplate IMailerTemplate  I$MailerName
-	CreateCSFileFromTemplate MailerTemplate  $MailerName
+	param($NoInterface)
+
+	if(! $NoInterface)
+	{
+		CreateCSFileFromTemplate IMailerTemplate  I$MailerName $Interface
+	}
+	CreateCSFileFromTemplate MailerTemplate  $MailerName $NoInterface
 }
 
 function CreateViewFileFromTemplate
@@ -51,20 +64,36 @@ function CreateViewFileFromTemplate
 
 function CreateLayoutAndViews
 {
-	param($Text)
+	param($Text, $Aspx)
 
-	CreateViewFileFromTemplate Layout.cshtml Views\$MailerName\_Layout
-	foreach ($viewName in $MailerMethods)
+	
+	$viewExtension = ''
+	$masterExtension = ''
+
+	if($Aspx){
+		$viewExtension = "aspx"
+		$masterExtension = "Master"
+	}
+	else
 	{
-		CreateViewFileFromTemplate Mail.cshtml Views\$MailerName\$viewName $viewName	
+		$viewExtension = "cshtml"
+		$masterExtension = "cshtml"
 	}
 
+	# HTML Views
+	CreateViewFileFromTemplate Layout.$masterExtension Views\$MailerName\_Layout
+	foreach ($viewName in $MailerMethods)
+	{
+		CreateViewFileFromTemplate Mail.$viewExtension Views\$MailerName\$viewName $viewName	
+	}
+
+	# Text Views
 	if($Text)
 	{
-		CreateViewFileFromTemplate Layout.text.cshtml Views\$MailerName\_Layout
+		CreateViewFileFromTemplate Layout.text.$masterExtension Views\$MailerName\_Layout
 		foreach ($viewName in $MailerMethods)
 		{
-			CreateViewFileFromTemplate Mail.text.cshtml Views\$MailerName\$viewName $viewName	
+			CreateViewFileFromTemplate Mail.text.$viewExtension Views\$MailerName\$viewName $viewName	
 		}
 	}
 }

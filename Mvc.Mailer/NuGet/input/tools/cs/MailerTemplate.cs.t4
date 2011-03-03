@@ -9,8 +9,9 @@ using System.Net.Mail;
 
 namespace <#= Model.Namespace #>.Mailers
 { 
-    public class <#= Model.MailerName #> : MailerBase, I<#= Model.MailerName #>
-    {
+    public class <#= Model.MailerName #> : MailerBase<# if( Model.Interface) { #>, I<#= Model.MailerName #> <# } #>
+    
+	{
 		public <#= Model.MailerName #>():
 			base()
 		{

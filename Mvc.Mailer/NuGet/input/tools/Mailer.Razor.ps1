@@ -1,8 +1,9 @@
-[T4Scaffolding.Scaffolder(Description = "Scaffold your mailers")][CmdletBinding()]
+[T4Scaffolding.Scaffolder(Description = "Scaffold your mailers using Razor Views")][CmdletBinding()]
 param(
 	[parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)][string]$MailerName,        
 	[parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)][string[]]$MailerMethods,
-    [switch]$Text = $false,
+    [switch]$WithText = $false,
+	[switch]$NoInterface = $false,
 	[string]$Project,
 	[string]$CodeLanguage,
 	[string[]]$TemplateFolders,
@@ -12,5 +13,5 @@ param(
 $script_dir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$script_dir\MailerFunctions.ps1"
 
-CreateCSFiles
-CreateLayoutAndViews($Text)
+CreateCSFiles $NoInterface
+CreateLayoutAndViews $WithText $false

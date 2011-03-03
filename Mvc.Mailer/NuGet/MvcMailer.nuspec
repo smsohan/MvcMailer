@@ -2,13 +2,13 @@
 <package> 
   <metadata> 
     <id>MvcMailer</id> 
-    <version>0.9</version> 
+    <version>1.0</version> 
     <authors>S. M. SOHAN</authors>
     <description>
 MvcMailer sends emails using the MVC views as Email Body with no effort. Here's a quick list of features: a) Use Razor/WebForms views b) Use Master pages c) Write Testable Code d) Pass values to your view using ViewBag or ViewModel and e) Generate Absolute URL using Url.Abs method and f) create multi-part emails by just adding a view file, g) scaffold your mailers.
 MvcMailer has a MailerBase class that extends ControllerBase class. So, Mailers are just like your Controllers. As a result, you can use all the controller goodies without any learning curve, period. The end result is a professional looking HTML email body ready for your to send to your website users.
-This package has a very good amount of test coverage and if you want, take a look at the project site.
-	</description>
+Visit the Project site for a comprehensive tutorial on MvcMailer.
+</description>
 	<dependencies>
 		<dependency id="T4Scaffolding" version="0.9.6"/>
 	</dependencies>
