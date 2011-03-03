@@ -206,7 +206,7 @@ namespace Mvc.Mailer
         public static bool IsTestModeEnabled
         {
             get { return _isTestModeEnabled; }
-            set { _isTestModeEnabled = true; }
+            set { _isTestModeEnabled = value; }
         }
 
         /// <summary>

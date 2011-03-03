@@ -225,6 +225,9 @@ namespace Mvc.Mailer.Test
         {
             MailerBase.IsTestModeEnabled = true;
             Assert.IsTrue(MailerBase.IsTestModeEnabled);
+            MailerBase.IsTestModeEnabled = false;
+            Assert.IsFalse(MailerBase.IsTestModeEnabled);
+
         }
 
  
