@@ -57,15 +57,6 @@ namespace Mvc.Mailer
             
         }
 
-        public static string ToSerialized(this MailMessage mailMessage)
-        {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            using (var stream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(stream, mailMessage);
-                return new StreamReader(stream).ReadToEnd();
-            }
-        }
     }
 
 }
