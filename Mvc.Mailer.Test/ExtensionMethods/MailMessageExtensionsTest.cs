@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Mvc.Mailer;
 using System.Net.Mail;
 using System.IO;
+using System.Threading;
 
 namespace Mvc.Mailer.Test
 {
@@ -66,6 +67,8 @@ namespace Mvc.Mailer.Test
             TestSmtpClient.SentMails.Clear();
             _mailDirectory.Delete(true);
         }
+
+
 
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Threading;
 
 namespace Mvc.Mailer
 {
