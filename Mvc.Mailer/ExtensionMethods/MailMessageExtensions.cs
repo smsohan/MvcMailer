@@ -36,11 +36,11 @@ namespace Mvc.Mailer
         /// Asynchronously Sends a MailMessage using smtpClient
         /// </summary>
         /// <param name="message">The mailMessage Object</param>
+        /// <param name="userState">The userState</param>
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public static void SendAsync(this MailMessage message, ISmtpClient smtpClient = null)
+        public static void SendAsync(this MailMessage message, object userState = null, ISmtpClient smtpClient = null)
         {
             smtpClient = smtpClient ?? GetSmtpClient();
-            var userState = "userState";
             smtpClient.SendAsync(message, userState);
         }
 

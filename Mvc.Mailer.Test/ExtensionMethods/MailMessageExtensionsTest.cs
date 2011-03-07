@@ -7,6 +7,7 @@ using Mvc.Mailer;
 using System.Net.Mail;
 using System.IO;
 using System.Threading;
+using Moq;
 
 namespace Mvc.Mailer.Test
 {
@@ -45,9 +46,18 @@ namespace Mvc.Mailer.Test
         [Test]
         public void TestSendAsync()
         {
-            _mailMessage.SendAsync(_smtpClient);
+            _mailMessage.SendAsync(smtpClient: _smtpClient);
             Assert.Pass("Mail Send Async working since no exception wast thrown");
 
+        }
+
+        [Test]
+        public void SendAsync_with_userState_should_pass_that()
+        {
+            var client = new Mock<ISmtpClient>();
+            client.Setup(c => c.SendAsync(_mailMessage, "something"));
+            _mailMessage.SendAsync(userState: "something", smtpClient: client.Object);
+            client.VerifyAll();
         }
 
         [Test]
