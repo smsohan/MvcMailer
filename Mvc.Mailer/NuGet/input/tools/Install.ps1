@@ -21,3 +21,18 @@ function InferPreferredViewEngine() {
 
 $mailerScaffolder = if ([string](InferPreferredViewEngine) -eq 'aspx') { "Mailer.Aspx" } else { "Mailer.Razor" }
 Set-DefaultScaffolder -Name Mailer -Scaffolder $mailerScaffolder -SolutionWide -DoNotOverwriteExistingSetting
+
+Write-Host 
+Write-Host 
+
+Write-Host ---------------------------READ ME---------------------------------------------------
+Write-Host 
+Write-Host Your default Mailer Scaffolder is set to $mailerScaffolder
+Write-Host
+Write-Host You can generate your Mailers and Views using the following Scaffolder Command
+Write-Host
+Write-Host "PM> Scaffold Mailer UserMailer Welcome,GoodBye"
+Write-Host
+Write-Host You can find more at: https://github.com/smsohan/MvcMailer/wiki/MvcMailer-Step-by-Step-Guide
+Write-Host 
+Write-Host -------------------------------------------------------------------------------------

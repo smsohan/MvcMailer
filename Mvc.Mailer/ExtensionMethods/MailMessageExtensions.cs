@@ -41,11 +41,7 @@ namespace Mvc.Mailer
         {
             smtpClient = smtpClient ?? GetSmtpClient();
             var userState = "userState";
-            
-            using (smtpClient)
-            {
-                smtpClient.SendAsync(message, userState);
-            }
+            smtpClient.SendAsync(message, userState);
         }
 
         public static ISmtpClient GetSmtpClient()

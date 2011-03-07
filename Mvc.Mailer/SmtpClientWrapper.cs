@@ -35,15 +35,13 @@ namespace Mvc.Mailer
 
         public override void SendAsync(MailMessage mailMessage, object userState)
         {
-            using (InnerSmtpClient)
-            {
-                InnerSmtpClient.SendCompleted += new SendCompletedEventHandler(InnerSmtpClient_SendCompleted);
-                InnerSmtpClient.SendAsync(mailMessage, userState);
-            }
+            InnerSmtpClient.SendCompleted += new SendCompletedEventHandler(InnerSmtpClient_SendCompleted);
+            InnerSmtpClient.SendAsync(mailMessage, userState);
         }
 
         void InnerSmtpClient_SendCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            (sender as SmtpClient).Dispose();
             OnSendCompleted(sender, e);
         }
 
