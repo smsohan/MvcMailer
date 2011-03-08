@@ -6,8 +6,10 @@ body using regular ASP.NET MVC views. This one works with .Net 4.0 for now.
 
 See [MvcMailer Wiki](https://github.com/smsohan/MvcMailer/wiki/MvcMailer-Step-by-Step-Guide)
 
-Hope this is fun for your to use MvcMailer. In case of a feedback or trouble, please feel free to contact at @smsohan
-
 ##Report Feature or Issues
 
-use [Github Issues Page](https://github.com/smsohan/mvcmailer/issues) to mention your desired feature or if something is broken!
+Use [Github Issues Page](https://github.com/smsohan/mvcmailer/issues) to mention your desired feature or if something is broken!
+
+##Have Fun
+
+I have a lot of fun working on this project. Wish you enjoy using it and if you wish, you can contribute too. Find me on Twitter [@smsohan](http://twitter.com/smsohan)
