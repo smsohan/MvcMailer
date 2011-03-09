@@ -4,6 +4,7 @@ param(
 	[parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)][string[]]$MailerMethods,
     [switch]$WithText = $false,
 	[switch]$NoInterface = $false,
+	[switch]$Add = $false,
 	[string]$Project,
 	[string]$CodeLanguage,
 	[string[]]$TemplateFolders,
@@ -13,5 +14,4 @@ param(
 $script_dir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$script_dir\MailerFunctions.ps1"
 
-CreateCSFiles $NoInterface
-CreateLayoutAndViews $WithText $false
+RunMailerScaffolder $false

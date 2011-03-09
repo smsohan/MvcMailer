@@ -98,23 +98,57 @@ function CreateLayoutAndViews
 	}
 }
 
+function AddMethodToMailerInterface
+{
+	param($MailerName, $MethodName)
 
-#function DeleteMailer
-#{
-#	param($Project, $MailerName)
-#
-#	Remove-Item $Project\Mailers\$MailerName.cs
-#	Remove-Item $Project\Mailers\I$MailerName.cs
-#	Remove-Item $Project\Views\$MailerName\*
-#}
-#
-#function DeleteMailers
-#{
-#	param($Project, $MailerNames)
-#
-#	foreach($mailerName in $MailerNames)
-#	{
-#		DeleteMailer($Project, $mailerName)
-#	}
-#}
+}
+
+
+function AddMethodToMailer
+{
+	param($MailerName, $MethodName, $MethodTemplate)
+
+	$defaultNamespace = (Get-Project $Project).Properties.Item("DefaultNamespace").Value
+	$mailerFullName = "$defaultNamespace.Mailers.$MailerName"
+
+	$codeClass = Get-ProjectType $mailerFullName -Project $Project
+
+	if($codeClass)
+	{
+		Add-ClassMemberViaTemplate -Name $MethodName -CodeClass $codeClass -Template $MethodTemplate `
+			-Model @{ MethodName = $MethodName } `
+			-SuccessMessage "Added method $MethodName to $mailerFullName" `
+			-TemplateFolders $TemplateFolders -Project $Project -CodeLanguage $CodeLanguage -Force:$Force
+	}
+}
+
+function AddMailerMethodsWithViews
+{
+	param($MailerName, $MethodNames, $Aspx, $WithText)
+
+	foreach($methodName in $MethodNames)
+	{
+		#AddMethodToMailer	I$MailerName $methodName IMailerMethodTemplate
+		AddMethodToMailer	$MailerName $methodName MailerMethodTemplate
+	}
+
+	CreateLayoutAndViews $WithText $Aspx
+}
+
+function RunMailerScaffolder
+{
+	param($Aspx)
+
+	if($Add)
+	{
+		AddMailerMethodsWithViews $MailerName $MailerMethods $Aspx $WithText
+	}
+	else
+	{
+		CreateCSFiles $NoInterface
+		CreateLayoutAndViews $WithText $Aspx
+	}
+}
+
 ######## END FUNCTIONS ####################################

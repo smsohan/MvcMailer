@@ -13,5 +13,5 @@ param(
 $script_dir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$script_dir\MailerFunctions.ps1"
 
-CreateCSFiles $NoInterface
-CreateLayoutAndViews $WithText $true
+
+RunMailerScaffolder $true

@@ -65,6 +65,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="NuGet\input\tools\cs\IMailerMethodTemplate.cs.t4" />
+    <None Include="NuGet\input\tools\cs\MailerMethodTemplate.cs.t4" />
     <None Include="NuGet\input\tools\Mailer.Aspx.ps1" />
     <None Include="NuGet\input\tools\Mailer.Razor.ps1" />
     <None Include="NuGet\input\tools\Install.ps1" />

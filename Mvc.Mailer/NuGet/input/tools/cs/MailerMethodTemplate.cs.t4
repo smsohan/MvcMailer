@@ -1,0 +1,14 @@
+<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output Extension="cs" #>
+
+public virtual MailMessage <#= Model.MethodName #>()
+{
+	var mailMessage = new MailMessage{Subject = "<#= Model.MethodName #>"};
+			
+	//mailMessage.To.Add("some-email@example.com");
+	//ViewBag.Data = someObject;
+	PopulateBody(mailMessage, viewName: "<#= Model.MethodName #>");
+
+	return mailMessage;
+}
+
