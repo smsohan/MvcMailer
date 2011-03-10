@@ -5,6 +5,7 @@ using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Text;
 
 namespace Mvc.Mailer
 {
@@ -26,13 +27,14 @@ namespace Mvc.Mailer
             {
                 CurrentHttpContext = new EmptyHttpContext();
             }
+
         }
 
         private ILinkedResourceProvider _LinkedResourceProvider = new LinkedResourceProvider();
         /// <summary>
         /// Uses the ILinkedResourceProvider to produce inline linked resources
         /// </summary>
-        public ILinkedResourceProvider LinkedResourceProvider
+        public virtual ILinkedResourceProvider LinkedResourceProvider
         {
             get { return _LinkedResourceProvider;  }
             set { _LinkedResourceProvider = value; }
@@ -43,7 +45,7 @@ namespace Mvc.Mailer
         /// e.g. Razor: myMailer.MasterName = "_MyLayout.cshtml"
         /// e.g. Aspx: myMailer.MasterName = "_MyLayout.Master"
         /// </summary>
-        public string MasterName
+        public virtual string MasterName
         {
             get;
             set;
@@ -106,8 +108,28 @@ namespace Mvc.Mailer
             }
 
             masterName = masterName ?? MasterName;
-            PopulateTextPart(mailMessage, viewName, masterName);         
-            PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
+
+            var linkedResourcesPresent = linkedResources != null && linkedResources.Count > 0;
+            var textExists = TextViewExists(viewName, masterName);
+
+            //if Text exists, it always goes to the body
+            if (textExists)
+            {
+                PopulateTextBody(mailMessage, viewName, masterName);
+            }
+
+            // if html exists
+            if (HtmlViewExists(viewName, masterName))
+            {
+                if (textExists || linkedResourcesPresent)
+                {
+                    PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
+                }
+                else
+                {
+                    PopulateHtmlBody(mailMessage, viewName, masterName);
+                }
+            }
         }
         
         /// <summary>
@@ -115,9 +137,76 @@ namespace Mvc.Mailer
         /// </summary>
         public virtual AlternateView PopulateTextPart(MailMessage mailMessage, string viewName, string masterName)
         {
-            var textMasterName = string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
-            var textViewName = viewName + ".text";
-            return PopulatePart(mailMessage, textViewName, "text/plain", textMasterName);
+            return PopulatePart(mailMessage, TextViewName(viewName), "text/plain", TextMasterName(masterName));
+        }
+
+        /// <summary>
+        /// Populates the mailMessage.Body with a text/plain content
+        /// </summary>
+        /// <returns>The string containing the body</returns>
+        public virtual string PopulateTextBody(MailMessage mailMessage, string viewName, string masterName)
+        {
+            mailMessage.Body = EmailBody(TextViewName(viewName), TextMasterName(masterName));
+            mailMessage.IsBodyHtml = false;
+            return mailMessage.Body;
+        }
+
+        /// <summary>
+        /// Populates the mailMessage.Body with a text/html content and sets the IsBodyHtml to true
+        /// </summary>
+        /// <returns>The string containing the Html body</returns>
+        public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName)
+        {
+            mailMessage.Body = EmailBody(viewName, masterName);
+            mailMessage.IsBodyHtml = true;
+            return mailMessage.Body;
+        }
+
+        /// <summary>
+        /// Returns true if text view exists
+        /// </summary>
+        /// <param name="viewName">e.g. "Welcome" will look for "Welcome.text"</param>
+        /// <param name="masterName">e.g. "Layout" will Look for "Layout.text"</param>
+        public virtual bool TextViewExists(string viewName, string masterName)
+        {
+            return ViewExists(TextViewName(viewName), TextMasterName(masterName));
+        }
+
+        /// <summary>
+        /// Returns true if html view exists
+        /// </summary>
+        public virtual bool HtmlViewExists(string viewName, string masterName)
+        {
+            return ViewExists(viewName, masterName);
+        }
+
+
+        /// <summary>
+        /// Returns true if both text and html views are present
+        /// </summary>
+        public virtual bool IsMultiPart(string viewName, string masterName)
+        {
+            return TextViewExists(viewName, masterName) && HtmlViewExists(viewName, masterName);
+        }
+
+        /// <summary>
+        /// Converts a view to its text view name
+        /// </summary>
+        /// <param name="viewName">e.g. Welcome</param>
+        /// <returns>e.g. Welcome.text</returns>
+        public virtual string TextViewName(string viewName)
+        {
+            return viewName + ".text";
+        }
+
+        /// <summary>
+        /// Returns a text master name or null if blank string passed
+        /// </summary>
+        /// <param name="masterName">e.g. Layout</param>
+        /// <returns>e.g. Layout.text </returns>
+        public virtual string TextMasterName(string masterName)
+        {
+            return string.IsNullOrEmpty(masterName) ? null : masterName + ".text";
         }
 
         /// <summary>
@@ -125,7 +214,7 @@ namespace Mvc.Mailer
         /// </summary>
         public virtual AlternateView PopulateHtmlPart(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources)
         {
-            var htmlPart = PopulatePart(mailMessage, viewName, "text/html", masterName) ?? PopulatePart(mailMessage, viewName + ".html", "text/html", masterName + ".html");
+            var htmlPart = PopulatePart(mailMessage, viewName, "text/html", masterName);
             if (htmlPart != null)
             {
                 PopulateLinkedResources(htmlPart, linkedResources);
