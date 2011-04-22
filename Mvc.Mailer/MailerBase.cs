@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Web;
@@ -19,14 +20,6 @@ namespace Mvc.Mailer
         /// </summary>
         public MailerBase()
         {
-            if (HttpContext.Current != null)
-            {
-                CurrentHttpContext = new HttpContextWrapper(HttpContext.Current);
-            }
-            else if (IsTestModeEnabled)
-            {
-                CurrentHttpContext = new EmptyHttpContext();
-            }
 
         }
 
@@ -74,7 +67,8 @@ namespace Mvc.Mailer
             {
                 ViewName = viewName,
                 ViewData = ViewData,               
-                MasterName = masterName ?? MasterName
+                MasterName = masterName ?? MasterName,
+                CurrentHttpContext = CurrentHttpContext
             };
             if(ControllerContext == null)
                 CreateControllerContext();
@@ -265,8 +259,8 @@ namespace Mvc.Mailer
 
         private ControllerContext CreateControllerContext()
         {
-            var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContext);
-            ControllerContext = new ControllerContext(CurrentHttpContext, routeData, this);
+            var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContextBase);
+            ControllerContext = new ControllerContext(CurrentHttpContextBase, routeData, this);
             return ControllerContext;
         }
 
@@ -281,12 +275,43 @@ namespace Mvc.Mailer
             }
         }
 
-
-        public virtual HttpContextBase CurrentHttpContext
+    	private HttpContextBase _currentHttpContextBase;
+        public virtual HttpContextBase CurrentHttpContextBase
         {
-            get;
-            set;
+            get
+            {
+				if (_currentHttpContextBase == null)
+				{
+					if (CurrentHttpContext != null)
+						_currentHttpContextBase = new HttpContextWrapper(CurrentHttpContext);
+					else if (IsTestModeEnabled)
+						_currentHttpContextBase = new EmptyHttpContext();
+				}
+				return _currentHttpContextBase;
+			}
+            set { _currentHttpContextBase = value; }
         }
+
+    	private HttpContext _httpContext;
+    	public virtual HttpContext CurrentHttpContext
+    	{
+    		get
+    		{
+    			_httpContext = HttpContext.Current;
+
+				if (_httpContext == null && !string.IsNullOrEmpty(BaseUrl))
+				{
+					var request = new HttpRequest("/", BaseUrl, "");
+					var response = new HttpResponse(new StringWriter());
+					_httpContext = new HttpContext(request, response);
+				}
+				
+				return _httpContext;
+    		}
+			set { _httpContext = value; }
+    	}
+
+    	public static string BaseUrl { get; set; }
 
         private static bool _isTestModeEnabled = false;
         /// <summary>
