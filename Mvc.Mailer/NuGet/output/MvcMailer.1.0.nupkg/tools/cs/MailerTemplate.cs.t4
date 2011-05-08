@@ -1,0 +1,37 @@
+<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output Extension="cs" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Mvc.Mailer;
+using System.Net.Mail;
+
+namespace <#= Model.Namespace #>.Mailers
+{ 
+    public class <#= Model.MailerName #> : MailerBase<# if( Model.Interface) { #>, I<#= Model.MailerName #> <# } #>
+    
+	{
+		public <#= Model.MailerName #>():
+			base()
+		{
+			MasterName="_Layout";
+		}
+
+		<# foreach(var mailerMethod in Model.MailerMethods) {#>
+
+		public virtual MailMessage <#= mailerMethod #>()
+		{
+			var mailMessage = new MailMessage{Subject = "<#= mailerMethod #>"};
+			
+			//mailMessage.To.Add("some-email@example.com");
+			//ViewBag.Data = someObject;
+			PopulateBody(mailMessage, viewName: "<#= mailerMethod #>");
+
+			return mailMessage;
+		}
+
+		<# } #>
+
+	}
+}

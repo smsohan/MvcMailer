@@ -33,6 +33,8 @@ Write-Host You can generate your Mailers and Views using the following Scaffolde
 Write-Host
 Write-Host "PM> Scaffold Mailer UserMailer Welcome,GoodBye"
 Write-Host
+Write-Host Edit the smtp configuration at web.config file before you send an email
+Write-Host
 Write-Host You can find more at: https://github.com/smsohan/MvcMailer/wiki/MvcMailer-Step-by-Step-Guide
 Write-Host 
 Write-Host -------------------------------------------------------------------------------------

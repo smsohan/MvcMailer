@@ -2,11 +2,14 @@
 using System;
 using System.Web;
 using System.Text;
+using System.Configuration;
 
 namespace Mvc.Mailer
 {
     public static class UrlHelperExtensions
     {
+        public static readonly string BASE_URL_KEY = "MvcMailer.BaseUrl";
+
         /// <summary>
         /// This extension method will help generating Absolute Urls in the mailer or other views
         /// </summary>
@@ -20,7 +23,26 @@ namespace Mvc.Mailer
             {
                 return relativeOrAbsoluteUrl;
             }
-            return urlHelper.RequestContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeOrAbsoluteUrl;
+            Uri combinedUri;
+            if (Uri.TryCreate(BaseUrl(urlHelper), relativeOrAbsoluteUrl, out combinedUri))
+            {
+                return combinedUri.ToString();
+            }
+
+            throw new Exception(string.Format("Could not create absolute url for {0} using baseUri{0}", relativeOrAbsoluteUrl, BaseUrl(urlHelper)));
+        }
+
+
+        private static Uri BaseUrl(UrlHelper urlHelper)
+        {
+            string baseUrl = ConfigurationManager.AppSettings[BASE_URL_KEY];
+            
+            //No configuration given, so use the one from the context
+            if(string.IsNullOrWhiteSpace(baseUrl)){
+                baseUrl =  urlHelper.RequestContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority);
+            }
+            
+            return new Uri(baseUrl); 
         }
 
     }

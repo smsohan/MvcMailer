@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1069]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll</TopNode>
+  <SelectedNode>[0-1035]Mvc.Mailer.Test.UrlHelperExtensionsTest.Abs_with_config_should_not_double_slash_when_using_the_base_url_from_the_config</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1069]C:\Users\S M Sohan\MvcMailer\Mvc.Mailer.Test\bin\Release\Mvc.Mailer.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1070]Mvc" Expanded="true" />
+    <Node UniqueName="[0-1071]Mvc.Mailer" Expanded="true" />
+    <Node UniqueName="[0-1072]Mvc.Mailer.Test" Expanded="true" />
+    <Node UniqueName="[0-1037]Mvc.Mailer.Test.MailerBaseTest" Expanded="true" />
+    <Node UniqueName="[0-1005]Mvc.Mailer.Test.StringResultTest" Expanded="true" />
+    <Node UniqueName="[0-1030]Mvc.Mailer.Test.UrlHelperExtensionsTest" Expanded="true" />
+  </Nodes>
+</VisualState>

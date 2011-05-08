@@ -1,4 +1,9 @@
 ﻿<configuration>
+	<appSettings>
+		<add key="MvcMailer.BaseURL" value="" />
+	</appSettings>
+
+
 	<system.net>
 		<mailSettings>
 			<!-- Method#1: Configure smtp server credentials -->

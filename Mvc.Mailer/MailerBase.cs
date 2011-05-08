@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Web;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Mvc.Mailer
     /// </summary>
     public class MailerBase : ControllerBase
     {
+
         /// <summary>
         /// The parameterless constructor
         /// </summary>

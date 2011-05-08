@@ -101,7 +101,6 @@ function CreateLayoutAndViews
 function AddMethodToMailerInterface
 {
 	param($MailerName, $MethodName)
-
 }
 
 

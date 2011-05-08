@@ -1,11 +1,37 @@
-bin
-Bin
-obj
-Obj
-*.csproj.user
-*.suo
-*.cache
-*.Cache
-*.user
-Mvc.Mailer/NuGet/output
-Mvc.Mailer.dll
+
+ Scaffold Mailer InvitationMailer InviteFriend
+ 
+ <smtp from="mvcmailer@smsohan.com">
+	<network enableSsl="true" host="smtp.gmail.com" port="587" userName="mvcmailer@smsohan.com" password="mvcmailer" />
+ </smtp>
+
+
+		public virtual MailMessage InviteFriend(Invitation invitation)
+		{
+			var mailMessage = new MailMessage{Subject = "Invitation from TravelTo"};
+			
+			mailMessage.To.Add(invitation.FriendEmail);
+			ViewBag.Invitation = invitation;
+			PopulateBody(mailMessage, viewName: "InviteFriend");
+
+			return mailMessage;
+		}
+
+
+<h1>TravelTo Invitation<h1>
+
+Hi <strong>@ViewBag.Invitation.FriendName:</strong><br />
+
+Your friend @ViewBag.Invitation.Name invited you to TravelTo. He also wrote this message.<br />
+
+<br />
+<i>@ViewBag.Invitation.InvitationMessage</i>
+
+<br />
+
+@Url.Abs(Url.Action("Index", "Home"))
+
+using TravelTo.Mailers;
+using Mvc.Mailer;
+
+new InvitationMailer().InviteFriend(invitation).Send();

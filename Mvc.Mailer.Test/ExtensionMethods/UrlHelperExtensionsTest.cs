@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.IO;
+using System.Configuration;
 
 namespace Mvc.Mailer.Test
 {
@@ -50,6 +51,33 @@ namespace Mvc.Mailer.Test
         public void Abs_with_root_should_absolutilze()
         {
             Assert.AreEqual("http://example.com:8080/", _urlHelper.Abs("/"));
+        }
+
+        [Test]
+        public void Abs_with_config_should_use_the_base_url_from_the_config()
+        {
+            ConfigurationManager.AppSettings[UrlHelperExtensions.BASE_URL_KEY] = "http://my:666";
+            Assert.AreEqual("http://my:666/hello/there", _urlHelper.Abs("/hello/there"));
+        }
+
+        [Test]
+        public void Abs_with_config_should_not_double_slash_when_using_the_base_url_from_the_config()
+        {
+            ConfigurationManager.AppSettings[UrlHelperExtensions.BASE_URL_KEY] = "http://my:666/";
+            Assert.AreEqual("http://my:666/hello/there", _urlHelper.Abs("/hello/there"));
+        }
+
+        [Test]
+        public void Abs_with_config_should_put_a_slash_when_using_the_base_url_from_the_config()
+        {
+            ConfigurationManager.AppSettings[UrlHelperExtensions.BASE_URL_KEY] = "http://my:666";
+            Assert.AreEqual("http://my:666/hello/there", _urlHelper.Abs("hello/there"));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            ConfigurationManager.AppSettings[UrlHelperExtensions.BASE_URL_KEY] = string.Empty;
         }
 
     }
