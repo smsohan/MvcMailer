@@ -26,7 +26,7 @@ namespace Mvc.Mailer
             Uri combinedUri;
             if (Uri.TryCreate(BaseUrl(urlHelper), relativeOrAbsoluteUrl, out combinedUri))
             {
-                return combinedUri.ToString();
+                return combinedUri.AbsoluteUri;
             }
 
             throw new Exception(string.Format("Could not create absolute url for {0} using baseUri{0}", relativeOrAbsoluteUrl, BaseUrl(urlHelper)));
