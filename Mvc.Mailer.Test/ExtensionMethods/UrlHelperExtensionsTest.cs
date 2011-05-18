@@ -54,6 +54,12 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
+        public void Abs_with_encoded_params_should_keep_encoding()
+        {
+            Assert.AreEqual("http://example.com:8080/?param=encoded%20value", _urlHelper.Abs("/?param=encoded%20value"));
+        }
+
+        [Test]
         public void Abs_with_config_should_use_the_base_url_from_the_config()
         {
             ConfigurationManager.AppSettings[UrlHelperExtensions.BASE_URL_KEY] = "http://my:666";
