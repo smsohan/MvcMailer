@@ -90,9 +90,9 @@ namespace Mvc.Mailer
         /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources, bool inlineCss)
         {
-            PopulateBody(mailMessage, viewName, null, linkedResources);
+            PopulateBody(mailMessage, viewName, null, linkedResources, inlineCss);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Mvc.Mailer
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="masterName">The name of the master file, e.g. Layout </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName = null, Dictionary<string, string> linkedResources = null)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources, bool inlineCss)
         {
             if (mailMessage == null)
             {
@@ -129,7 +129,7 @@ namespace Mvc.Mailer
                 }
                 else
                 {
-                    PopulateHtmlBody(mailMessage, viewName, masterName);
+                    PopulateHtmlBody(mailMessage, viewName, masterName, inlineCss);
                 }
             }
         }
@@ -157,9 +157,14 @@ namespace Mvc.Mailer
         /// Populates the mailMessage.Body with a text/html content and sets the IsBodyHtml to true
         /// </summary>
         /// <returns>The string containing the Html body</returns>
-        public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName)
+        public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName, bool inlineCss)
         {
-            mailMessage.Body = EmailBody(viewName, masterName);
+            var body = EmailBody(viewName, masterName);
+            if (inlineCss) {
+                var pm = new PreMailer.Net.PreMailer();
+                body = pm.MoveCssInline(body, false);
+            }
+            mailMessage.Body = body;
             mailMessage.IsBodyHtml = true;
             return mailMessage.Body;
         }
