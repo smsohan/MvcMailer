@@ -1,0 +1,17 @@
+<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output Extension="vb" #>
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Web
+Imports Mvc.Mailer
+Imports System.Net.Mail
+
+Namespace <#= Model.Namespace #>.Mailers
+
+    Public Interface I<#= Model.MailerName #>
+<# foreach(var mailerMethod in Model.MailerMethods) {#>
+        Function <#= mailerMethod #>() As MailMessage
+<# } #>
+    End Interface
+
+End Namespace
