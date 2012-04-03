@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Compilation;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Text;
 using System.IO;
+using System.Web.UI;
 
 namespace Mvc.Mailer
 {
@@ -33,6 +36,8 @@ namespace Mvc.Mailer
             get;
             private set;
         }
+
+    	public HttpContext CurrentHttpContext { get; set; }
 
         public virtual void ExecuteResult(ControllerContext context, string mailerName)
         {
@@ -73,10 +78,54 @@ namespace Mvc.Mailer
             StringBuilder stringBuilder = new StringBuilder();
             TextWriter writer = new StringWriter(stringBuilder);
 
-            ViewContext viewContext = new ViewContext(context, View, ViewData, TempData, writer);
-            View.Render(viewContext, writer);
-
-            this.Output = stringBuilder.ToString();
+        	if (HttpContext.Current != null)
+			{
+				ViewContext viewContext = new ViewContext(context, View, ViewData, TempData, writer);
+        		View.Render(viewContext, writer);
+				Output = stringBuilder.ToString();
+			}
+        	else
+				Output = ViewToString(((BuildManagerCompiledView) View).ViewPath, ViewData);
         }
+
+		public string ViewToString(string viewPath, ViewDataDictionary viewData)
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			using (StringWriter stringWriter = new StringWriter(stringBuilder))
+			{
+				using (HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter))
+				{
+					var workerRequest = new SimpleWorkerRequest(viewPath, "", htmlTextWriter);
+					HttpContext.Current = CurrentHttpContext ?? new HttpContext(workerRequest);
+
+					object view = BuildManager.CreateInstanceFromVirtualPath(viewPath, typeof(object));
+
+					ViewPage viewPage = view as ViewPage;
+					if (viewPage != null)
+					{
+						viewPage.ViewData = viewData;
+					}
+					else
+					{
+						ViewUserControl viewUserControl = view as ViewUserControl;
+						if (viewUserControl != null)
+						{
+							viewPage = new ViewPage();
+							viewPage.Controls.Add(viewUserControl);
+						}
+					}
+
+					if (viewPage != null)
+					{
+						viewPage.Url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+						HttpContext.Current.Server.Execute(viewPage, htmlTextWriter, true);
+
+						return stringBuilder.ToString();
+					}
+
+					throw new InvalidOperationException();
+				}
+			}
+		}
     }
 }
