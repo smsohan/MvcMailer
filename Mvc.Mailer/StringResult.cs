@@ -45,16 +45,10 @@ namespace Mvc.Mailer
             {
                 ExecuteResult(context);
             }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
             finally{
                 //restore the controller name
                 context.RouteData.Values["controller"] = controllerName;
             }
-
-
         }
 
         public override void ExecuteResult(ControllerContext context)
