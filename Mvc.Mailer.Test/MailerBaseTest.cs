@@ -115,11 +115,23 @@ namespace Mvc.Mailer.Test
 
         #region Html related tests
         [Test]
+        public void PopulateHtmltBody_should_turn_documentstyle_into_inlinestyle()
+        {
+            _mockMailer.Setup(m => m.EmailBody("Welcome", "Layout")).Returns("<html><head><style type=\"text/css\">h1{color:white;}</style></head><body><h1>Hello</h1></body>");
+
+            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout", true);
+            _mockMailer.VerifyAll();
+
+            Assert.AreEqual("<h1 style=\"color:white;\">Hello</h1>", _mailMessage.Body);
+            Assert.IsTrue(_mailMessage.IsBodyHtml);
+        }
+
+        [Test]
         public void PopulateHtmltBody_should_mark_as_is_body_html()
         {
             _mockMailer.Setup(m => m.EmailBody("Welcome", "Layout")).Returns("<h1>Hello</h1>");
 
-            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout");
+            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout", false);
             _mockMailer.VerifyAll();
 
             Assert.AreEqual("<h1>Hello</h1>", _mailMessage.Body);
@@ -141,7 +153,7 @@ namespace Mvc.Mailer.Test
 
             _mockMailer.Setup(m => m.PopulatePart(_mailMessage, "Welcome", "text/html", "Mail")).Returns(AlternateView.CreateAlternateViewFromString(""));
             _mockMailer.Setup(m => m.PopulateLinkedResources(It.IsAny<AlternateView>(), resources));
-            
+
             _mockMailer.Object.PopulateHtmlPart(_mailMessage, "Welcome", "Mail", resources);
             _mockMailer.VerifyAll();
         }
@@ -154,7 +166,7 @@ namespace Mvc.Mailer.Test
         public void PopulateBody_should_throw_exception_if_mailMessage_is_null()
         {
             MailMessage mailMessage = null;
-            _mailerBase.PopulateBody(mailMessage, "Welcome");
+            _mailerBase.PopulateBody(mailMessage, "Welcome", false);
         }
 
         [Test]
@@ -167,7 +179,7 @@ namespace Mvc.Mailer.Test
             _mockMailer.Setup(m => m.PopulateTextBody(_mailMessage, "welcome", "Mail"));
             _mockMailer.Setup(m => m.PopulateHtmlPart(_mailMessage, "welcome", "Mail", null));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail");
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null, false);
             _mockMailer.VerifyAll();
         }
 
@@ -179,7 +191,7 @@ namespace Mvc.Mailer.Test
 
             _mockMailer.Setup(m => m.PopulateTextBody(_mailMessage, "welcome", "Mail"));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail");
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null, false);
             _mockMailer.VerifyAll();
         }
 
@@ -195,9 +207,9 @@ namespace Mvc.Mailer.Test
             {
                 _mockMailer.Setup(m => m.TextViewExists("welcome", "Mail")).Returns(false);
                 _mockMailer.Setup(m => m.HtmlViewExists("welcome", "Mail")).Returns(true);
-                _mockMailer.Setup(m => m.PopulateHtmlBody(_mailMessage, "welcome", "Mail"));
+                _mockMailer.Setup(m => m.PopulateHtmlBody(_mailMessage, "welcome", "Mail", false));
 
-                _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources);
+                _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources, false);
                 _mockMailer.VerifyAll();
             }
         }
@@ -212,7 +224,7 @@ namespace Mvc.Mailer.Test
             var resources = new Dictionary<string, string> { { "logo", "logo.png" } };
             _mockMailer.Setup(m => m.PopulateHtmlPart(_mailMessage, "welcome", "Mail", resources));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources);
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources, false);
             _mockMailer.VerifyAll();
         }
 
@@ -224,7 +236,7 @@ namespace Mvc.Mailer.Test
 
             Assert.AreEqual(textExists && htmlExists, _mockMailer.Object.IsMultiPart("Welcome", "Layout"));
         }
-  
+
         #endregion
 
         #region Utility related tests
@@ -319,7 +331,7 @@ namespace Mvc.Mailer.Test
 
         }
         #endregion
-        
+
         private string GetContent(AlternateView alternateView)
         {
             var dataStream = alternateView.ContentStream;

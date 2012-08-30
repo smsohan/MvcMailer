@@ -41,6 +41,9 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="PreMailer.Net">
       <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\PreMailer.Net.dll</HintPath>
     </Reference>

@@ -69,7 +69,7 @@ namespace Mvc.Mailer
         /// <returns>the raw html content of the email view and its master page</returns>
         public virtual string EmailBody(string viewName, string masterName=null)
         {
-
+            string body = string.Empty;
             masterName = masterName ?? MasterName;
          
             var result = new StringResult
@@ -82,6 +82,18 @@ namespace Mvc.Mailer
                 CreateControllerContext();
             result.ExecuteResult(ControllerContext, MailerName);
             return result.Output;
+        }
+
+
+        /// <summary>
+        /// Populates the mailMessage with content rendered from the view using the default masterName
+        /// </summary>
+        /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
+        /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
+        /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, bool inlineCss)
+        {
+            PopulateBody(mailMessage, viewName, null, null, inlineCss);
         }
 
         /// <summary>
@@ -160,7 +172,8 @@ namespace Mvc.Mailer
         public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName, bool inlineCss)
         {
             var body = EmailBody(viewName, masterName);
-            if (inlineCss) {
+            if (inlineCss)
+            {
                 var pm = new PreMailer.Net.PreMailer();
                 body = pm.MoveCssInline(body, false);
             }
