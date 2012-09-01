@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Mvc.Mailer
 {
@@ -28,6 +29,8 @@ namespace Mvc.Mailer
         }
 
         public abstract void SendAsync(MailMessage mailMessage, object userState);
-        public abstract void Dispose();
+    	public abstract Task SendTaskAsync(MailMessage mailMessage);
+
+    	public abstract void Dispose();
     }
 }

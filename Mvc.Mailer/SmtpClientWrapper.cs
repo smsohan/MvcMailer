@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Mvc.Mailer
 {
@@ -38,6 +39,11 @@ namespace Mvc.Mailer
             InnerSmtpClient.SendCompleted += new SendCompletedEventHandler(InnerSmtpClient_SendCompleted);
             InnerSmtpClient.SendAsync(mailMessage, userState);
         }
+
+		public override Task SendTaskAsync(MailMessage mailMessage)
+		{
+			return InnerSmtpClient.SendTaskAsync(mailMessage);
+		}
 
         void InnerSmtpClient_SendCompleted(object sender, AsyncCompletedEventArgs e)
         {
