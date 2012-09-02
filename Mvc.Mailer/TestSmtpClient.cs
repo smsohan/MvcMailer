@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Mvc.Mailer
 {
     public class TestSmtpClient : SmtpClientBase
     {
-        [ThreadStatic]
+    	private static object lockObject;
+
         private static List<MailMessage> _sentMails;
         public static List<MailMessage> SentMails
         {
@@ -27,7 +29,7 @@ namespace Mvc.Mailer
 
         public TestSmtpClient()
         {
-
+			lockObject = new object();
         }
 
         public override void Send(MailMessage mailMessage)
@@ -39,11 +41,34 @@ namespace Mvc.Mailer
         public override void SendAsync(MailMessage mailMessage, object userState)
         {
             WasLastCallAsync = true;
-            SentMails.Add(mailMessage);
-            OnSendCompleted(this, new AsyncCompletedEventArgs(null, false, userState));
+
+        	Task.Factory.StartNew(() =>
+        	                      	{
+										lock (lockObject)
+										{
+											SentMails.Add(mailMessage);
+										}
+        	                      	}).
+        		ContinueWith(task =>
+        		             	{
+        		             		OnSendCompleted(this, new AsyncCompletedEventArgs(null, false, userState));
+        		             	});
         }
 
-        public override void Dispose()
+    	public override Task SendTaskAsync(MailMessage mailMessage)
+    	{
+    		WasLastCallAsync = true;
+			
+    		return Task.Factory.StartNew(() =>
+    		                             	{
+    		                             		lock (lockObject)
+    		                             		{
+    		                             			SentMails.Add(mailMessage);
+    		                             		}
+    		                             	});
+    	}
+
+    	public override void Dispose()
         {
 
         }

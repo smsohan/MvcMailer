@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Net.Mail;
 
@@ -60,13 +62,38 @@ namespace Mvc.Mailer.Test
             var messageB = new MailMessage { From = new MailAddress("hi@example.com"), Subject = "There", Body = "Hello" };
             messageB.To.Add("hello@example.com");
 
+        	var mre = new ManualResetEventSlim(false);
+
+        	_testSmtpClient.SendCompleted += (sender, args) => mre.Set();
+
             _testSmtpClient.SendAsync(messageA);
             _testSmtpClient.SendAsync(messageB, "hi");
 
-            Assert.AreEqual(2, TestSmtpClient.SentMails.Count);
+        	mre.Wait(1000);
+
+			Assert.AreEqual(2, TestSmtpClient.SentMails.Count);
             Assert.AreSame(messageA, TestSmtpClient.SentMails[0]);
             Assert.AreSame(messageB, TestSmtpClient.SentMails[1]);
         }
+
+
+		[Test]
+		public void SendTaskAsync_should_add_to_sent_mails()
+		{
+			var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
+			messageA.To.Add("hi@example.com");
+			var messageB = new MailMessage { From = new MailAddress("hi@example.com"), Subject = "There", Body = "Hello" };
+			messageB.To.Add("hello@example.com");
+
+			Task task1 = _testSmtpClient.SendTaskAsync(messageA);
+			Task task2 = _testSmtpClient.SendTaskAsync(messageB);
+
+			Task.WaitAll(task1, task2);
+
+			Assert.AreEqual(2, TestSmtpClient.SentMails.Count);
+			Assert.AreSame(messageA, TestSmtpClient.SentMails[0]);
+			Assert.AreSame(messageB, TestSmtpClient.SentMails[1]);
+		}
 
         [Test]
         public void SendAsync_should_set_async_to_false()
@@ -74,22 +101,62 @@ namespace Mvc.Mailer.Test
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
 
+        	var mre = new ManualResetEventSlim(false);
+
+        	_testSmtpClient.SendCompleted += (sender, args) => mre.Set();
+
             _testSmtpClient.SendAsync(messageA);
+
+        	mre.Wait(1000);
 
             Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
             Assert.IsTrue(TestSmtpClient.WasLastCallAsync);
         }
 
+		[Test]
+		public void SendTaskAsync_should_set_async_to_false()
+		{
+			var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
+			messageA.To.Add("hi@example.com");
+
+			Task task = _testSmtpClient.SendTaskAsync(messageA);
+
+			task.Wait();
+
+			Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
+			Assert.IsTrue(TestSmtpClient.WasLastCallAsync);
+		}
+
         [Test]
         public void SendAsync_should_fire_call_back_if_registered()
         {
             var eventFired = false;
-            _testSmtpClient.SendCompleted += (sender, e) => eventFired = true;
+        	var mre = new ManualResetEventSlim(false);
+
+            _testSmtpClient.SendCompleted += (sender, e) =>
+                                             	{
+                                             		eventFired = true;
+													mre.Set();
+                                             	};
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
             _testSmtpClient.SendAsync(messageA);
+
+        	mre.Wait(1000);
             Assert.IsTrue(eventFired);
         }
+
+		[Test]
+		public void SendTaskAsync_should_fire_call_back_if_registered()
+		{
+			var eventFired = false;
+			var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
+			messageA.To.Add("hi@example.com");
+
+			_testSmtpClient.SendTaskAsync(messageA).ContinueWith(task => eventFired = true).Wait();
+
+			Assert.IsTrue(eventFired);
+		}
 
         [TearDown]
         public void TearDown()
