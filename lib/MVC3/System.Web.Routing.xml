@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>System.Web.Routing</name>
+  </assembly>
+  <members>
+    <member name="T:System.Web.Routing.HttpMethodConstraint">
+      <summary>Enables you to define which HTTP verbs are allowed when ASP.NET routing determines whether a URL matches a route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.HttpMethodConstraint.#ctor(System.String[])">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.HttpMethodConstraint" /> class by using the HTTP verbs that are allowed for the route. </summary>
+      <param name="allowedMethods">The HTTP verbs that are valid for the route.</param>
+    </member>
+    <member name="P:System.Web.Routing.HttpMethodConstraint.AllowedMethods">
+      <summary>Gets the collection of allowed HTTP verbs for the route.</summary>
+      <returns>A collection of allowed HTTP verbs for the route.</returns>
+    </member>
+    <member name="M:System.Web.Routing.HttpMethodConstraint.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+      <summary>Determines whether the request was made with an HTTP verb that is one of the allowed verbs for the route.</summary>
+      <returns>When ASP.NET routing is processing a request, true if the request was made by using an allowed HTTP verb; otherwise, false. When ASP.NET routing is constructing a URL, true if the supplied values contain an HTTP verb that matches one of the allowed HTTP verbs; otherwise, false. The default is true.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+      <param name="route">The object that is being checked to determine whether it matches the URL.</param>
+      <param name="parameterName">The name of the parameter that is being checked.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+      <param name="routeDirection">An object that indicates whether the constraint check is being performed when an incoming request is processed or when a URL is generated.</param>
+    </member>
+    <member name="M:System.Web.Routing.HttpMethodConstraint.System#Web#Routing#IRouteConstraint#Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+      <summary>For a description of this member, see <see cref="M:System.Web.Routing.IRouteConstraint.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)" />. </summary>
+      <returns>true if the request was made by using an allowed HTTP verb; otherwise, false. The default is true.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+      <param name="route">The object that is being checked to determine whether it matches the URL.</param>
+      <param name="parameterName">The name of the parameter that is being checked.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+      <param name="routeDirection">An object that indicates whether the constraint check is being performed when an incoming request is handled or when a URL is generated.</param>
+    </member>
+    <member name="T:System.Web.Routing.IRouteConstraint">
+      <summary>Defines the contract that a class must implement in order to check whether a URL parameter value is valid for a constraint.</summary>
+    </member>
+    <member name="M:System.Web.Routing.IRouteConstraint.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+      <summary>Determines whether the URL parameter contains a valid value for this constraint.</summary>
+      <returns>true if the URL parameter contains a valid value; otherwise, false.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+      <param name="route">The object that this constraint belongs to.</param>
+      <param name="parameterName">The name of the parameter that is being checked.</param>
+      <param name="values">An object that contains the parameters for the URL.</param>
+      <param name="routeDirection">An object that indicates whether the constraint check is being performed when an incoming request is being handled or when a URL is being generated.</param>
+    </member>
+    <member name="T:System.Web.Routing.IRouteHandler">
+      <summary>Defines the contract that a class must implement in order to process a request for a matching route pattern.</summary>
+    </member>
+    <member name="M:System.Web.Routing.IRouteHandler.GetHttpHandler(System.Web.Routing.RequestContext)">
+      <summary>Provides the object that processes the request.</summary>
+      <returns>An object that processes the request.</returns>
+      <param name="requestContext">An object that encapsulates information about the request.</param>
+    </member>
+    <member name="T:System.Web.Routing.RequestContext">
+      <summary>Encapsulates information about an HTTP request that matches a defined route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RequestContext.#ctor(System.Web.HttpContextBase,System.Web.Routing.RouteData)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RequestContext" /> class. </summary>
+      <param name="httpContext">An object that contains information about the HTTP request.</param>
+      <param name="routeData">An object that contains information about the route that matched the current request.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="httpContext" /> or <paramref name="routeData" /> is null.</exception>
+    </member>
+    <member name="P:System.Web.Routing.RequestContext.HttpContext">
+      <summary>Gets information about the HTTP request.</summary>
+      <returns>An object that contains information about the HTTP request.</returns>
+    </member>
+    <member name="P:System.Web.Routing.RequestContext.RouteData">
+      <summary>Gets information about the requested route.</summary>
+      <returns>An object that contains information about the requested route.</returns>
+    </member>
+    <member name="T:System.Web.Routing.Route">
+      <summary>Provides properties and methods for defining a route and for obtaining information about the route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.Route.#ctor(System.String,System.Web.Routing.IRouteHandler)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.Route" /> class, by using the specified URL pattern and handler class. </summary>
+      <param name="url">The URL pattern for the route.</param>
+      <param name="routeHandler">The object that processes requests for the route.</param>
+    </member>
+    <member name="M:System.Web.Routing.Route.#ctor(System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.IRouteHandler)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.Route" /> class, by using the specified URL pattern, default parameter values, and handler class. </summary>
+      <param name="url">The URL pattern for the route.</param>
+      <param name="defaults">The values to use for any parameters that are missing in the URL.</param>
+      <param name="routeHandler">The object that processes requests for the route.</param>
+    </member>
+    <member name="M:System.Web.Routing.Route.#ctor(System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteValueDictionary,System.Web.Routing.IRouteHandler)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.Route" /> class, by using the specified URL pattern, default parameter values, constraints, and handler class. </summary>
+      <param name="url">The URL pattern for the route.</param>
+      <param name="defaults">The values to use if the URL does not contain all the parameters.</param>
+      <param name="constraints">A regular expression that specifies valid values for a URL parameter.</param>
+      <param name="routeHandler">The object that processes requests for the route.</param>
+    </member>
+    <member name="M:System.Web.Routing.Route.#ctor(System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteValueDictionary,System.Web.Routing.IRouteHandler)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.Route" /> class, by using the specified URL pattern, default parameter values, constraints, custom values, and handler class. </summary>
+      <param name="url">The URL pattern for the route.</param>
+      <param name="defaults">The values to use if the URL does not contain all the parameters.</param>
+      <param name="constraints">A regular expression that specifies valid values for a URL parameter.</param>
+      <param name="dataTokens">Custom values that are passed to the route handler, but which are not used to determine whether the route matches a specific URL pattern. These values are passed to the route handler, where they can be used for processing the request.</param>
+      <param name="routeHandler">The object that processes requests for the route.</param>
+    </member>
+    <member name="P:System.Web.Routing.Route.Constraints">
+      <summary>Gets or sets a dictionary of expressions that specify valid values for a URL parameter.</summary>
+      <returns>An object that contains the parameter names and expressions.</returns>
+    </member>
+    <member name="P:System.Web.Routing.Route.DataTokens">
+      <summary>Gets or sets custom values that are passed to the route handler, but which are not used to determine whether the route matches a URL pattern.</summary>
+      <returns>An object that contains custom values.</returns>
+    </member>
+    <member name="P:System.Web.Routing.Route.Defaults">
+      <summary>Gets or sets the values to use if the URL does not contain all the parameters.</summary>
+      <returns>An object that contains the parameter names and default values.</returns>
+    </member>
+    <member name="M:System.Web.Routing.Route.GetRouteData(System.Web.HttpContextBase)">
+      <summary>Returns information about the requested route.</summary>
+      <returns>An object that contains the values from the route definition.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+    </member>
+    <member name="M:System.Web.Routing.Route.GetVirtualPath(System.Web.Routing.RequestContext,System.Web.Routing.RouteValueDictionary)">
+      <summary>Returns information about the URL that is associated with the route.</summary>
+      <returns>An object that contains information about the URL that is associated with the route.</returns>
+      <param name="requestContext">An object that encapsulates information about the requested route.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+    </member>
+    <member name="M:System.Web.Routing.Route.ProcessConstraint(System.Web.HttpContextBase,System.Object,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+      <summary>Determines whether a parameter value matches the constraint for that parameter.</summary>
+      <returns>true if the parameter value matches the constraint; otherwise, false.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+      <param name="constraint">The regular expression or object to use to test <paramref name="parameterName" />.</param>
+      <param name="parameterName">The name of the parameter to test.</param>
+      <param name="values">The values to test.</param>
+      <param name="routeDirection">A value that specifies whether URL routing is processing an incoming request or constructing a URL.</param>
+    </member>
+    <member name="P:System.Web.Routing.Route.RouteHandler">
+      <summary>Gets or sets the object that processes requests for the route.</summary>
+      <returns>The object that processes the request.</returns>
+    </member>
+    <member name="P:System.Web.Routing.Route.Url">
+      <summary>Gets or sets the URL pattern for the route.</summary>
+      <returns>The pattern for matching the route to a URL.</returns>
+      <exception cref="T:System.ArgumentException">Any of the following:The value starts with ~ or /.The value contains a ? character.The catch-all parameter is not last.</exception>
+      <exception cref="T:System.Exception">URL segments are not separated by a delimiter or a literal constant.</exception>
+    </member>
+    <member name="T:System.Web.Routing.RouteBase">
+      <summary>Serves as the base class for all classes that represent an ASP.NET route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteBase.#ctor">
+      <summary>Initializes the class for use by an inherited class instance. This constructor can only be called by an inherited class. </summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteBase.GetRouteData(System.Web.HttpContextBase)">
+      <summary>When overridden in a derived class, returns route information about the request.</summary>
+      <returns>An object that contains the values from the route definition if the route matches the current request, or null if the route does not match the request.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteBase.GetVirtualPath(System.Web.Routing.RequestContext,System.Web.Routing.RouteValueDictionary)">
+      <summary>When overridden in a derived class, checks whether the route matches the specified values, and if so, generates a URL and retrieves information about the route.</summary>
+      <returns>An object that contains the generated URL and information about the route, or null if the route does not match <paramref name="values" />.</returns>
+      <param name="requestContext">An object that encapsulates information about the requested route.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+    </member>
+    <member name="T:System.Web.Routing.RouteCollection">
+      <summary>Provides a collection of routes for ASP.NET routing.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteCollection" /> class. </summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.#ctor(System.Web.Hosting.VirtualPathProvider)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteCollection" /> class by using the specified virtual path provider. </summary>
+      <param name="virtualPathProvider">A provider for retrieving resources from a virtual file system.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.Add(System.String,System.Web.Routing.RouteBase)">
+      <summary>Adds a route to the end of the <see cref="T:System.Web.Routing.RouteCollection" /> object and assigns the specified name to the route.</summary>
+      <param name="name">The value that identifies the route. The value can be null or an empty string.</param>
+      <param name="item">The route to add to the end of the collection.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="item" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="name" /> is already used in the collection.</exception>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.ClearItems">
+      <summary>Removes all the elements from the <see cref="T:System.Web.Routing.RouteCollection" /> object.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.GetReadLock">
+      <summary>Provides an object for managing thread safety when you retrieve an object from the collection.</summary>
+      <returns>An object that manages thread safety.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.GetRouteData(System.Web.HttpContextBase)">
+      <summary>Returns information about the route in the collection that matches the specified values.</summary>
+      <returns>An object that contains the values from the route definition.</returns>
+      <param name="httpContext">An object that encapsulates information about the HTTP request.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="context" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">The <see cref="P:System.Web.HttpContextBase.Request" /> property of the object in the <paramref name="context" /> parameter is null.</exception>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.GetVirtualPath(System.Web.Routing.RequestContext,System.String,System.Web.Routing.RouteValueDictionary)">
+      <summary>Returns information about the URL path that is associated with the named route, given the specified context, route name, and parameter values.</summary>
+      <returns>An object that contains information about the URL path that is associated with the route.</returns>
+      <param name="requestContext">An object that encapsulates information about the requested route.</param>
+      <param name="name">The name of the route to use when information about the URL path is retrieved.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.GetVirtualPath(System.Web.Routing.RequestContext,System.Web.Routing.RouteValueDictionary)">
+      <summary>Returns information about the URL path that is associated with the route, given the specified context and parameter values.</summary>
+      <returns>An object that contains information about the URL path that is associated with the route.</returns>
+      <param name="requestContext">An object that encapsulates information about the requested route.</param>
+      <param name="values">An object that contains the parameters for a route.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.GetWriteLock">
+      <summary>Provides an object for managing thread safety when you add or remove elements in the collection.</summary>
+      <returns>An object that manages thread safety.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.InsertItem(System.Int32,System.Web.Routing.RouteBase)">
+      <summary>Inserts the specified route into the <see cref="T:System.Web.Routing.RouteCollection" /> object at the specified index.</summary>
+      <param name="index">The zero-based index at which <paramref name="item" /> is inserted.</param>
+      <param name="item">The route to insert.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="item" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="item" /> is already in the collection.</exception>
+    </member>
+    <member name="P:System.Web.Routing.RouteCollection.Item(System.String)">
+      <summary>Gets the route in the collection that has the specified name.</summary>
+      <returns>An object that has the specified name, or null if <paramref name="name" /> is null, is an empty string, or does not match any route in the collection.</returns>
+      <param name="name">The value that identifies the route to get.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.RemoveItem(System.Int32)">
+      <summary>Removes the route from the <see cref="T:System.Web.Routing.RouteCollection" /> object at the specified index.</summary>
+      <param name="index">The zero-based index of the route to remove.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteCollection.RouteExistingFiles">
+      <summary>Gets or sets a value that indicates whether ASP.NET routing should handle URLs that match an existing file.</summary>
+      <returns>true if ASP.NET routing handles all requests, even those that match an existing file; otherwise, false. The default value is false.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteCollection.SetItem(System.Int32,System.Web.Routing.RouteBase)">
+      <summary>Replaces the route at the specified index.</summary>
+      <param name="index">The zero-based index of the route to replace.</param>
+      <param name="item">The route to add at the specified index.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="item" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="item" /> is already in the collection.</exception>
+    </member>
+    <member name="T:System.Web.Routing.RouteData">
+      <summary>Encapsulates information about a route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteData.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteData" /> class. </summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteData.#ctor(System.Web.Routing.RouteBase,System.Web.Routing.IRouteHandler)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteData" /> class by using the specified route and route handler. </summary>
+      <param name="route">An object that defines the route.</param>
+      <param name="routeHandler">An object that processes the request.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteData.DataTokens">
+      <summary>Gets a collection of custom values that are passed to the route handler but are not used when ASP.NET routing determines whether the route matches a request.</summary>
+      <returns>An object that contains custom values.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteData.GetRequiredString(System.String)">
+      <summary>Retrieves the value with the specified identifier.</summary>
+      <returns>The element in the <see cref="P:System.Web.Routing.RouteData.Values" /> property whose key matches <paramref name="valueName" />.</returns>
+      <param name="valueName">The key of the value to retrieve.</param>
+      <exception cref="T:System.InvalidOperationException">A value does not exist for <paramref name="valueName" />.</exception>
+    </member>
+    <member name="P:System.Web.Routing.RouteData.Route">
+      <summary>Gets or sets the object that represents a route.</summary>
+      <returns>An object that represents the route definition.</returns>
+    </member>
+    <member name="P:System.Web.Routing.RouteData.RouteHandler">
+      <summary>Gets or sets the object that processes a requested route.</summary>
+      <returns>An object that processes the route request.</returns>
+    </member>
+    <member name="P:System.Web.Routing.RouteData.Values">
+      <summary>Gets a collection of URL parameter values and default values for the route.</summary>
+      <returns>An object that contains values that are parsed from the URL and from default values.</returns>
+    </member>
+    <member name="T:System.Web.Routing.RouteDirection">
+      <summary>Indicates whether ASP.NET routing is processing a URL from a client or generating a URL.</summary>
+    </member>
+    <member name="F:System.Web.Routing.RouteDirection.IncomingRequest">
+      <summary>A URL from a client is being processed.</summary>
+    </member>
+    <member name="F:System.Web.Routing.RouteDirection.UrlGeneration">
+      <summary>A URL is being created based on the route definition.</summary>
+    </member>
+    <member name="T:System.Web.Routing.RouteTable">
+      <summary>Stores the URL routes for an application.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteTable.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteTable" /> class. </summary>
+    </member>
+    <member name="P:System.Web.Routing.RouteTable.Routes">
+      <summary>Gets a collection of objects that derive from the <see cref="T:System.Web.Routing.RouteBase" /> class.</summary>
+      <returns>An object that contains all the routes in the collection.</returns>
+    </member>
+    <member name="T:System.Web.Routing.RouteValueDictionary">
+      <summary>Represents a case-insensitive collection of key/value pairs that you use in various places in the routing framework, such as when you define the default values for a route or when you generate a URL that is based on a route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteValueDictionary" /> class that is empty. </summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteValueDictionary" /> class and adds elements from the specified collection. </summary>
+      <param name="dictionary">A collection whose elements are copied to the new collection.</param>
+      <exception cref="T:System.ArgumentNullException">
+        <paramref name="dictionary" /> is null.</exception>
+      <exception cref="T:System.ArgumentException">
+        <paramref name="dictionary" /> contains one or more duplicate keys.</exception>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.#ctor(System.Object)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.RouteValueDictionary" /> class and adds values that are based on properties from the specified object. </summary>
+      <param name="values">An object that contains properties that will be added as elements to the new collection.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.Add(System.String,System.Object)">
+      <summary>Adds the specified value to the dictionary by using the specified key.</summary>
+      <param name="key">The key of the element to add.</param>
+      <param name="value">The value of the element to add.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.Clear">
+      <summary>Removes all keys and values from the dictionary.</summary>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.ContainsKey(System.String)">
+      <summary>Determines whether the dictionary contains the specified key.</summary>
+      <returns>true if the dictionary contains an element that has the specified key; otherwise, false.</returns>
+      <param name="key">The key to locate in the dictionary.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.ContainsValue(System.Object)">
+      <summary>Determines whether the dictionary contains a specific value.</summary>
+      <returns>true if the dictionary contains an element that has the specified value; otherwise, false.</returns>
+      <param name="value">The value to locate in the dictionary.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.Count">
+      <summary>Gets the number of key/value pairs that are in the collection.</summary>
+      <returns>The number of key/value pairs that are in the collection.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.GetEnumerator">
+      <summary>Returns an enumerator that you can use to iterate through the dictionary.</summary>
+      <returns>A structure for reading data in the dictionary.</returns>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.Item(System.String)">
+      <summary>Gets or sets the value that is associated with the specified key.</summary>
+      <returns>The value that is associated with the specified key, or null if the key does not exist in the collection.</returns>
+      <param name="key">The key of the value to get or set.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.Keys">
+      <summary>Gets a collection that contains the keys in the dictionary.</summary>
+      <returns>A collection that contains the keys in the dictionary.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.Remove(System.String)">
+      <summary>Removes the value that has the specified key from the dictionary.</summary>
+      <returns>true if the element is found and removed; otherwise, false. This method returns false if <paramref name="key" /> is not found in the dictionary.</returns>
+      <param name="key">The key of the element to remove.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#ICollection{T}#Add(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>For a description of this member, see <see cref="M:System.Collections.Generic.ICollection`1.Add(`0)" />.</summary>
+      <param name="item">The key/value pair to add to the dictionary.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#ICollection{T}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>For a description of this member, see <see cref="M:System.Collections.Generic.ICollection`1.Contains(`0)" />.</summary>
+      <returns>true if <paramref name="item" /> is in the collection; otherwise, false.</returns>
+      <param name="item">The key and value pair to locate in the dictionary.</param>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#ICollection{T}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.Object}[],System.Int32)">
+      <summary>For a description of this member, see <see cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)" /> .</summary>
+      <param name="array">The one-dimensional array that is the destination of the elements copied from the dictionary.</param>
+      <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying starts.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#ICollection{T}#IsReadOnly">
+      <summary>For a description of this member, see <see cref="P:System.Collections.Generic.ICollection`1.IsReadOnly" />.</summary>
+      <returns>true if the dictionary is read-only; otherwise, false.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#ICollection{T}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+      <summary>For a description of this member, see <see cref="M:System.Collections.Generic.ICollection`1.Remove(`0)" />.</summary>
+      <returns>true if <paramref name="item" /> was successfully removed from the collection; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the collection.</returns>
+      <param name="item">The key of the element to remove.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#IDictionary{TKey@TValue}#Keys">
+      <summary>For a description of this member, see <see cref="P:System.Collections.Generic.IDictionary`2.Keys" />.</summary>
+      <returns>A collection that contains the keys in the dictionary.</returns>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#IDictionary{TKey@TValue}#Values">
+      <summary>For a description of this member, see <see cref="P:System.Collections.Generic.IDictionary`2.Values" />.</summary>
+      <returns>A collection that contains the values in the dictionary.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
+      <summary>For a description of this member, see <see cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator" />.</summary>
+      <returns>A structure for reading data in the dictionary.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.System#Collections#IEnumerable#GetEnumerator">
+      <summary>For a description of this member, see <see cref="M:System.Collections.IEnumerable.GetEnumerator" />.</summary>
+      <returns>A structure for reading data in the dictionary.</returns>
+    </member>
+    <member name="M:System.Web.Routing.RouteValueDictionary.TryGetValue(System.String,System.Object@)">
+      <summary>Gets a value that indicates whether a value is associated with the specified key.</summary>
+      <returns>true if the dictionary contains an element that has the specified key; otherwise, false.</returns>
+      <param name="key">The key of the value to get.</param>
+      <param name="value">When this method returns, contains the value that is associated with the specified key, if the key is found; otherwise, contains the appropriate default value for the type of the <paramref name="value" /> parameter that you provided as an out parameter. This parameter is passed uninitialized.</param>
+    </member>
+    <member name="P:System.Web.Routing.RouteValueDictionary.Values">
+      <summary>Gets a collection that contains the values in the dictionary.</summary>
+      <returns>A collection that contains the values in the dictionary.</returns>
+    </member>
+    <member name="T:System.Web.Routing.StopRoutingHandler">
+      <summary>Provides a way to specify that ASP.NET routing should not handle requests for a URL pattern.</summary>
+    </member>
+    <member name="M:System.Web.Routing.StopRoutingHandler.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.StopRoutingHandler" /> class. </summary>
+    </member>
+    <member name="M:System.Web.Routing.StopRoutingHandler.GetHttpHandler(System.Web.Routing.RequestContext)">
+      <summary>Returns the object that processes the request.</summary>
+      <returns>An object that processes the request.</returns>
+      <param name="requestContext">An object that encapsulates information about the request.</param>
+    </member>
+    <member name="M:System.Web.Routing.StopRoutingHandler.System#Web#Routing#IRouteHandler#GetHttpHandler(System.Web.Routing.RequestContext)">
+      <summary>Returns the object that processes the request.</summary>
+      <returns>An object that processes the request.</returns>
+      <param name="requestContext">An object that encapsulates information about the request.</param>
+    </member>
+    <member name="T:System.Web.Routing.UrlRoutingHandler">
+      <summary>Serves as base class for classes that enable you to customize how ASP.NET routing processes a request.</summary>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingHandler.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.UrlRoutingHandler" /> class. </summary>
+    </member>
+    <member name="P:System.Web.Routing.UrlRoutingHandler.IsReusable">
+      <summary>Gets a value that indicates whether another request can use the <see cref="T:System.Web.Routing.UrlRoutingHandler" /> instance.</summary>
+      <returns>Always false.</returns>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingHandler.ProcessRequest(System.Web.HttpContext)">
+      <summary>Processes an HTTP request that matches a route.</summary>
+      <param name="httpContext">An object that provides references to the intrinsic server objects (for example, <see cref="P:System.Web.HttpContext.Request" />, <see cref="P:System.Web.HttpContext.Response" />, <see cref="P:System.Web.HttpContext.Session" />, and <see cref="P:System.Web.HttpContext.Server" />).</param>
+      <exception cref="T:System.Web.HttpException">The request does not match any route.</exception>
+      <exception cref="T:System.InvalidOperationException">No handler is defined for the route.</exception>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingHandler.ProcessRequest(System.Web.HttpContextBase)">
+      <summary>Processes an HTTP request that matches a route.</summary>
+      <param name="httpContext">An object that provides references to the intrinsic server objects (for example, <see cref="P:System.Web.HttpContext.Request" />, <see cref="P:System.Web.HttpContext.Response" />, <see cref="P:System.Web.HttpContext.Session" />, and <see cref="P:System.Web.HttpContext.Server" />).</param>
+      <exception cref="T:System.Web.HttpException">The request does not match any route.</exception>
+      <exception cref="T:System.InvalidOperationException">No handler is defined for the route.</exception>
+    </member>
+    <member name="P:System.Web.Routing.UrlRoutingHandler.RouteCollection">
+      <summary>Gets or sets the collection of defined routes for the ASP.NET application.</summary>
+      <returns>An object that contains the routes.</returns>
+    </member>
+    <member name="P:System.Web.Routing.UrlRoutingHandler.System#Web#IHttpHandler#IsReusable">
+      <summary>Gets a value that indicates whether another request can use the <see cref="T:System.Web.Routing.UrlRoutingHandler" /> instance.</summary>
+      <returns>Always false.</returns>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingHandler.System#Web#IHttpHandler#ProcessRequest(System.Web.HttpContext)">
+      <summary>Processes an HTTP request that matches a route.</summary>
+      <param name="context">An object that provides references to the intrinsic server objects (for example, <see cref="P:System.Web.HttpContext.Request" />, <see cref="P:System.Web.HttpContext.Response" />, <see cref="P:System.Web.HttpContext.Session" />, and <see cref="P:System.Web.HttpContext.Server" />).</param>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingHandler.VerifyAndProcessRequest(System.Web.IHttpHandler,System.Web.HttpContextBase)">
+      <summary>When overridden in a derived class, validates the HTTP handler and performs the steps that are required to process the request.</summary>
+      <param name="httpHandler">The object that is used to process an HTTP request.</param>
+      <param name="httpContext">An object that provides references to the intrinsic server objects (for example, <see cref="P:System.Web.HttpContext.Request" />, <see cref="P:System.Web.HttpContext.Response" />, <see cref="P:System.Web.HttpContext.Session" />, and <see cref="P:System.Web.HttpContext.Server" />).</param>
+    </member>
+    <member name="T:System.Web.Routing.UrlRoutingModule">
+      <summary>Matches a URL request to a defined route.</summary>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.UrlRoutingModule" /> class. </summary>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.Dispose">
+      <summary>Disposes of the resources (other than memory) that are used by the module.</summary>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.Init(System.Web.HttpApplication)">
+      <summary>Initializes a module and prepares it to handle requests.</summary>
+      <param name="application">An object that provides access to the methods, properties, and events common to all application objects in an ASP.NET application.</param>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.PostMapRequestHandler(System.Web.HttpContextBase)">
+      <summary>Assigns the HTTP handler for the current request to the context.</summary>
+      <param name="context">Encapsulates all HTTP-specific information about an individual HTTP request.</param>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.PostResolveRequestCache(System.Web.HttpContextBase)">
+      <summary>Matches the HTTP request to a route, retrieves the handler for that route, and sets the handler as the HTTP handler for the current request.</summary>
+      <param name="context">Encapsulates all HTTP-specific information about an individual HTTP request.</param>
+    </member>
+    <member name="P:System.Web.Routing.UrlRoutingModule.RouteCollection">
+      <summary>Gets or sets the collection of defined routes for the ASP.NET application.</summary>
+      <returns>An object that contains the routes.</returns>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.System#Web#IHttpModule#Dispose">
+      <summary>For a description of this member, see <see cref="M:System.Web.IHttpModule.Dispose" />.</summary>
+    </member>
+    <member name="M:System.Web.Routing.UrlRoutingModule.System#Web#IHttpModule#Init(System.Web.HttpApplication)">
+      <summary>For a description of this member, see <see cref="M:System.Web.IHttpModule.Init" />.</summary>
+      <param name="application">An object that provides access to the methods, properties, and events that are common to all application objects in an ASP.NET application.</param>
+    </member>
+    <member name="T:System.Web.Routing.VirtualPathData">
+      <summary>Represents information about the route and virtual path that are the result of generating a URL with the ASP.NET routing framework.</summary>
+    </member>
+    <member name="M:System.Web.Routing.VirtualPathData.#ctor(System.Web.Routing.RouteBase,System.String)">
+      <summary>Initializes a new instance of the <see cref="T:System.Web.Routing.VirtualPathData" /> class. </summary>
+      <param name="route">The object that is used to generate the URL.</param>
+      <param name="virtualPath">The generated URL.</param>
+    </member>
+    <member name="P:System.Web.Routing.VirtualPathData.DataTokens">
+      <summary>Gets the collection of custom values for the route definition.</summary>
+      <returns>A collection of custom values for a route.</returns>
+    </member>
+    <member name="P:System.Web.Routing.VirtualPathData.Route">
+      <summary>Gets or sets the route that is used to create the URL.</summary>
+      <returns>An object that represents the route that matched the parameters that were used to generate a URL.</returns>
+    </member>
+    <member name="P:System.Web.Routing.VirtualPathData.VirtualPath">
+      <summary>Gets or sets the URL that was created from the route definition.</summary>
+      <returns>The URL that was generated from a route.</returns>
+    </member>
+  </members>
+</doc>

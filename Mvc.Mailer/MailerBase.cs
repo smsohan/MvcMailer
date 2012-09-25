@@ -87,6 +87,20 @@ namespace Mvc.Mailer
         /// <summary>
         /// Populates the mailMessage with content rendered from the view using the default masterName
         /// </summary>
+        /// <param name="action">Action to be performed on a new message instance</param>
+        public virtual MailMessage Populate(Action<MvcMailMessage> action)
+        {
+            var message = new MvcMailMessage();
+
+            action(message);
+            PopulateBody(message, message.ViewName, message.MasterName, message.LinkedResources);
+
+            return message;
+        }
+
+        /// <summary>
+        /// Populates the mailMessage with content rendered from the view using the default masterName
+        /// </summary>
         /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
