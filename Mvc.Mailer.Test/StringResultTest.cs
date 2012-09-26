@@ -1,41 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Mvc.Mailer;
 using System.Web.Mvc;
-using System.Web;
 using System.Web.Routing;
 
-namespace Mvc.Mailer.Test
-{
+namespace Mvc.Mailer.Test {
     [TestFixture]
-    public class StringResultTest
-    {
+    public class StringResultTest {
         private StringResult _stringResult;
+
         [SetUp]
-        public void SetUp()
-        {
+        public void SetUp() {
             _stringResult = new StringResult();
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ExecuteResultWithNullContextShouldThrowArgumentNullException()
-        {
+        public void ExecuteResultWithNullContextShouldThrowArgumentNullException() {
             _stringResult.ExecuteResult(null);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ExecuteResultWithBlankViewNameShouldThrowArgumentNullException([Values(null, "")] string viewName)
-        {
+        public void ExecuteResultWithBlankViewNameShouldThrowArgumentNullException([Values(null, "")] string viewName) {
             _stringResult.ViewName = viewName;
             _stringResult.ExecuteResult(new ControllerContext());
         }
 
         [Test]
-        public void ShouldRenderViewIntoOutputPropertyWhenViewIsSet()
-        {
+        public void ShouldRenderViewIntoOutputPropertyWhenViewIsSet() {
             _stringResult.View = new MockedView();
             _stringResult.ViewName = "welcome";
             _stringResult.ExecuteResult(new ControllerContext());
@@ -43,8 +33,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void ShouldRenderViewIntoOutputProperty()
-        {
+        public void ShouldRenderViewIntoOutputProperty() {
             ViewEngines.Engines.Add(new MyViewEngine());
             _stringResult.ViewName = "welcome";
             var httpContext = new EmptyHttpContext();
@@ -56,5 +45,4 @@ namespace Mvc.Mailer.Test
             Assert.AreEqual(MockedView.CannedResponse, _stringResult.Output);
         }
     }
-
 }
