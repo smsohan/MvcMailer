@@ -6,7 +6,7 @@ build
 *.csproj.user
 *ReSharper*
 *resharper*
-
+*.suo
 *.user
 *.bak
 *.sln.cache
