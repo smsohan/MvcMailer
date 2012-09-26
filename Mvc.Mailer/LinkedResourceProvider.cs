@@ -19,7 +19,6 @@ namespace Mvc.Mailer {
         }
 
         public virtual ContentType GetContentType(string fileName) {
-            // Tyler: Possible null reference
             var ext = System.IO.Path.GetExtension(fileName).ToLower();
 
             var regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
