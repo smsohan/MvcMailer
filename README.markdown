@@ -15,4 +15,4 @@ Use [Github Issues Page](https://github.com/smsohan/mvcmailer/issues) to mention
 I have a lot of fun working on this project. Wish you enjoy using it and if you wish, you can contribute too. Find me on Twitter [@smsohan](http://twitter.com/smsohan)
 
 ## Other Contributors
-@TylerMercier
+[@TylerMercier](https://github.com/tylermercier)
