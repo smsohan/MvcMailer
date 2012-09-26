@@ -1,5 +1,0 @@
-﻿<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
-<#@ Output Extension="text.Master" #>
-<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
-
-<asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
