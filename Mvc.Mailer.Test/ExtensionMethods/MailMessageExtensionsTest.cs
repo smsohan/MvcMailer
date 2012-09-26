@@ -1,35 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Mvc.Mailer;
 using System.Net.Mail;
 using System.IO;
-using System.Threading;
 using Moq;
 
-namespace Mvc.Mailer.Test
-{
+namespace Mvc.Mailer.Test.ExtensionMethods {
     [TestFixture]
-    public class MailMessageExtensionsTest
-    {
+    public class MailMessageExtensionsTest {
 
         private SmtpClientWrapper _smtpClient;
-        private MailMessage _mailMessage; 
+        private MailMessage _mailMessage;
         private DirectoryInfo _mailDirectory;
 
         [SetUp]
-        public void SetUp()
-        {
-            var smtpClient = new SmtpClient();
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+        public void SetUp() {
+            var smtpClient = new SmtpClient {
+                DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory
+            };
 
             _mailDirectory = Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Mails"));
             smtpClient.PickupDirectoryLocation = _mailDirectory.FullName;
             smtpClient.Host = "smtp.gmail.com";
             smtpClient.Port = 597;
-            _smtpClient = new SmtpClientWrapper{InnerSmtpClient = smtpClient};
+            _smtpClient = new SmtpClientWrapper { InnerSmtpClient = smtpClient };
             _mailMessage = new MailMessage { From = new MailAddress("gaga@gaga.com") };
             _mailMessage.To.Add("gigi@gigi.com");
             _mailMessage.Subject = "Hello!";
@@ -37,23 +30,19 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void TestSend()
-        {
+        public void TestSend() {
             _mailMessage.Send(_smtpClient);
             Assert.Pass("Mail Send working since no exception wast thrown");
         }
 
         [Test]
-        public void TestSendAsync()
-        {
+        public void TestSendAsync() {
             _mailMessage.SendAsync(smtpClient: _smtpClient);
             Assert.Pass("Mail Send Async working since no exception wast thrown");
-
         }
 
         [Test]
-        public void SendAsync_with_userState_should_pass_that()
-        {
+        public void SendAsync_with_userState_should_pass_that() {
             var client = new Mock<ISmtpClient>();
             client.Setup(c => c.SendAsync(_mailMessage, "something"));
             _mailMessage.SendAsync(userState: "something", smtpClient: client.Object);
@@ -61,8 +50,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void In_Test_Mode_should_use_TestSmtpClient()
-        {
+        public void In_Test_Mode_should_use_TestSmtpClient() {
             TestSmtpClient.SentMails.Clear();
             MailerBase.IsTestModeEnabled = true;
             _mailMessage.Send();
@@ -71,14 +59,10 @@ namespace Mvc.Mailer.Test
         }
 
         [TearDown]
-        public void TearDown()
-        {
+        public void TearDown() {
             MailerBase.IsTestModeEnabled = false;
             TestSmtpClient.SentMails.Clear();
             _mailDirectory.Delete(true);
         }
-
-
-
     }
 }

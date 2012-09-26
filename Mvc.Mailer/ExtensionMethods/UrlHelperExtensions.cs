@@ -1,13 +1,9 @@
 ﻿using System.Web.Mvc;
 using System;
-using System.Web;
-using System.Text;
 using System.Configuration;
 
-namespace Mvc.Mailer
-{
-    public static class UrlHelperExtensions
-    {
+namespace Mvc.Mailer {
+    public static class UrlHelperExtensions {
         public static readonly string BASE_URL_KEY = "MvcMailer.BaseUrl";
 
         /// <summary>
@@ -16,16 +12,14 @@ namespace Mvc.Mailer
         /// <param name="urlHelper">The object that gets the extended behavior</param>
         /// <param name="relativeOrAbsoluteUrl">A relative or absolute URL to convert to Absolute</param>
         /// <returns>An absolute Url. e.g. http://domain:port/controller/action from /controller/action</returns>
-        public static string Abs(this UrlHelper urlHelper, string relativeOrAbsoluteUrl)
-        {
+        public static string Abs(this UrlHelper urlHelper, string relativeOrAbsoluteUrl) {
             var uri = new Uri(relativeOrAbsoluteUrl, UriKind.RelativeOrAbsolute);
-            if (uri.IsAbsoluteUri)
-            {
+            if (uri.IsAbsoluteUri) {
                 return relativeOrAbsoluteUrl;
             }
+
             Uri combinedUri;
-            if (Uri.TryCreate(BaseUrl(urlHelper), relativeOrAbsoluteUrl, out combinedUri))
-            {
+            if (Uri.TryCreate(BaseUrl(urlHelper), relativeOrAbsoluteUrl, out combinedUri)) {
                 return combinedUri.AbsoluteUri;
             }
 
@@ -33,18 +27,15 @@ namespace Mvc.Mailer
         }
 
 
-        private static Uri BaseUrl(UrlHelper urlHelper)
-        {
-            string baseUrl = ConfigurationManager.AppSettings[BASE_URL_KEY];
-            
+        private static Uri BaseUrl(UrlHelper urlHelper) {
+            var baseUrl = ConfigurationManager.AppSettings[BASE_URL_KEY];
+
             //No configuration given, so use the one from the context
-            if(string.IsNullOrWhiteSpace(baseUrl)){
-                baseUrl =  urlHelper.RequestContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority);
+            if (string.IsNullOrWhiteSpace(baseUrl)) {
+                baseUrl = urlHelper.RequestContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority);
             }
-            
-            return new Uri(baseUrl); 
+
+            return new Uri(baseUrl);
         }
-
     }
-
 }

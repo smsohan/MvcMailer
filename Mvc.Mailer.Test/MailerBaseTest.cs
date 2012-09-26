@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Mvc.Mailer;
 using System.Net.Mail;
 using System.Web.Mvc;
 using Moq;
 using System.IO;
 using System.Web.Routing;
-using System.Web;
 
 namespace Mvc.Mailer.Test {
     [TestFixture]
@@ -24,8 +21,7 @@ namespace Mvc.Mailer.Test {
             _mailerBase = new MailerBase();
             _mailMessage = new MailMessage();
 
-            _mockMailer = new Mock<MailerBase>();
-            _mockMailer.CallBase = true;
+            _mockMailer = new Mock<MailerBase> { CallBase = true };
         }
 
         #region Properties Related tests
@@ -52,12 +48,12 @@ namespace Mvc.Mailer.Test {
             Assert.IsTrue(MailerBase.IsTestModeEnabled);
             MailerBase.IsTestModeEnabled = false;
             Assert.IsFalse(MailerBase.IsTestModeEnabled);
-
         }
 
         #endregion
 
         #region Text related tests
+
         [Test]
         public void PopulateTextBody_should_unmark_as_is_body_html() {
             _mockMailer.Setup(m => m.EmailBody("Welcome.text", "Layout.text")).Returns("Hello");
@@ -102,6 +98,7 @@ namespace Mvc.Mailer.Test {
         #endregion
 
         #region Html related tests
+
         [Test]
         public void PopulateHtmltBody_should_mark_as_is_body_html() {
             _mockMailer.Setup(m => m.EmailBody("Welcome", "Layout")).Returns("<h1>Hello</h1>");
@@ -136,8 +133,7 @@ namespace Mvc.Mailer.Test {
         #region Multi-part related tests
 
         [Test]
-        public void Populate_should_create_a_mail_message_and_invoke_action()
-        {
+        public void Populate_should_create_a_mail_message_and_invoke_action() {
             var linkedResources = new Dictionary<string, string>();
             _mockMailer.Setup(x => x.PopulateBody(It.IsAny<MailMessage>(), "welcome", "master", linkedResources));
             var mailMessage = _mockMailer.Object.Populate(x => {
@@ -187,7 +183,6 @@ namespace Mvc.Mailer.Test {
             resourcesToTry.Add(null);
             resourcesToTry.Add(new Dictionary<string, string>());
 
-
             foreach (var resources in resourcesToTry) {
                 _mockMailer.Setup(m => m.TextViewExists("welcome", "Mail")).Returns(false);
                 _mockMailer.Setup(m => m.HtmlViewExists("welcome", "Mail")).Returns(true);
@@ -200,7 +195,6 @@ namespace Mvc.Mailer.Test {
 
         [Test]
         public void PopuateBody_should_populate_with_alternate_view_when_html_present_with_linked_resources() {
-
             _mockMailer.Setup(m => m.TextViewExists("welcome", "Mail")).Returns(false);
             _mockMailer.Setup(m => m.HtmlViewExists("welcome", "Mail")).Returns(true);
 
@@ -283,7 +277,6 @@ namespace Mvc.Mailer.Test {
             linkedResourceProviderMock.VerifyAll();
             Assert.AreEqual(linkResources, htmlView.LinkedResources);
             Assert.AreEqual(linkResources, actualResources);
-
         }
 
         [Test]
@@ -292,7 +285,7 @@ namespace Mvc.Mailer.Test {
 
             _mockMailer.Object.LinkedResourceProvider = linkedResourceProviderMock.Object;
 
-            LinkedResource linkResource = new LinkedResource(new MemoryStream());
+            var linkResource = new LinkedResource(new MemoryStream());
 
             linkedResourceProviderMock.Setup(p => p.Get("logo", "logo.png")).Returns(linkResource);
 
@@ -303,15 +296,13 @@ namespace Mvc.Mailer.Test {
             Assert.AreEqual(1, htmlView.LinkedResources.Count);
             Assert.AreEqual(linkResource, htmlView.LinkedResources.First());
             Assert.AreEqual(linkResource, actualResource);
-
         }
         #endregion
 
         private string GetContent(AlternateView alternateView) {
             var dataStream = alternateView.ContentStream;
-            byte[] byteBuffer = new byte[dataStream.Length];
+            var byteBuffer = new byte[dataStream.Length];
             return System.Text.Encoding.ASCII.GetString(byteBuffer, 0, dataStream.Read(byteBuffer, 0, byteBuffer.Length));
         }
-
     }
 }
