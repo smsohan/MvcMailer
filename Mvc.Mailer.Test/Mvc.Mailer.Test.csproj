@@ -58,7 +58,7 @@
     <Compile Include="ExtensionMethods\HtmlHelperExtensionsTest.cs" />
     <Compile Include="LinkedResourceProviderTest.cs" />
     <Compile Include="MailerBaseTest.cs" />
-    <Compile Include="ExtensionMethods\MailMessageExtensionsTest.cs" />
+    <Compile Include="MvcMailMessageTest.cs" />
     <Compile Include="Mocks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmtpClientWrapperTest.cs" />

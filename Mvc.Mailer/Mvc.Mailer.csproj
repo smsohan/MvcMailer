@@ -58,7 +58,6 @@
     <Compile Include="ISmtpClient.cs" />
     <Compile Include="ExtensionMethods\HtmlHelperExtensions.cs" />
     <Compile Include="MailerBase.cs" />
-    <Compile Include="ExtensionMethods\MailMessageExtensions.cs" />
     <Compile Include="StringResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
