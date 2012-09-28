@@ -1,9 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer", "Mvc.Mailer\Mvc.Mailer.csproj", "{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer.Test", "Mvc.Mailer.Test\Mvc.Mailer.Test.csproj", "{3664DD95-3C70-421E-96CA-9B63EE086C27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0EFE9832-8259-416A-B8D7-81F9F658950E}"
+	ProjectSection(SolutionItems) = preProject
+		Rakefile = Rakefile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
