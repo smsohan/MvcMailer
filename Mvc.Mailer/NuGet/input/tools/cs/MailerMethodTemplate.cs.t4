@@ -10,4 +10,3 @@ public virtual MailMessage <#= Model.MethodName #>()
         x.To.Add("some-email@example.com");
     });
 }
-
