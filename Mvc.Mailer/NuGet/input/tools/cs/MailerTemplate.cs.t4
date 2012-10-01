@@ -1,11 +1,11 @@
 <#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
 <#@ Output Extension="cs" #>
 using Mvc.Mailer;
-using System.Net.Mail;
 
 namespace <#= Model.Namespace #>.Mailers
 { 
     public class <#= Model.MailerName #> : MailerBase<# if( Model.Interface) { #>, I<#= Model.MailerName #> <# } #>
+	
 	{
 		public <#= Model.MailerName #>()
 		{
@@ -13,7 +13,7 @@ namespace <#= Model.Namespace #>.Mailers
 		}
 		<# foreach(var mailerMethod in Model.MailerMethods) {#>
 
-		public virtual MailMessage <#= mailerMethod #>()
+		public virtual MvcMailMessage <#= mailerMethod #>()
 		{
 			//ViewBag.Data = someObject;
 			return Populate(x =>
@@ -23,6 +23,6 @@ namespace <#= Model.Namespace #>.Mailers
 				x.To.Add("some-email@example.com");
 			});
 		}
-		<# } #>
+ <# } #>
 	}
 }

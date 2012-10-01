@@ -1,7 +1,7 @@
 <#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
 <#@ Output Extension="cs" #>
 
-public virtual MailMessage <#= Model.MethodName #>()
+public virtual MvcMailMessage <#= Model.MethodName #>()
 {
 	ViewBag.Data = someObject;
     return Populate(x => {
