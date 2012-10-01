@@ -70,7 +70,7 @@ namespace Mvc.Mailer {
         /// Populates the mailMessage with content rendered from the view using the default masterName
         /// </summary>
         /// <param name="action">Action to be performed on a new message instance</param>
-        public virtual MailMessage Populate(Action<MvcMailMessage> action) {
+        public virtual MvcMailMessage Populate(Action<MvcMailMessage> action) {
             var message = new MvcMailMessage();
 
             action(message);
