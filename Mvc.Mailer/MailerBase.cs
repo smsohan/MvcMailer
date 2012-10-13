@@ -52,6 +52,17 @@ namespace Mvc.Mailer {
         /// <param name="masterName">@example: "_MyLayout.cshtml" if nothing is set, then the MasterName property will be used instead</param>
         /// <returns>the raw html content of the email view and its master page</returns>
         public virtual string EmailBody(string viewName, string masterName = null) {
+            return EmailTemplate(viewName, masterName).Output;
+        }
+
+        /// <summary>
+        /// This method returns the ViewResult (StringResult) from the given viewName, masterName
+        /// </summary>
+        /// <param name="viewName">@example: "WelcomeMessage" </param>
+        /// <param name="masterName">@example: "_MyLayout.cshtml" if nothing is set, then the MasterName property will be used instead</param>
+        /// <returns>the ViewResult (StringResult)</returns>
+        public virtual StringResult EmailTemplate(string viewName, string masterName = null)
+        {
             masterName = masterName ?? MasterName;
 
             var result = new StringResult {
@@ -63,7 +74,7 @@ namespace Mvc.Mailer {
                 CreateControllerContext();
             }
             result.ExecuteResult(ControllerContext, MailerName);
-            return result.Output;
+            return result;
         }
 
         /// <summary>
@@ -133,8 +144,12 @@ namespace Mvc.Mailer {
         /// </summary>
         /// <returns>The string containing the body</returns>
         public virtual string PopulateTextBody(MailMessage mailMessage, string viewName, string masterName) {
-            mailMessage.Body = EmailBody(TextViewName(viewName), TextMasterName(masterName));
+            var template = EmailTemplate(TextViewName(viewName), TextMasterName(masterName));
+            mailMessage.Body = template.Output;
             mailMessage.IsBodyHtml = false;
+
+            if (template.ViewContext.TempData.ContainsKey("Subject"))
+                mailMessage.Subject = template.ViewContext.TempData["Subject"].ToString();
 
             return mailMessage.Body;
         }
@@ -144,8 +159,12 @@ namespace Mvc.Mailer {
         /// </summary>
         /// <returns>The string containing the Html body</returns>
         public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName) {
-            mailMessage.Body = EmailBody(viewName, masterName);
+            var template = EmailTemplate(viewName, masterName);
+            mailMessage.Body = template.Output;
             mailMessage.IsBodyHtml = true;
+
+            if (template.ViewContext.TempData.ContainsKey("Subject"))
+                mailMessage.Subject = template.ViewContext.TempData["Subject"].ToString();
 
             return mailMessage.Body;
         }
