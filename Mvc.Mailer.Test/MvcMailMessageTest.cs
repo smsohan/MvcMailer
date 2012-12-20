@@ -58,6 +58,17 @@ namespace Mvc.Mailer.Test {
             Assert.AreSame(_mailMessage, TestSmtpClient.SentMails[0]);
         }
 
+        [Test]
+        public void No_Recipients_should_not_send() {
+            TestSmtpClient.SentMails.Clear();
+            MailerBase.IsTestModeEnabled = true;
+            _mailMessage.To.Clear();
+
+            _mailMessage.Send();
+            
+            Assert.AreEqual(0, TestSmtpClient.SentMails.Count);
+        }
+
         [TearDown]
         public void TearDown() {
             MailerBase.IsTestModeEnabled = false;

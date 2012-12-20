@@ -13,6 +13,8 @@ namespace Mvc.Mailer {
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
         public virtual void Send(ISmtpClient smtpClient = null)
         {
+            if (To.Count == 0)
+                return;
             smtpClient = smtpClient ?? GetSmtpClient();
             using (smtpClient)
             {
