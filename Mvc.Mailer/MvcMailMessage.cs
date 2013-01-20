@@ -8,10 +8,18 @@ namespace Mvc.Mailer {
         public Dictionary<string,string> LinkedResources { get; set; }
 
         /// <summary>
-        /// Sends a MailMessage using smtpClient
+        /// Sends a MailMessage using the default System.Net.Mail.SmtpClient
         /// </summary>
-        /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public virtual void Send(ISmtpClient smtpClient = null)
+        public virtual void Send()
+        {
+            Send(null);
+        }
+
+        /// <summary>
+        /// Sends a MailMessage
+        /// </summary>
+        /// <param name="smtpClient">The System.Net.Mail.SmtpClient to use</param>
+        public virtual void Send(ISmtpClient smtpClient)
         {
             smtpClient = smtpClient ?? GetSmtpClient();
             using (smtpClient)
@@ -21,11 +29,37 @@ namespace Mvc.Mailer {
         }
 
         /// <summary>
-        /// Asynchronously Sends a MailMessage using smtpClient
+        /// Asynchronously Sends a MailMessage the default System.Net.Mail.SmtpClient
+        /// </summary>
+        public virtual void SendAsync()
+        {
+            SendAsync(null, null);
+        }
+
+        /// <summary>
+        /// Asynchronously Sends a MailMessage
+        /// </summary>
+        /// <param name="smtpClient">The System.Net.Mail.SmtpClient to use</param>
+        public virtual void SendAsync(ISmtpClient smtpClient)
+        {
+            SendAsync(null, smtpClient);
+        }
+
+        /// <summary>
+        /// Asynchronously Sends a MailMessage using the default System.Net.Mail.SmtpClient
         /// </summary>
         /// <param name="userState">The userState</param>
-        /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public virtual void SendAsync(object userState = null, ISmtpClient smtpClient = null)
+        public virtual void SendAsync(object userState = null)
+        {
+            SendAsync(userState, null);
+        }
+
+        /// <summary>
+        /// Asynchronously Sends a MailMessage
+        /// </summary>
+        /// <param name="userState">The userState</param>
+        /// <param name="smtpClient">The System.Net.Mail.SmtpClient to use</param>
+        public virtual void SendAsync(object userState, ISmtpClient smtpClient)
         {
             smtpClient = smtpClient ?? GetSmtpClient();
             smtpClient.SendAsync(this, userState);
@@ -39,6 +73,5 @@ namespace Mvc.Mailer {
             }
             return new SmtpClientWrapper();
         }
-
     }
 }
