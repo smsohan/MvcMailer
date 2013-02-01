@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Text;
 using System.Web;
-using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Text;
 
 namespace Mvc.Mailer
 {
@@ -38,7 +39,7 @@ namespace Mvc.Mailer
         /// </summary>
         public virtual ILinkedResourceProvider LinkedResourceProvider
         {
-            get { return _LinkedResourceProvider;  }
+            get { return _LinkedResourceProvider; }
             set { _LinkedResourceProvider = value; }
         }
 
@@ -53,12 +54,13 @@ namespace Mvc.Mailer
             set;
         }
 
+
         /// <summary>
         /// Nothing to Execute at this point, left blank
         /// </summary>
         protected override void ExecuteCore()
         {
-           
+
         }
 
         /// <summary>
@@ -67,18 +69,18 @@ namespace Mvc.Mailer
         /// <param name="viewName">@example: "WelcomeMessage" </param>
         /// <param name="masterName">@example: "_MyLayout.cshtml" if nothing is set, then the MasterName property will be used instead</param>
         /// <returns>the raw html content of the email view and its master page</returns>
-        public virtual string EmailBody(string viewName, string masterName=null)
+        public virtual string EmailBody(string viewName, string masterName = null)
         {
             string body = string.Empty;
             masterName = masterName ?? MasterName;
-         
+
             var result = new StringResult
             {
                 ViewName = viewName,
-                ViewData = ViewData,               
+                ViewData = ViewData,
                 MasterName = masterName ?? MasterName
             };
-            if(ControllerContext == null)
+            if (ControllerContext == null)
                 CreateControllerContext();
             result.ExecuteResult(ControllerContext, MailerName);
             return result.Output;
@@ -91,9 +93,9 @@ namespace Mvc.Mailer
         /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, bool inlineCss)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName)
         {
-            PopulateBody(mailMessage, viewName, null, null, inlineCss);
+            PopulateBody(mailMessage, viewName, null, null);
         }
 
         /// <summary>
@@ -102,9 +104,9 @@ namespace Mvc.Mailer
         /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources, bool inlineCss)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, Dictionary<string, string> linkedResources)
         {
-            PopulateBody(mailMessage, viewName, null, linkedResources, inlineCss);
+            PopulateBody(mailMessage, viewName, null, linkedResources);
         }
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace Mvc.Mailer
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="masterName">The name of the master file, e.g. Layout </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources, bool inlineCss)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources)
         {
             if (mailMessage == null)
             {
@@ -141,11 +143,11 @@ namespace Mvc.Mailer
                 }
                 else
                 {
-                    PopulateHtmlBody(mailMessage, viewName, masterName, inlineCss);
+                    PopulateHtmlBody(mailMessage, viewName, masterName);
                 }
             }
         }
-        
+
         /// <summary>
         /// Populates a text/plain AlternateView inside the mailMessage
         /// </summary>
@@ -169,14 +171,10 @@ namespace Mvc.Mailer
         /// Populates the mailMessage.Body with a text/html content and sets the IsBodyHtml to true
         /// </summary>
         /// <returns>The string containing the Html body</returns>
-        public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName, bool inlineCss)
+        public virtual string PopulateHtmlBody(MailMessage mailMessage, string viewName, string masterName)
         {
             var body = EmailBody(viewName, masterName);
-            if (inlineCss)
-            {
-                var pm = new PreMailer.Net.PreMailer();
-                body = pm.MoveCssInline(body, false);
-            }
+            body = PostprocessBody(Postprocessors, body);
             mailMessage.Body = body;
             mailMessage.IsBodyHtml = true;
             return mailMessage.Body;
@@ -264,7 +262,7 @@ namespace Mvc.Mailer
         /// </summary>
         public virtual List<LinkedResource> PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
         {
-            if(resources == null || resources.Count == 0)    
+            if (resources == null || resources.Count == 0)
                 return new List<LinkedResource>();
 
             var linkedResources = LinkedResourceProvider.GetAll(resources);
@@ -297,7 +295,7 @@ namespace Mvc.Mailer
         {
             get
             {
-                return this.GetType().Name;;
+                return this.GetType().Name; ;
             }
         }
 
@@ -338,6 +336,41 @@ namespace Mvc.Mailer
                 this.ControllerContext.RouteData.Values["controller"] = controllerName;
             }
         }
+
+        #region "PostProcessors"
+        public static void RegisterPostprocessor<T>(T instance) where T : IPostProcessor
+        {
+            ValidatePostprocessor<T>(instance);
+            Postprocessors.Add(instance);
+        }
+
+        static void ValidatePostprocessor<T>(IPostProcessor instance)
+        {
+            if (Postprocessors.Any(p => p.GetType() == typeof(T)))
+            {
+                throw new InvalidOperationException(string.Format("Can't add multiple postprocessors of type: {0}", typeof(T).FullName));
+            }
+        }
+
+        internal static readonly IList<IPostProcessor> Postprocessors = new List<IPostProcessor>();
+
+        internal void AddPostprocessor(IPostProcessor instance)
+        {
+            if (!Postprocessors.Any(ipp => ipp.GetType() == instance.GetType()))
+            {
+                Postprocessors.Add(instance);
+            }
+        }
+
+        protected string PostprocessBody(IEnumerable<IPostProcessor> postprocessors, string body)
+        {
+            if (postprocessors == null)
+            {
+                return body;
+            }
+            return postprocessors.Aggregate<IPostProcessor, string>(body, (cntnt, pp) => pp.Process(body));
+        }
+        #endregion
     }
 
 }

@@ -119,7 +119,7 @@ namespace Mvc.Mailer.Test
         {
             _mockMailer.Setup(m => m.EmailBody("Welcome", "Layout")).Returns("<html><head><style type=\"text/css\">h1{color:white;}</style></head><body><h1>Hello</h1></body>");
 
-            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout", true);
+            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout");
             _mockMailer.VerifyAll();
 
             Assert.AreEqual("<h1 style=\"color:white;\">Hello</h1>", _mailMessage.Body);
@@ -131,7 +131,7 @@ namespace Mvc.Mailer.Test
         {
             _mockMailer.Setup(m => m.EmailBody("Welcome", "Layout")).Returns("<h1>Hello</h1>");
 
-            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout", false);
+            _mockMailer.Object.PopulateHtmlBody(_mailMessage, "Welcome", "Layout");
             _mockMailer.VerifyAll();
 
             Assert.AreEqual("<h1>Hello</h1>", _mailMessage.Body);
@@ -166,7 +166,7 @@ namespace Mvc.Mailer.Test
         public void PopulateBody_should_throw_exception_if_mailMessage_is_null()
         {
             MailMessage mailMessage = null;
-            _mailerBase.PopulateBody(mailMessage, "Welcome", false);
+            _mailerBase.PopulateBody(mailMessage, "Welcome");
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Mvc.Mailer.Test
             _mockMailer.Setup(m => m.PopulateTextBody(_mailMessage, "welcome", "Mail"));
             _mockMailer.Setup(m => m.PopulateHtmlPart(_mailMessage, "welcome", "Mail", null));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null, false);
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null);
             _mockMailer.VerifyAll();
         }
 
@@ -191,7 +191,7 @@ namespace Mvc.Mailer.Test
 
             _mockMailer.Setup(m => m.PopulateTextBody(_mailMessage, "welcome", "Mail"));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null, false);
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", null);
             _mockMailer.VerifyAll();
         }
 
@@ -207,9 +207,9 @@ namespace Mvc.Mailer.Test
             {
                 _mockMailer.Setup(m => m.TextViewExists("welcome", "Mail")).Returns(false);
                 _mockMailer.Setup(m => m.HtmlViewExists("welcome", "Mail")).Returns(true);
-                _mockMailer.Setup(m => m.PopulateHtmlBody(_mailMessage, "welcome", "Mail", false));
+                _mockMailer.Setup(m => m.PopulateHtmlBody(_mailMessage, "welcome", "Mail"));
 
-                _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources, false);
+                _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources);
                 _mockMailer.VerifyAll();
             }
         }
@@ -224,7 +224,7 @@ namespace Mvc.Mailer.Test
             var resources = new Dictionary<string, string> { { "logo", "logo.png" } };
             _mockMailer.Setup(m => m.PopulateHtmlPart(_mailMessage, "welcome", "Mail", resources));
 
-            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources, false);
+            _mockMailer.Object.PopulateBody(_mailMessage, "welcome", "Mail", resources);
             _mockMailer.VerifyAll();
         }
 
