@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <RestorePackages>true</RestorePackages>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,24 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fizzler">
-      <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\Fizzler.dll</HintPath>
-    </Reference>
-    <Reference Include="Fizzler.Systems.HtmlAgilityPack">
-      <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\HtmlAgilityPack.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="PreMailer.Net">
-      <HintPath>..\packages\PreMailer.Net.1.1.1\lib\net40\PreMailer.Net.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Consensus\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +54,7 @@
     <Compile Include="ExtensionMethods\UrlHelperExtensions.cs" />
     <Compile Include="EmptyHttpContext.cs" />
     <Compile Include="ILinkedResourceProvider.cs" />
+    <Compile Include="IPostProcessor.cs" />
     <Compile Include="LinkedResourceProvider.cs" />
     <Compile Include="SmtpClientBase.cs" />
     <Compile Include="SmtpClientWrapper.cs" />
@@ -112,6 +105,7 @@ IF NOT EXIST output md output
 nuget pack mvcmailer.nuspec -b input -o output
 </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

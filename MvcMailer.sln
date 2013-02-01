@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer", "Mvc.Mailer\Mvc.Mailer.csproj", "{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer.Test", "Mvc.Mailer.Test\Mvc.Mailer.Test.csproj", "{3664DD95-3C70-421E-96CA-9B63EE086C27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreMailer.Net", "..\PreMailer.Net\PreMailer.Net\PreMailer.Net.csproj", "{7B4A85FA-FA98-40FD-83B7-5E84C8853736}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48B9898F-BAD2-49B6-9474-9894D80C05B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer", "Mvc.Mailer\Mvc.Mailer.csproj", "{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DD380F2-F51E-4DDD-8851-BD0CFA15BF8B}"
 	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		MvcMailer.vsmdi = MvcMailer.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Mailer.PreMailerPostProcessor", "Mvc.Mailer.PreMailer\Mvc.Mailer.PreMailerPostProcessor.csproj", "{209E5AE9-C1E3-4553-9BAB-E711F4F923E3}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -23,17 +25,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B58562-EF1A-47FE-A02E-98C82D5FB5BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3664DD95-3C70-421E-96CA-9B63EE086C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B4A85FA-FA98-40FD-83B7-5E84C8853736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B4A85FA-FA98-40FD-83B7-5E84C8853736}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B4A85FA-FA98-40FD-83B7-5E84C8853736}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B4A85FA-FA98-40FD-83B7-5E84C8853736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209E5AE9-C1E3-4553-9BAB-E711F4F923E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209E5AE9-C1E3-4553-9BAB-E711F4F923E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209E5AE9-C1E3-4553-9BAB-E711F4F923E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209E5AE9-C1E3-4553-9BAB-E711F4F923E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
