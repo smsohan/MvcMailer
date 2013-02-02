@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -16,7 +14,6 @@ namespace Mvc.Mailer
     /// </summary>
     public class MailerBase : ControllerBase
     {
-
         /// <summary>
         /// The parameterless constructor
         /// </summary>
@@ -33,14 +30,14 @@ namespace Mvc.Mailer
 
         }
 
-        private ILinkedResourceProvider _LinkedResourceProvider = new LinkedResourceProvider();
+        private ILinkedResourceProvider _linkedResourceProvider = new LinkedResourceProvider();
         /// <summary>
         /// Uses the ILinkedResourceProvider to produce inline linked resources
         /// </summary>
         public virtual ILinkedResourceProvider LinkedResourceProvider
         {
-            get { return _LinkedResourceProvider; }
-            set { _LinkedResourceProvider = value; }
+            get { return _linkedResourceProvider; }
+            set { _linkedResourceProvider = value; }
         }
 
         /// <summary>
@@ -48,19 +45,13 @@ namespace Mvc.Mailer
         /// e.g. Razor: myMailer.MasterName = "_MyLayout.cshtml"
         /// e.g. Aspx: myMailer.MasterName = "_MyLayout.Master"
         /// </summary>
-        public virtual string MasterName
-        {
-            get;
-            set;
-        }
-
+        public virtual string MasterName { get; set; }
 
         /// <summary>
         /// Nothing to Execute at this point, left blank
         /// </summary>
         protected override void ExecuteCore()
         {
-
         }
 
         /// <summary>
@@ -71,7 +62,6 @@ namespace Mvc.Mailer
         /// <returns>the raw html content of the email view and its master page</returns>
         public virtual string EmailBody(string viewName, string masterName = null)
         {
-            string body = string.Empty;
             masterName = masterName ?? MasterName;
 
             var result = new StringResult
@@ -81,21 +71,25 @@ namespace Mvc.Mailer
                 MasterName = masterName ?? MasterName
             };
             if (ControllerContext == null)
+            {
                 CreateControllerContext();
+            }
             result.ExecuteResult(ControllerContext, MailerName);
             return result.Output;
         }
 
-
         /// <summary>
         /// Populates the mailMessage with content rendered from the view using the default masterName
         /// </summary>
-        /// <param name="mailMessage">a non null System.Net.Mail.MailMessage reference</param>
-        /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
-        /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName)
+        /// <param name="action">Action to be performed on a new message instance</param>
+        public virtual MvcMailMessage Populate(Action<MvcMailMessage> action)
         {
-            PopulateBody(mailMessage, viewName, null, null);
+            var message = new MvcMailMessage();
+
+            action(message);
+            PopulateBody(message, message.ViewName, message.MasterName, message.LinkedResources);
+
+            return message;
         }
 
         /// <summary>
@@ -116,7 +110,7 @@ namespace Mvc.Mailer
         /// <param name="viewName">The name of the view file, e.g. WelcomeMessage </param>
         /// <param name="masterName">The name of the master file, e.g. Layout </param>
         /// <param name="linkedResources">Key: linked resource id or CID, Value:Path to the resource</param>
-        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName, Dictionary<string, string> linkedResources)
+        public virtual void PopulateBody(MailMessage mailMessage, string viewName, string masterName = null, Dictionary<string, string> linkedResources = null)
         {
             if (mailMessage == null)
             {
@@ -135,16 +129,15 @@ namespace Mvc.Mailer
             }
 
             // if html exists
-            if (HtmlViewExists(viewName, masterName))
+            if (!HtmlViewExists(viewName, masterName)) return;
+
+            if (textExists || linkedResourcesPresent)
             {
-                if (textExists || linkedResourcesPresent)
-                {
-                    PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
-                }
-                else
-                {
-                    PopulateHtmlBody(mailMessage, viewName, masterName);
-                }
+                PopulateHtmlPart(mailMessage, viewName, masterName, linkedResources);
+            }
+            else
+            {
+                PopulateHtmlBody(mailMessage, viewName, masterName);
             }
         }
 
@@ -164,6 +157,7 @@ namespace Mvc.Mailer
         {
             mailMessage.Body = EmailBody(TextViewName(viewName), TextMasterName(masterName));
             mailMessage.IsBodyHtml = false;
+
             return mailMessage.Body;
         }
 
@@ -177,6 +171,7 @@ namespace Mvc.Mailer
             body = PostprocessBody(Postprocessors, body);
             mailMessage.Body = body;
             mailMessage.IsBodyHtml = true;
+
             return mailMessage.Body;
         }
 
@@ -237,6 +232,7 @@ namespace Mvc.Mailer
             {
                 PopulateLinkedResources(htmlPart, linkedResources);
             }
+
             return htmlPart;
         }
 
@@ -254,6 +250,7 @@ namespace Mvc.Mailer
                 mailMessage.AlternateViews.Add(alternateView);
                 return alternateView;
             }
+
             return null;
         }
 
@@ -263,10 +260,13 @@ namespace Mvc.Mailer
         public virtual List<LinkedResource> PopulateLinkedResources(AlternateView mailPart, Dictionary<string, string> resources)
         {
             if (resources == null || resources.Count == 0)
+            {
                 return new List<LinkedResource>();
+            }
 
             var linkedResources = LinkedResourceProvider.GetAll(resources);
             linkedResources.ForEach(resource => mailPart.LinkedResources.Add(resource));
+
             return linkedResources;
         }
 
@@ -277,44 +277,27 @@ namespace Mvc.Mailer
         {
             var linkedResource = LinkedResourceProvider.Get(contentId, fileName);
             mailPart.LinkedResources.Add(linkedResource);
+
             return linkedResource;
         }
 
-
-        private ControllerContext CreateControllerContext()
+        private void CreateControllerContext()
         {
             var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContext);
             ControllerContext = new ControllerContext(CurrentHttpContext, routeData, this);
-            return ControllerContext;
         }
 
         /// <summary>
         /// The MailerName determines the folder that contains the views for this mailer
         /// </summary>
-        protected virtual string MailerName
-        {
-            get
-            {
-                return this.GetType().Name; ;
-            }
-        }
+        protected virtual string MailerName { get { return GetType().Name; } }
 
+        public virtual HttpContextBase CurrentHttpContext { get; set; }
 
-        public virtual HttpContextBase CurrentHttpContext
-        {
-            get;
-            set;
-        }
-
-        private static bool _isTestModeEnabled = false;
         /// <summary>
         /// If set to true, it will use TestSmtpClient instead of SmtpClient. Used solely for testing purpose
         /// </summary>
-        public static bool IsTestModeEnabled
-        {
-            get { return _isTestModeEnabled; }
-            set { _isTestModeEnabled = value; }
-        }
+        public static bool IsTestModeEnabled { get; set; }
 
         /// <summary>
         /// Determines if a View exists given its name and masterName
@@ -322,20 +305,23 @@ namespace Mvc.Mailer
         public virtual bool ViewExists(string viewName, string masterName)
         {
             if (ControllerContext == null)
+            {
                 CreateControllerContext();
+            }
 
-            var controllerName = this.ControllerContext.RouteData.Values["controller"];
-            this.ControllerContext.RouteData.Values["controller"] = MailerName;
+            var controllerName = ControllerContext.RouteData.Values["controller"];
+            ControllerContext.RouteData.Values["controller"] = MailerName;
 
             try
             {
-                return ViewEngines.Engines.FindView(this.ControllerContext, viewName, masterName).View != null;
+                return ViewEngines.Engines.FindView(ControllerContext, viewName, masterName).View != null;
             }
             finally
             {
-                this.ControllerContext.RouteData.Values["controller"] = controllerName;
+                ControllerContext.RouteData.Values["controller"] = controllerName;
             }
         }
+
 
         #region "PostProcessors"
         public static void RegisterPostprocessor<T>(T instance) where T : IPostProcessor

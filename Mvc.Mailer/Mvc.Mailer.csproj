@@ -34,14 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Consensus\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -56,13 +51,13 @@
     <Compile Include="ILinkedResourceProvider.cs" />
     <Compile Include="IPostProcessor.cs" />
     <Compile Include="LinkedResourceProvider.cs" />
+    <Compile Include="MvcMailMessage.cs" />
     <Compile Include="SmtpClientBase.cs" />
     <Compile Include="SmtpClientWrapper.cs" />
     <Compile Include="TestSmtpClient.cs" />
     <Compile Include="ISmtpClient.cs" />
     <Compile Include="ExtensionMethods\HtmlHelperExtensions.cs" />
     <Compile Include="MailerBase.cs" />
-    <Compile Include="ExtensionMethods\MailMessageExtensions.cs" />
     <Compile Include="StringResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,12 +88,12 @@
     <None Include="NuGet\MvcMailer.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy *.dll "$(ProjectDir)NuGet\input\lib\40"
+    <PostBuildEvent>IF NOT EXIST "$(ProjectDir)NuGet\input\lib\40" md "$(ProjectDir)NuGet\input\lib\40"
+copy *.dll "$(ProjectDir)NuGet\input\lib\40"
 xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
 cd "$(ProjectDir)NuGet"
 IF NOT EXIST output md output

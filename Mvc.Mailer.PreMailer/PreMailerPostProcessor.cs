@@ -10,7 +10,7 @@ namespace Mvc.Mailer.PreMailerPostProcessor
         public string Process(string body)
         {
             var pm = new PreMailer.Net.PreMailer();
-            return pm.MoveCssInline(body, false);
+            return pm.MoveCssInline(body, true);
         }
     }
 }

@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Net.Mail;
 
-namespace Mvc.Mailer.Test
-{
+namespace Mvc.Mailer.Test {
     [TestFixture]
-    public class TestSmtpClientTest
-    {
+    public class TestSmtpClientTest {
         TestSmtpClient _testSmtpClient;
 
         [SetUp]
-        public void Init()
-        {
+        public void Init() {
             _testSmtpClient = new TestSmtpClient();
         }
 
         [Test]
-        public void SentMails_should_be_not_null()
-        {
+        public void SentMails_should_be_not_null() {
             Assert.IsNotNull(TestSmtpClient.SentMails);
         }
 
         [Test]
-        public void Send_should_add_to_sent_mails()
-        {
-            var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject="Hello", Body="There" };
+        public void Send_should_add_to_sent_mails() {
+            var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
             var messageB = new MailMessage { From = new MailAddress("hi@example.com"), Subject = "There", Body = "Hello" };
             messageB.To.Add("hello@example.com");
@@ -41,8 +32,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void Send_should_set_async_to_false()
-        {
+        public void Send_should_set_async_to_false() {
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
 
@@ -53,8 +43,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void SendAsync_should_add_to_sent_mails()
-        {
+        public void SendAsync_should_add_to_sent_mails() {
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
             var messageB = new MailMessage { From = new MailAddress("hi@example.com"), Subject = "There", Body = "Hello" };
@@ -69,8 +58,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void SendAsync_should_set_async_to_false()
-        {
+        public void SendAsync_should_set_async_to_false() {
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
 
@@ -81,8 +69,7 @@ namespace Mvc.Mailer.Test
         }
 
         [Test]
-        public void SendAsync_should_fire_call_back_if_registered()
-        {
+        public void SendAsync_should_fire_call_back_if_registered() {
             var eventFired = false;
             _testSmtpClient.SendCompleted += (sender, e) => eventFired = true;
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
@@ -92,12 +79,10 @@ namespace Mvc.Mailer.Test
         }
 
         [TearDown]
-        public void TearDown()
-        {
+        public void TearDown() {
             MailerBase.IsTestModeEnabled = false;
             TestSmtpClient.SentMails.Clear();
             TestSmtpClient.WasLastCallAsync = false;
         }
-
     }
 }
