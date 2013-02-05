@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <title>$title$</title>
+        <authors>$author$</authors>
+        <owners>Hernan Marano</owners>
+        <projectUrl>https://github.com/hernangm/MvcMailer</projectUrl>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This is MvcMailer extended to apply processors to html body after render</description>
+        <releaseNotes>Postprocessors can be registered and configures so they are applied to html contents.</releaseNotes>
+        <copyright>Copyright 2013</copyright>
+        <tags>aspmvc, mvcmailer</tags>
+        <dependencies>
+            <dependency id="T4Scaffolding" version="1.0.7"/>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="NuGet\content\**\*.*" target="content" />
+        <file src="NuGet\tools\**\*.*" target="tools" />
+    </files>
+</package>

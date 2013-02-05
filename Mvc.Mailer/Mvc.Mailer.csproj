@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NugetPath>D:\Desarrollo\nuget</NugetPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,43 +63,29 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="content\Views\web.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="content\web.config.transform">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="NuGet\input\tools\cs\IMailerMethodTemplate.cs.t4" />
-    <None Include="NuGet\input\tools\cs\MailerMethodTemplate.cs.t4" />
-    <None Include="NuGet\input\tools\Mailer.Aspx.ps1" />
-    <None Include="NuGet\input\tools\Mailer.Razor.ps1" />
-    <None Include="NuGet\input\tools\Install.ps1" />
-    <None Include="NuGet\input\tools\cs\IMailerTemplate.cs.t4" />
-    <None Include="NuGet\input\tools\cs\MailerTemplate.cs.t4" />
-    <None Include="NuGet\input\tools\MailerFunctions.ps1" />
-    <None Include="NuGet\input\tools\view\aspx\Mail.text.aspx.cs.t4" />
-    <None Include="NuGet\input\tools\view\aspx\Layout.text.Master.cs.t4" />
-    <None Include="NuGet\input\tools\view\aspx\Layout.Master.cs.t4" />
-    <None Include="NuGet\input\tools\view\aspx\Mail.aspx.cs.t4" />
-    <None Include="NuGet\input\tools\view\razor\Layout.text.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\razor\Mail.text.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\razor\Layout.cshtml.cs.t4" />
-    <None Include="NuGet\input\tools\view\razor\Mail.cshtml.cs.t4" />
-    <None Include="NuGet\MvcMailer.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="NuGet\content\Views\web.config.transform" />
+    <None Include="NuGet\content\web.config.transform" />
+    <None Include="NuGet\tools\cs\IMailerMethodTemplate.cs.t4" />
+    <None Include="NuGet\tools\cs\MailerMethodTemplate.cs.t4" />
+    <None Include="NuGet\tools\Mailer.Aspx.ps1" />
+    <None Include="NuGet\tools\Mailer.Razor.ps1" />
+    <None Include="NuGet\tools\Install.ps1" />
+    <None Include="NuGet\tools\cs\IMailerTemplate.cs.t4" />
+    <None Include="NuGet\tools\cs\MailerTemplate.cs.t4" />
+    <None Include="NuGet\tools\MailerFunctions.ps1" />
+    <None Include="NuGet\tools\view\aspx\Mail.text.aspx.cs.t4" />
+    <None Include="NuGet\tools\view\aspx\Layout.text.Master.cs.t4" />
+    <None Include="NuGet\tools\view\aspx\Layout.Master.cs.t4" />
+    <None Include="NuGet\tools\view\aspx\Mail.aspx.cs.t4" />
+    <None Include="NuGet\tools\view\razor\Layout.text.cshtml.cs.t4" />
+    <None Include="NuGet\tools\view\razor\Mail.text.cshtml.cs.t4" />
+    <None Include="NuGet\tools\view\razor\Layout.cshtml.cs.t4" />
+    <None Include="NuGet\tools\view\razor\Mail.cshtml.cs.t4" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(ProjectDir)NuGet\input\lib\40" md "$(ProjectDir)NuGet\input\lib\40"
-copy *.dll "$(ProjectDir)NuGet\input\lib\40"
-xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
-cd "$(ProjectDir)NuGet"
-IF NOT EXIST output md output
-nuget pack mvcmailer.nuspec -b input -o output
-</PostBuildEvent>
+    <PostBuildEvent>nuget pack $(ProjectPath) -Prop Configuration=Release -o $(NugetPath)</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

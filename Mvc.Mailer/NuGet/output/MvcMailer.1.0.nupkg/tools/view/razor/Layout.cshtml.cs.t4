@@ -1,8 +1,0 @@
-﻿<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
-<#@ Output Extension="cshtml" #>
-<html>
-	<head></head>
-	<body>
-		@RenderBody()
-	</body>
-</html>

@@ -1,0 +1,23 @@
+﻿<configuration>
+	<appSettings>
+		<add key="MvcMailer.BaseURL" value="" />
+	</appSettings>
+
+
+	<system.net>
+		<mailSettings>
+			<!-- Method#1: Configure smtp server credentials -->
+			<smtp from="some-email@gmail.com">
+				<network enableSsl="true" host="smtp.gmail.com" port="587" userName="some-email@gmail.com" password="valid-password"/>
+			</smtp>
+			
+			<!-- Method#2: Dump emails to a local directory -->
+			<!--
+			<smtp from="some-email@gmail.com" deliveryMethod="SpecifiedPickupDirectory">
+				<network host="localhost" />
+				<specifiedPickupDirectory pickupDirectoryLocation="c:\temp\"/>
+			</smtp>
+			-->
+		</mailSettings>
+	</system.net>
+</configuration>

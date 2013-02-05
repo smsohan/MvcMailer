@@ -1,4 +1,0 @@
-﻿<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
-<#@ Output Extension="text.cshtml" #>
-
-Text View for <#= Model.MailerName #>#<#= Model.ViewName #>
