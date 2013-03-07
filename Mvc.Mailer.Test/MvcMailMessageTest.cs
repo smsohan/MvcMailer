@@ -36,16 +36,10 @@ namespace Mvc.Mailer.Test {
         }
 
         [Test]
-        public void TestSendAsync() {
-            _mailMessage.SendAsync(smtpClient: _smtpClient);
-            Assert.Pass("Mail Send Async working since no exception wast thrown");
-        }
-
-        [Test]
-        public void SendAsync_with_userState_should_pass_that() {
+        public async void SendAsync_with_userState_should_pass_that() {
             var client = new Mock<ISmtpClient>();
             client.Setup(c => c.SendAsync(_mailMessage, "something"));
-            _mailMessage.SendAsync(userState: "something", smtpClient: client.Object);
+            await _mailMessage.SendAsync(userState: "something", smtpClient: client.Object);
             client.VerifyAll();
         }
 

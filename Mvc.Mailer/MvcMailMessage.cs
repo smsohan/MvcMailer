@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace Mvc.Mailer {
     public class MvcMailMessage : MailMessage {
@@ -25,10 +26,13 @@ namespace Mvc.Mailer {
         /// </summary>
         /// <param name="userState">The userState</param>
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public virtual void SendAsync(object userState = null, ISmtpClient smtpClient = null)
+        public virtual async Task SendAsync(object userState = null, ISmtpClient smtpClient = null)
         {
-            smtpClient = smtpClient ?? GetSmtpClient();
-            smtpClient.SendAsync(this, userState);
+            await Task.Run(() =>
+                {
+                    smtpClient = smtpClient ?? GetSmtpClient();
+                    smtpClient.SendAsync(this, userState);
+                });
         }
 
         public virtual ISmtpClient GetSmtpClient()
