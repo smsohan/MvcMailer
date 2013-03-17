@@ -2,7 +2,6 @@
 obj
 bin
 Bin
-build
 *.csproj.user
 *ReSharper*
 *resharper*
