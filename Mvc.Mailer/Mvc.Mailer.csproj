@@ -88,8 +88,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(ProjectDir)NuGet\input\lib\40" md "$(ProjectDir)NuGet\input\lib\40"
-copy *.dll "$(ProjectDir)NuGet\input\lib\40"
+    <PostBuildEvent>IF NOT EXIST "$(ProjectDir)NuGet\input\lib\45" md "$(ProjectDir)NuGet\input\lib\45"
+copy *.dll "$(ProjectDir)NuGet\input\lib\45"
 xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
 cd "$(ProjectDir)NuGet"
 IF NOT EXIST output md output
