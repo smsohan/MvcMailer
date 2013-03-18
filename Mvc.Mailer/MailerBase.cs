@@ -245,7 +245,10 @@ namespace Mvc.Mailer {
         }
 
         private void CreateControllerContext() {
-            var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContext);
+            if (CurrentHttpContext == null) {
+                throw new ArgumentNullException("CurrentHttpContext", "CurrentHttpContext cannot be null");
+            }
+			var routeData = RouteTable.Routes.GetRouteData(CurrentHttpContext);
             ControllerContext = new ControllerContext(CurrentHttpContext, routeData, this);
         }
 
