@@ -26,9 +26,9 @@ namespace Mvc.Mailer {
         /// </summary>
         /// <param name="userState">The userState</param>
         /// <param name="smtpClient">leave null to use default System.Net.Mail.SmtpClient</param>
-        public virtual async Task SendAsync(object userState = null, ISmtpClient smtpClient = null)
+        public virtual Task SendAsync(object userState = null, ISmtpClient smtpClient = null)
         {
-            await Task.Run(() =>
+            return Task.Factory.StartNew(() =>
                 {
                     smtpClient = smtpClient ?? GetSmtpClient();
                     smtpClient.SendAsync(this, userState);
