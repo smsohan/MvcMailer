@@ -93,7 +93,8 @@ copy *.dll "$(ProjectDir)NuGet\input\lib\45"
 xcopy content "$(ProjectDir)NuGet\input\content" /S /Y
 cd "$(ProjectDir)NuGet"
 IF NOT EXIST output md output
-nuget pack mvcmailer.nuspec -b input -o output
+nuget pack mvcmailer.nuspec -BasePath input -o output
+nuget pack mvcmailer-vs2013.nuspec -BasePath input -o output
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
