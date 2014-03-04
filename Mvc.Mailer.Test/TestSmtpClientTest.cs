@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Net.Mail;
+using System.Threading;
 
 namespace Mvc.Mailer.Test {
     [TestFixture]
@@ -55,6 +56,20 @@ namespace Mvc.Mailer.Test {
             Assert.AreEqual(2, TestSmtpClient.SentMails.Count);
             Assert.AreSame(messageA, TestSmtpClient.SentMails[0]);
             Assert.AreSame(messageB, TestSmtpClient.SentMails[1]);
+        }
+
+        [Test]
+        public void SendAsync_from_background_thread_should_add_to_sent_mails() {
+            var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
+            messageA.To.Add("hi@example.com");
+
+            // Use actual thread for deterministic repro; this also works with async/await as long as
+            // task scheduler performs work in separate thread.
+            Thread backgroundThread = new Thread(() => _testSmtpClient.SendAsync(messageA));
+            backgroundThread.Start();
+            backgroundThread.Join();
+
+            Assert.AreEqual(1, TestSmtpClient.SentMails.Count);
         }
 
         [Test]

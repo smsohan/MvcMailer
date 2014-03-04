@@ -5,7 +5,6 @@ using System.ComponentModel;
 
 namespace Mvc.Mailer {
     public class TestSmtpClient : SmtpClientBase {
-        [ThreadStatic]
         private static List<MailMessage> _sentMails;
         public static List<MailMessage> SentMails {
             get {
