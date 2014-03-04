@@ -44,8 +44,7 @@ namespace Mvc.Mailer.Test {
         }
 
         [Test]
-        public void SendAsync_should_add_to_sent_mails()
-        {
+        public void SendAsync_should_add_to_sent_mails() {
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
             var messageB = new MailMessage { From = new MailAddress("hi@example.com"), Subject = "There", Body = "Hello" };
@@ -60,8 +59,7 @@ namespace Mvc.Mailer.Test {
         }
 
         [Test]
-        public void SendAsync_from_background_thread_should_add_to_sent_mails()
-        {
+        public void SendAsync_from_background_thread_should_add_to_sent_mails() {
             var messageA = new MailMessage { From = new MailAddress("hello@example.com"), Subject = "Hello", Body = "There" };
             messageA.To.Add("hi@example.com");
 
