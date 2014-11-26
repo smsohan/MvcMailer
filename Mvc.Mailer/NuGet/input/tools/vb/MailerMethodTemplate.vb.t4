@@ -1,0 +1,17 @@
+<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output Extension="vb" #>
+
+Public Overridable Function <#= mailerMethod #>() As MailMessage<# if( Model.Interface) { #> Implements I<#= Model.MailerName #>.<#= mailerMethod #>
+<# } else { #>
+
+<# } #>
+    Dim mailMessage = New MailMessage() With {
+        .Subject = "<#= mailerMethod #>"
+    }
+
+    'mailMessage.To.Add("some-email@example.com")
+    'ViewBag.data = someObject
+    PopulateBody(mailMessage, viewName:="<#= mailerMethod #>")
+
+    Return mailMessage
+End Function

@@ -1,0 +1,41 @@
+<#@ Template Language="C#" HostSpecific="True" Inherits="DynamicTransform" #>
+<#@ Output Extension="vb" #>
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Web
+Imports Mvc.Mailer
+Imports System.Net.Mail
+
+Namespace <#= Model.Namespace #>.Mailers
+
+    Public Class <#= Model.MailerName #>
+        Inherits MailerBase
+<# if( Model.Interface) { #>
+        Implements I<#= Model.MailerName #>
+<# } #>
+
+        Public Sub New()
+            MyBase.New()
+            MasterName = "_Layout"
+        End Sub
+
+<# foreach(var mailerMethod in Model.MailerMethods) {#>
+        Public Overridable Function <#= mailerMethod #>() As MailMessage<# if( Model.Interface) { #> Implements I<#= Model.MailerName #>.<#= mailerMethod #>
+<# } else { #>
+
+<# } #>
+            Dim mailMessage = New MailMessage() With {
+                .Subject = "<#= mailerMethod #>"
+            }
+
+            'mailMessage.To.Add("some-email@example.com")
+            'ViewBag.data = someObject
+            PopulateBody(mailMessage, viewName:="<#= mailerMethod #>")
+
+            Return mailMessage
+        End Function
+<# } #>
+
+    End Class
+
+End Namespace
