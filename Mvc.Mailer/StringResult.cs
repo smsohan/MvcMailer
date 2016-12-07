@@ -20,6 +20,7 @@ namespace Mvc.Mailer {
         /// Contains the output after compiling the view and putting in the values
         /// </summary>
         public string Output { get; private set; }
+        public ViewContext ViewContext { get; private set; }
 
         public virtual void ExecuteResult(ControllerContext context, string mailerName) {
             //remember the controller name
@@ -51,8 +52,8 @@ namespace Mvc.Mailer {
             var stringBuilder = new StringBuilder();
             TextWriter writer = new StringWriter(stringBuilder);
 
-            var viewContext = new ViewContext(context, View, ViewData, TempData, writer);
-            View.Render(viewContext, writer);
+            ViewContext = new ViewContext(context, View, ViewData, TempData, writer);
+            View.Render(ViewContext, writer);
 
             Output = stringBuilder.ToString();
         }
