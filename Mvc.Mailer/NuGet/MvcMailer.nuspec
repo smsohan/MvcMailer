@@ -10,7 +10,7 @@ MvcMailer has a MailerBase class that extends ControllerBase class. So, Mailers 
 Visit the Project site for a comprehensive tutorial on MvcMailer. This version is for ASP.Net MVC 4.5. For other versions, please check MvcMailer4 and MvcMailer3 packages.
 </description>
 	<dependencies>
-		<dependency id="T4Scaffolding.Core" version="1.0.0"/>
+		<dependency id="T4Scaffolding.Core.VS2019" version="1.0.2"/>
 	</dependencies>
     <language>en-US</language>
     <projectUrl>https://github.com/smsohan/MvcMailer</projectUrl>
